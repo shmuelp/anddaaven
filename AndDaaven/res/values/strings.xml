@@ -20,7 +20,7 @@
 <string name="MenuAboutCondensed">About...</string>
 <string name="TextViewAcknowledgementTitle">About AndDaaven</string>
 <string name="TextViewAcknowledgement">
-AndDaaven (c) 2010 S. Popper
+<a href="http://anddaaven.googlecode.com/">AndDaaven</a> (c) 2010 S. Popper
 \n\n
 <b>Texts</b>:
 Thanks to Moishe (Richard) Davidovichi for the text of daavening.
