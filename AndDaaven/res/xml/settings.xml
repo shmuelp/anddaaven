@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+  xmlns:android="http://schemas.android.com/apk/res/android">
+<CheckBoxPreference android:enabled="true" android:key="@string/ShowNikudKey" android:persistent="true" android:title="@string/ShowNikudTitle" android:summary="@string/ShowNikudSummary" android:defaultValue="true" android:selectable="true" android:summaryOff="@string/ShowNikudSummaryOff" android:summaryOn="@string/ShowNikudSummaryOn"></CheckBoxPreference>
+<ListPreference android:key="@string/FontKey" android:title="@string/FontTitle" android:summary="@string/FontSummary" android:persistent="true" android:enabled="true" android:selectable="true" android:positiveButtonText="@string/FontDialogPositive" android:negativeButtonText="@string/FontDialogNegative" android:dialogTitle="@string/FontDialogTitle" android:entryValues="@array/FontFiles" android:entries="@array/FontNames" android:dialogIcon="@drawable/icon"></ListPreference>
+</PreferenceScreen>

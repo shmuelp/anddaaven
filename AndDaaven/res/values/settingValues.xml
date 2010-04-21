@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<string name="ShowNikudKey">ShowNikud</string>
+<string name="ShowNikudTitle">Show Nikud</string>
+<string name="ShowNikudSummary">Controls whether or not Nikud is displayed</string>
+<string name="ShowNikudSummaryOn">Nikud will be displayed</string>
+<string name="ShowNikudSummaryOff">Nikud will not be displayed</string>
+<string name="FontKey">TextFont</string>
+<string name="FontTitle">Text Font</string>
+<string name="FontSummary">Controls the font used to display Tefilla</string>
+<string name="FontDialogTitle">Select font...</string>
+<string name="FontDialogMessage">Selects the font used to display Tefilla</string>
+<string name="FontDialogPositive">FontDialogPositive</string>
+<string name="FontDialogNegative">FontDialogNegative</string>
+</resources>

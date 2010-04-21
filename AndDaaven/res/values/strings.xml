@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hello">AndDaaven version </string>
+    <string name="app_name">AndDaaven</string>
+<string-array name="TefillaName">
+	<item>Shacharit</item>
+	<item>Mincha</item>
+	<item>Maariv</item>
+	<item>B'rachot</item>
+</string-array>
+<string name="GoText">Da'aven! תפילה</string>
+<string-array name="FileName">
+	<item>shacharit-ashkenaz.utf8</item>
+	<item>mincha-ashkenaz.utf8</item>
+	<item>maariv-ashkenaz.utf8</item>
+	<item>other-ashkenaz.utf8</item>
+</string-array>
+<string name="MenuAbout">About AndDaaven</string>
+<string name="MenuSettings">Settings</string>
+<string name="MenuAboutCondensed">About...</string>
+<string name="TextViewAcknowledgementTitle">About AndDaaven</string>
+<string name="TextViewAcknowledgement">
+AndDaaven (c) 2010 S. Popper
+\n\n
+<b>Texts</b>:
+Thanks to Moishe (Richard) Davidovichi for the text of daavening.
+\n\n
+<b>Testing/Suggestions</b>:
+Danny P., Craig E., Ari G.
+\n\n
+<b>Font</b>:
+<a href="http://scripts.sil.org/cms/scripts/page.php?site_id=nrsi&amp;item_id=EzraSIL_home"><i>Ezra SIL</i></a> by <a href="http://www.sil.org/">SIL International</a>\n
+<a href="http://ftp.gnu.org/gnu/freefont/"><i>FreeMono</i></a> by GNU FreeFont\n
+<a href="http://ftp.gnu.org/gnu/freefont/"><i>FreeSans</i></a> by GNU FreeFont\n
+<a href="http://culmus.sourceforge.net/"><i>Nachlieli CLM</i></a> by The Culmus Project
+\n\n
+<b>Date Calculations</b>:
+Date calculation code adapted from <a href="http://emr.cs.uiuc.edu/~reingold/calendar.C">public domain C++ version</a> of code written by Nachum Dershowitz and <a href="http://emr.cs.uiuc.edu/~reingold/">Edward M. Reingold</a> in "Calendrical Calculations", published in Software---Practice &amp; Experience, vol. 20, no. 9 (September, 1990), pp. 899--928. 
+</string>
+<string-array name="FontNames">
+	<item>FreeMono</item>
+	<item>FreeSans</item>
+	<item>Nachlieli Culmus Light</item>
+	<item>SIL Ezra</item>
+</string-array>
+<string-array name="FontFiles">
+	<item>FreeMono.ttf</item>
+	<item>FreeSans.ttf</item>
+	<item>NachlieliCLM-Light.ttf</item>
+	<item>SILEOTSR.ttf</item>
+</string-array>
+</resources>
