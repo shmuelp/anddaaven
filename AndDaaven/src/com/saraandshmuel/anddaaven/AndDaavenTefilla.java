@@ -143,7 +143,6 @@ public class AndDaavenTefilla extends Activity {
     	super.onRestoreInstanceState(savedInstanceState);
     	final Bundle myState = savedInstanceState;
     	daavenText.post( new Runnable() {
-    		@Override
     		public void run() {
     	    	currentOffset = myState.getInt("TefillaPosition");
     	    	if ( currentOffset == 0 ) {

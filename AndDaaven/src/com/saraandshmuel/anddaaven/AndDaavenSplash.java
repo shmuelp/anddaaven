@@ -121,7 +121,6 @@ public class AndDaavenSplash extends Activity implements OnClickListener {
     /** 
      * Handle button clicks
      */
-    @Override
     public void onClick(View v) {
     	long index=-1;
     	if ( v==shacharitButton ) { index = 0; }
