@@ -1,7 +1,7 @@
 package com.saraandshmuel.anddaaven;
 
 import android.text.format.Time;
-import android.util.Log;
+//import android.util.Log;
 
 // From http://emr.cs.uiuc.edu/~reingold/calendar.C
 // Retrieved 2010-02-07
@@ -221,20 +221,20 @@ public int getAbsoluteDate() { // Computes the absolute date of Hebrew date.
   
   private static int GetAbsoluteDateGregorian( Time t ) {
 	  int result = GetAbsoluteDateGregorian(t.month+1, t.monthDay, t.year);
-	  Log.d("HebrewDate", "GetAbsoluteDateGregorian(" + t + '=' + t.year + '-' + t.month + '-' + t.monthDay + ")=" + result);
+//	  Log.d("HebrewDate", "GetAbsoluteDateGregorian(" + t + '=' + t.year + '-' + t.month + '-' + t.monthDay + ")=" + result);
 	  return result;
   }
   
   private static int GetAbsoluteDateGregorian( int month, int day, int year ) {
-	  Log.d("HebrewDate", "GetAbsoluteDateGregorian(" + month + ',' + day + ',' + year + ')');
+//	  Log.d("HebrewDate", "GetAbsoluteDateGregorian(" + month + ',' + day + ',' + year + ')');
 	  
 	  int N = day;           // days this month
 	  for (int m = month - 1;  m > 0; m--) // days in prior months this year
 	  {
-		  Log.v("HebrewDate", "GetAbsoluteDateGregorian(): m=" + m + ", N=" + N);
+//		  Log.v("HebrewDate", "GetAbsoluteDateGregorian(): m=" + m + ", N=" + N);
 		  N = N + LastDayOfGregorianMonth(m, year);
 	  }
-	  Log.v("HebrewDate", "GetAbsoluteDateGregorian(): N=" + N);
+//	  Log.v("HebrewDate", "GetAbsoluteDateGregorian(): N=" + N);
 	  return
 	      (N                    // days this year
 	       + 365 * (year - 1)   // days in previous years ignoring leap days
