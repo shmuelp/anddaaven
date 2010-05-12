@@ -5,6 +5,11 @@
 <string name="ShowNikudSummary">Controls whether or not Nikud is displayed</string>
 <string name="ShowNikudSummaryOn">Nikud will be displayed</string>
 <string name="ShowNikudSummaryOff">Nikud will not be displayed</string>
+<string name="FullScreenKey">FullScreen</string>
+<string name="FullScreenTitle">Full Screen</string>
+<string name="FullScreenSummary">Controls whether or not tefilla is displayed full screen (requires AndDaaven restart)</string>
+<string name="FullScreenSummaryOn">Tefilla will be displayed full screen</string>
+<string name="FullScreenSummaryOff">Tefilla will not be displayed full screen</string>
 <string name="FontKey">TextFont</string>
 <string name="FontTitle">Text Font</string>
 <string name="FontSummary">Controls the font used to display Tefilla</string>

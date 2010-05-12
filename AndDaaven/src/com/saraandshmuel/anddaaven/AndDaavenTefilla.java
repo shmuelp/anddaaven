@@ -18,6 +18,8 @@ import android.text.SpannableStringBuilder;
 import android.text.format.Time;
 import android.util.Log;
 import android.view.MotionEvent;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,8 +30,11 @@ public class AndDaavenTefilla extends Activity {
     public void onCreate(Bundle savedInstanceState) {
     	// layout view from resource XML file
     	super.onCreate(savedInstanceState);
-        setContentView(R.layout.daaven);
-
+		boolean fullScreen = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("FullScreen", false);
+		if ( fullScreen ) {
+			getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		}
+    	setContentView(R.layout.daaven);
         findLayoutObjects();        
         setHebrewFont();
         
