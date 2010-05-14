@@ -18,7 +18,6 @@ import android.text.SpannableStringBuilder;
 import android.text.format.Time;
 import android.util.Log;
 import android.view.MotionEvent;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -209,7 +208,7 @@ public class AndDaavenTefilla extends Activity {
 				} else {
 					if ( ! showNikud ) {
 						// Remove nikud based on Unicode character ranges
-						// Does not replace ligatures (\ufb20-\ufb4f)
+						// Does not replace combined characters (\ufb20-\ufb4f)
 						// See http://en.wikipedia.org/wiki/Unicode_and_HTML_for_the_Hebrew_alphabet
 						s = s.replaceAll("[\u05b0-\u05c7]", "");
 					}
@@ -218,18 +217,19 @@ public class AndDaavenTefilla extends Activity {
 					offset += s.length() + 1;
 				}
 			}
+			
 			daavenText.setText(ssb);
 			currentFilename = filename;
 			
-			// In UI thread:
-			// Get layout
-			// For each jump offset:
-			// 		layout.getLineForOffset
-			//		layout.getLineForVertical
-			daavenText.post( new Runnable() {
-				public void run() {
-				};
-			});
+//			// In UI thread:
+//			// Get layout
+//			// For each jump offset:
+//			// 		layout.getLineForOffset
+//			//		layout.getLineForVertical
+//			daavenText.post( new Runnable() {
+//				public void run() {
+//				};
+//			});
 		} catch (IOException e) {
 			Toast.makeText(this, "Caught an exception: " + e.getMessage(), Toast.LENGTH_SHORT).show();
 			e.printStackTrace();
