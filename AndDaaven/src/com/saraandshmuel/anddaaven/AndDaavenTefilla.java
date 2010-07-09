@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import com.saraandshmuel.anddaaven.R;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -19,6 +20,9 @@ import android.text.SpannableStringBuilder;
 import android.text.format.Time;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.WindowManager;
 import android.widget.ScrollView;
@@ -166,6 +170,48 @@ public class AndDaavenTefilla extends Activity {
     	    	restorePosition();
     		}
     	} );
+    }
+
+    /**
+     * Initial menu item creator- still being implemented
+     * 
+     * TODO: Share this code with AndDaavenSplash
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+		boolean settingInTefilla = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("SettingInTefilla", false);
+    	
+		if (settingInTefilla)
+		{
+	        MenuInflater inflater = getMenuInflater();
+	        inflater.inflate(R.menu.mainmenu, menu);
+	        return true;
+		}
+		
+        return super.onCreateOptionsMenu(menu);
+    }
+    
+    /**
+     * Initial menu item handler - still being implemented
+     * 
+     * TODO: Share this code with AndDaavenSplash
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+        	case R.id.About:
+        		Dialog aboutDialog = new Dialog(this);
+        		aboutDialog.setContentView(R.layout.acknowlegements);
+        		aboutDialog.setTitle(getString(R.string.TextViewAcknowledgementTitle));
+        		aboutDialog.show();
+        		return true;
+        	case R.id.Settings:
+        		Intent intent = new Intent(this, com.saraandshmuel.anddaaven.AndDaavenSettings.class);
+        		startActivity(intent);
+        		return true;
+        }
+        Log.w(getClass().getName(), "Got an unknown MenuItem event");
+        return false;        
     }
 
     // build filename in assets to use to display tefilla, call helper to read it
