@@ -12,11 +12,13 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Build.VERSION;
 import android.preference.PreferenceManager;
 import android.text.Layout;
 import android.text.SpannableStringBuilder;
 import android.text.format.Time;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.WindowManager;
 import android.widget.ScrollView;
@@ -35,6 +37,13 @@ public class AndDaavenTefilla extends Activity {
 		}
     	setContentView(R.layout.daaven);
         findLayoutObjects();        
+
+        // Make sure that Hebrew text is right-aligned on Froyo 
+        if ( VERSION.SDK_INT >= 8 )
+        {
+        	daavenText.setGravity(Gravity.RIGHT);
+        }
+        
         setHebrewFont();
         
         // find and setup text to display
