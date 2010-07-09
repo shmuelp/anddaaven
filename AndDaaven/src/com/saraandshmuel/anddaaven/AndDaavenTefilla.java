@@ -93,9 +93,11 @@ public class AndDaavenTefilla extends Activity {
     	
     	while ( y >= 1 ) {
     		scrollUp();
+		--y;
     	}
     	while ( y <= -1 ) {
     		scrollDown();
+		++y;
     	}
     	
     	return true;
