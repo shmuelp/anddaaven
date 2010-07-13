@@ -15,6 +15,14 @@
 <string name="FontSummary">Controls the font used to display Tefilla</string>
 <string name="FontDialogTitle">Select font...</string>
 <string name="FontDialogMessage">Selects the font used to display Tefilla</string>
-<string name="FontDialogPositive">FontDialogPositive</string>
-<string name="FontDialogNegative">FontDialogNegative</string>
+<string name="PageDownKey">PageDown</string>
+<string name="PageDownTitle">Scroll by Screen</string>
+<string name="PageDownSummary">Controls whether or not text is scrolls a screen at a time</string>
+<string name="PageDownSummaryOn">Tefilla will scroll a screen at a time</string>
+<string name="PageDownSummaryOff">Tefilla will scroll as usual</string>
+<string name="SettingInTefillaKey">SettingInTefilla</string>
+<string name="SettingInTefillaTitle">Show Settings Menu in Tefilla</string>
+<string name="SettingInTefillaSummary">Controls whether or not the settings menu is displayed on the tefilla screen</string>
+<string name="SettingInTefillaSummaryOn">Settings menu will be displayed on the tefilla screen</string>
+<string name="SettingInTefillaSummaryOff">Settings menu will not be displayed on the tefilla screen</string>
 </resources>

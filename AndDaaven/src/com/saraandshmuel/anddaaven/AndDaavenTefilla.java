@@ -20,16 +20,24 @@ import android.text.SpannableStringBuilder;
 import android.text.format.Time;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class AndDaavenTefilla extends Activity {
+	
+	private static final String TAG = "AndDaavenTefilla";
+
+	public AndDaavenTefilla() {
+	    System.setProperty("log.tag."+TAG, "VERBOSE");
+	}
+	
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -40,7 +48,7 @@ public class AndDaavenTefilla extends Activity {
 			getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		}
     	setContentView(R.layout.daaven);
-        findLayoutObjects();        
+        findLayoutObjects();
 
         // Make sure that Hebrew text is right-aligned on Froyo 
         if ( VERSION.SDK_INT >= 8 )
@@ -82,31 +90,72 @@ public class AndDaavenTefilla extends Activity {
     }
     
     @Override
-    public boolean onTrackballEvent(MotionEvent event) {
-    	int x = (int) event.getX();
-    	int y = (int) event.getY();
-    	
-    	while ( x >= 1 ) {
-    		scrollRight();
-    		--x;
-    	}
-    	while ( x <= -1) {
-    		scrollLeft();
-    		++x;
-    	}
-    	
-    	while ( y >= 1 ) {
-    		scrollUp();
-		--y;
-    	}
-    	while ( y <= -1 ) {
-    		scrollDown();
-		++y;
+    public boolean dispatchKeyEvent(KeyEvent event) {
+		boolean result = false;
+		boolean pageDown = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("PageDown", false);
+    	int keyAction = event.getAction();
+    	int keyCode = event.getKeyCode();
+    	Log.v(TAG,"dispatchKeyEvent(), action="+keyAction+",code="+keyCode);
+    	int count = 1;
+    	if ( keyCode != KeyEvent.KEYCODE_DPAD_UP &&
+   			 keyCode != KeyEvent.KEYCODE_DPAD_DOWN )
+    	{
+    		return super.dispatchKeyEvent(event);
     	}
     	
-    	return true;
-    }
+    	if ( !pageDown )
+    	{
+    		return super.dispatchKeyEvent(event);
+    	}
 
+    	if ( keyAction == KeyEvent.ACTION_MULTIPLE && 
+    	     keyCode != KeyEvent.KEYCODE_UNKNOWN ) {
+    		keyAction = KeyEvent.ACTION_UP;
+    		Log.v(TAG, "Got ACTION_MULTIPLE, repeat=" + event.getRepeatCount());
+    		count = event.getRepeatCount()/2 + 1;
+    	}
+
+    	if ( scrollHeight == 0 ) {
+            Log.v(TAG, "height=" + daavenScroll.getHeight() + 
+            		   ", padBottom=" + daavenScroll.getPaddingBottom() + 
+            		   ", padTop=" + daavenScroll.getPaddingTop() +
+            		   ", fadingEdge=" + daavenScroll.getVerticalFadingEdgeLength() );
+
+            scrollHeight = daavenScroll.getHeight() - 
+			   daavenScroll.getPaddingBottom() - 
+			   daavenScroll.getPaddingTop() - 
+			   daavenScroll.getVerticalFadingEdgeLength() * 2;
+
+            Log.v(TAG, "scrollHeight=" + scrollHeight );
+    	}
+    	
+    	
+    	if ( keyAction == KeyEvent.ACTION_UP) {
+    		switch ( keyCode ) {
+    			case KeyEvent.KEYCODE_DPAD_UP:
+    				pageUp(count);
+    	    		result = true;
+    	    		break;
+    			case KeyEvent.KEYCODE_DPAD_DOWN:
+    				pageDown(count);
+    	    		result = true;
+    				break;
+				default:
+					result = super.dispatchKeyEvent(event);
+    		}
+    	}
+    	else if ( keyAction == KeyEvent.ACTION_DOWN ) {
+    		// Do nothing - consume event and handle on key up
+    		result = true;
+    	}
+    	else 
+    	{
+    		result = super.dispatchKeyEvent(event);
+    	}
+
+    	return result;
+	}
+    
 	/**
 	 * Saves the current scrolled position
 	 */
@@ -129,27 +178,26 @@ public class AndDaavenTefilla extends Activity {
     		daavenScroll.scrollTo(0, daavenText.getLineHeight() * line );
 //    		setTitle("Restored current offset=" + currentOffset + ", line=" + line);
     	} else {
-    		Log.e("AndSiddur", "Unable to restore scrolled position because layout was null");
+    		Log.e(TAG, "Unable to restore scrolled position because layout was null");
     	}
 	}
     
-    public void scrollRight() {
-    	Toast.makeText(this, "Scroll Right", Toast.LENGTH_SHORT).show();
+    public void pageDown(int count) {
+    	Log.v(TAG, "pageDown("+count+")" );
+    	for ( int i=0; i < count; ++i ) {
+    		daavenScroll.scrollBy(0, scrollHeight);
+    		Log.v(TAG, "scrollBy(0," + scrollHeight + ")" );
+    	}
     }
 
-    public void scrollLeft() {
-    	Toast.makeText(this, "Scroll Left", Toast.LENGTH_SHORT).show();
+    public void pageUp(int count) {
+    	Log.v(TAG, "pageUp("+count+")" );
+    	for ( int i=0; i < count; ++i ) {
+    		daavenScroll.scrollBy(0, -scrollHeight);
+    		Log.v(TAG, "scrollBy(0," + (-scrollHeight) + ")" );
+    	}
     }
 
-    public void scrollUp() {
-    	Toast.makeText(this, "Scroll Up", Toast.LENGTH_SHORT).show();
-    }
-
-    public void scrollDown() {
-    	Toast.makeText(this, "Scroll Down", Toast.LENGTH_SHORT).show();
-    }
-    
-    
     @Override
     protected void onSaveInstanceState(Bundle outState) {
     	super.onSaveInstanceState(outState);
@@ -165,7 +213,7 @@ public class AndDaavenTefilla extends Activity {
     		public void run() {
     	    	currentOffset = myState.getInt("TefillaPosition");
     	    	if ( currentOffset == 0 ) {
-    	    		Log.w("AndSiddur", "Warning: asked to restore position of 0");
+    	    		Log.w(TAG, "Warning: asked to restore position of 0");
     	    	}
     	    	restorePosition();
     		}
@@ -247,6 +295,7 @@ public class AndDaavenTefilla extends Activity {
 		if ( filename == this.currentFilename ) {
 			return;
 		}
+		
 		boolean showNikud = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("ShowNikud", true);
 		currentOffset=0;
 		daavenText.setText(filename);
@@ -293,12 +342,13 @@ public class AndDaavenTefilla extends Activity {
 		}
 		
 	}
-
+	
 	// use a SpannableStringBuilder to allow addition of formatting in
 	// future
 	SpannableStringBuilder ssb = new SpannableStringBuilder();
 	private int currentOffset=0;
-    private TextView daavenText;
-    private ScrollView daavenScroll; 
-    private String currentFilename;
+    private TextView daavenText=null;
+    private ScrollView daavenScroll=null; 
+    private String currentFilename="";
+    private int scrollHeight=0;
 }
