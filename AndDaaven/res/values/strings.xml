@@ -6,9 +6,9 @@
 	<item>Shacharit</item>
 	<item>Mincha</item>
 	<item>Maariv</item>
-	<item>B'rachot</item>
+	<item>B\'rachot</item>
 </string-array>
-<string name="GoText">Da'aven! תפילה</string>
+<string name="GoText">Da\'aven! תפילה</string>
 <string-array name="FileName">
 	<item>shacharit-ashkenaz.utf8</item>
 	<item>mincha-ashkenaz.utf8</item>
