@@ -35,7 +35,7 @@ public class AndDaavenTefilla extends Activity {
 	private static final String TAG = "AndDaavenTefilla";
 
 	public AndDaavenTefilla() {
-	    System.setProperty("log.tag."+TAG, "VERBOSE");
+//	    System.setProperty("log.tag."+TAG, "VERBOSE");
 	}
 	
     /** Called when the activity is first created. */
@@ -107,10 +107,15 @@ public class AndDaavenTefilla extends Activity {
     	{
     		return super.dispatchKeyEvent(event);
     	}
+    	
+//    	Log.v(TAG, "Got keyAction=" + keyAction + ", keyCode=" + keyCode + 
+//    			", ACTION_UP=" + KeyEvent.ACTION_UP + 
+//    			", ACTION_DOWN=" + KeyEvent.ACTION_DOWN 
+//    			);
 
     	if ( keyAction == KeyEvent.ACTION_MULTIPLE && 
     	     keyCode != KeyEvent.KEYCODE_UNKNOWN ) {
-    		keyAction = KeyEvent.ACTION_UP;
+    		keyAction = KeyEvent.ACTION_DOWN;
     		Log.v(TAG, "Got ACTION_MULTIPLE, repeat=" + event.getRepeatCount());
     		count = event.getRepeatCount()/2 + 1;
     	}
@@ -130,7 +135,7 @@ public class AndDaavenTefilla extends Activity {
     	}
     	
     	
-    	if ( keyAction == KeyEvent.ACTION_UP) {
+    	if ( keyAction == KeyEvent.ACTION_DOWN) {
     		switch ( keyCode ) {
     			case KeyEvent.KEYCODE_DPAD_UP:
     				pageUp(count);
