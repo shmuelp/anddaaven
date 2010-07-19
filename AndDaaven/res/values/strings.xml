@@ -9,12 +9,6 @@
 	<item>B\'rachot</item>
 </string-array>
 <string name="GoText">Da\'aven! תפילה</string>
-<string-array name="FileName">
-	<item>shacharit-ashkenaz.utf8</item>
-	<item>mincha-ashkenaz.utf8</item>
-	<item>maariv-ashkenaz.utf8</item>
-	<item>other-ashkenaz.utf8</item>
-</string-array>
 <string name="MenuAbout">About AndDaaven</string>
 <string name="MenuSettings">Settings</string>
 <string name="MenuAboutCondensed">About...</string>
@@ -42,11 +36,5 @@ Date calculation code adapted from <a href="http://emr.cs.uiuc.edu/~reingold/cal
 	<item>FreeSans</item>
 	<item>Nachlieli Culmus Light</item>
 	<item>SIL Ezra</item>
-</string-array>
-<string-array name="FontFiles">
-	<item>FreeMono.ttf</item>
-	<item>FreeSans.ttf</item>
-	<item>NachlieliCLM-Light.ttf</item>
-	<item>SILEOTSR.ttf</item>
 </string-array>
 </resources>
