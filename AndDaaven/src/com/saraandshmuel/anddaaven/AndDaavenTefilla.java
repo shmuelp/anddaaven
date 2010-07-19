@@ -199,7 +199,6 @@ public class AndDaavenTefilla extends Activity {
 	
     	// Get current offset
 		int offset = locateCurrentOffset(layout);
-		Log.d(TAG, "Found offset=" + offset);
 		
 		// Find current section in jumpOffsets
 		int section=0;
@@ -208,9 +207,15 @@ public class AndDaavenTefilla extends Activity {
 				break;
 			}
 		}
-		Log.d(TAG, "Found section=" + section);
+		Log.d(TAG, "Found offset=" + offset + ", section=" + section);
 		
 		// Calculate new section
+		// When moving backwards, first scroll to the beginning of the 
+		// current section
+		if ( count < 0 && layout.getLineForOffset(offset) > 
+				layout.getLineForOffset(jumpOffsets.get(section)) ) {
+			++count;
+		}
 		section += count;
 		if ( section < 0 ) {
 			// Tried to scroll past initial section
@@ -222,12 +227,13 @@ public class AndDaavenTefilla extends Activity {
 			daavenScroll.scrollTo(0, daavenText.getBottom());
 			return;
 		}
-		Log.d(TAG, "Adjusted section to" + section);
 		
 		// Scroll to new section
-		int newLine = layout.getLineForOffset(jumpOffsets.get(section));
+		int newOffset = jumpOffsets.get(section);
+		int newLine = layout.getLineForOffset(newOffset);
 		int newY = layout.getLineTop(newLine);
-		Log.d(TAG, "Scrolling to line " + newLine + ", y=" + newY);
+		Log.d(TAG, "Scrolling to offset=" + newOffset + ", section=" + 
+				   section + ", line=" + newLine + ", y=" + newY );
 		daavenScroll.scrollTo(0, newY);
 	}
 
@@ -237,8 +243,12 @@ public class AndDaavenTefilla extends Activity {
 	private void savePosition() {
 		Layout layout = daavenText.getLayout();
     	if ( layout != null ) {
-    		currentOffset = locateCurrentOffset(layout);
-//    		setTitle("Saved current offset=" + currentOffset + ",line=" + line);
+    		int newOffset = locateCurrentOffset(layout);
+    		if ( layout.getLineForOffset(newOffset) != 
+    			 layout.getLineForOffset(currentOffset) ) {
+    			currentOffset = newOffset;
+//    			setTitle("Saved current offset=" + currentOffset + ",line=" + line);
+    		}
     	}
     	else {
     		Log.w(TAG, "savePosition(): cannot save if layout is null!");
@@ -256,7 +266,8 @@ public class AndDaavenTefilla extends Activity {
 		int topPixel = daavenScroll.getScrollY() + daavenScroll.getPaddingTop() + 
 					   daavenScroll.getVerticalFadingEdgeLength();
 		int line = layout.getLineForVertical(topPixel);
-		result = (layout.getLineStart(line) + layout.getLineEnd(line))/2;
+//		result = (layout.getLineStart(line) + layout.getLineEnd(line))/2;
+		result = layout.getLineStart(line);
 		return result;
 	}
 
@@ -405,9 +416,11 @@ public class AndDaavenTefilla extends Activity {
 			int offset=0;
 			while ( br.ready() ) {
 				String s = br.readLine();
-				if ( s.length()==1 &&  s.charAt(0)=='\013') {
-					jumpOffsets.add(offset);
+				if ( s.length() == 0 ) {
+					ssb.append("\n");
 					++offset;
+				} else if ( s.charAt(0)=='\013' ) {
+					jumpOffsets.add(offset);
 				} else {
 					if ( ! showNikud ) {
 						// Remove nikud based on Unicode character ranges
