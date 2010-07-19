@@ -405,6 +405,7 @@ public class AndDaavenTefilla extends Activity {
 		}
 		
 		boolean showNikud = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("ShowNikud", true);
+		boolean showSectionNames = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("SectionName", true);
 		currentOffset=0;
 		daavenText.setText(filename);
 		try {
@@ -412,7 +413,8 @@ public class AndDaavenTefilla extends Activity {
 			InputStream is = getAssets().open(filename);
 			BufferedReader br = new BufferedReader(new InputStreamReader(is));
 			ssb.clear();
-			jumpOffsets = new ArrayList<Integer>(); 
+			jumpOffsets.clear();
+			sectionNames.clear();
 			int offset=0;
 			while ( br.ready() ) {
 				String s = br.readLine();
@@ -420,7 +422,14 @@ public class AndDaavenTefilla extends Activity {
 					ssb.append("\n");
 					++offset;
 				} else if ( s.charAt(0)=='\013' ) {
-					jumpOffsets.add(offset);
+					jumpOffsets.add( offset );
+					String name = s.substring( 1 );
+					sectionNames.add( name );
+					if ( showSectionNames ) {
+						ssb.append(name);
+						ssb.append("\n");
+						offset += name.length() + 1;
+					}
 				} else {
 					if ( ! showNikud ) {
 						// Remove nikud based on Unicode character ranges
@@ -461,5 +470,6 @@ public class AndDaavenTefilla extends Activity {
     private ScrollView daavenScroll=null; 
     private String currentFilename="";
     private int scrollHeight=0;
-	private ArrayList<Integer> jumpOffsets;
+	private ArrayList<Integer> jumpOffsets = new ArrayList<Integer>();
+	private ArrayList<String> sectionNames = new ArrayList<String>();
 }
