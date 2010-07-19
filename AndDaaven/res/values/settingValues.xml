@@ -18,8 +18,13 @@
 <string name="PageDownKey">PageDown</string>
 <string name="PageDownTitle">Scroll by Screen</string>
 <string name="PageDownSummary">Controls whether or not text is scrolls a screen at a time</string>
-<string name="PageDownSummaryOn">Tefilla will scroll a screen at a time</string>
+<string name="PageDownSummaryOn">Tefilla will scroll a screen at a time when up/down is pressed</string>
 <string name="PageDownSummaryOff">Tefilla will scroll as usual</string>
+<string name="SectionJumpKey">SectionJump</string>
+<string name="SectionJumpTitle">Section Jump</string>
+<string name="SectionJumpSummary">Controls whether or not text is scrolls a screen at a time</string>
+<string name="SectionJumpSummaryOn">Tefilla will by sections by pressing right/left</string>
+<string name="SectionJumpSummaryOff">Right/left will be ignored</string>
 <string name="SettingInTefillaKey">SettingInTefilla</string>
 <string name="SettingInTefillaTitle">Show Settings Menu in Tefilla</string>
 <string name="SettingInTefillaSummary">Controls whether or not the settings menu is displayed on the tefilla screen</string>

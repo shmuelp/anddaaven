@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-
 import com.saraandshmuel.anddaaven.R;
 
 import android.app.Activity;
@@ -24,7 +23,6 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.WindowManager;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -66,12 +64,15 @@ public class AndDaavenTefilla extends Activity {
 	 * Sets the Hebrew font on the tefilla text
 	 */
 	private void setHebrewFont() {
-		Typeface face;
 		String typefaceName;
 		typefaceName = PreferenceManager.getDefaultSharedPreferences(this).getString("TextFont", "SILEOTSR.ttf");
-        face = Typeface.createFromAsset(getAssets(), typefaceName );
+        final Typeface face = Typeface.createFromAsset(getAssets(), typefaceName );
 //        face = Typeface.createFromAsset(getAssets(), "SILEOTSR.ttf");
-        daavenText.setTypeface(face);
+
+//        daavenText.setTypeface(face);
+        runOnUiThread(new Runnable() {
+        	public void run() { daavenText.setTypeface(face); }
+        });
 	}
 
 	/**
@@ -93,26 +94,36 @@ public class AndDaavenTefilla extends Activity {
     public boolean dispatchKeyEvent(KeyEvent event) {
 		boolean result = false;
 		boolean pageDown = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("PageDown", false);
+		boolean sectionJump = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("SectionJump", false);
     	int keyAction = event.getAction();
     	int keyCode = event.getKeyCode();
     	Log.v(TAG,"dispatchKeyEvent(), action="+keyAction+",code="+keyCode);
-    	int count = 1;
-    	if ( keyCode != KeyEvent.KEYCODE_DPAD_UP &&
-   			 keyCode != KeyEvent.KEYCODE_DPAD_DOWN )
+    	
+    	// Flag to determine if AndDaaven handles the event or if it delegates
+    	boolean handleEvent= false;
+
+    	if ( pageDown && ( keyCode == KeyEvent.KEYCODE_DPAD_UP ||
+   			 			   keyCode != KeyEvent.KEYCODE_DPAD_DOWN ) )
     	{
-    		return super.dispatchKeyEvent(event);
+    		handleEvent = true;
     	}
     	
-    	if ( !pageDown )
+    	if ( sectionJump && ( keyCode == KeyEvent.KEYCODE_DPAD_LEFT ||
+	 			   			  keyCode != KeyEvent.KEYCODE_DPAD_RIGHT) )
     	{
-    		return super.dispatchKeyEvent(event);
+    		handleEvent = true;
     	}
-    	
+
 //    	Log.v(TAG, "Got keyAction=" + keyAction + ", keyCode=" + keyCode + 
 //    			", ACTION_UP=" + KeyEvent.ACTION_UP + 
 //    			", ACTION_DOWN=" + KeyEvent.ACTION_DOWN 
 //    			);
+    	
+    	if ( !handleEvent ) {
+    		return super.dispatchKeyEvent(event);
+    	}
 
+    	int count = 1;
     	if ( keyAction == KeyEvent.ACTION_MULTIPLE && 
     	     keyCode != KeyEvent.KEYCODE_UNKNOWN ) {
     		keyAction = KeyEvent.ACTION_DOWN;
@@ -120,6 +131,7 @@ public class AndDaavenTefilla extends Activity {
     		count = event.getRepeatCount()/2 + 1;
     	}
 
+    	// Calculate screen height for page scrolling if not already cached
     	if ( scrollHeight == 0 ) {
             Log.v(TAG, "height=" + daavenScroll.getHeight() + 
             		   ", padBottom=" + daavenScroll.getPaddingBottom() + 
@@ -134,7 +146,6 @@ public class AndDaavenTefilla extends Activity {
             Log.v(TAG, "scrollHeight=" + scrollHeight );
     	}
     	
-    	
     	if ( keyAction == KeyEvent.ACTION_DOWN) {
     		switch ( keyCode ) {
     			case KeyEvent.KEYCODE_DPAD_UP:
@@ -143,6 +154,13 @@ public class AndDaavenTefilla extends Activity {
     	    		break;
     			case KeyEvent.KEYCODE_DPAD_DOWN:
     				pageDown(count);
+    	    		result = true;
+    				break;
+    			case KeyEvent.KEYCODE_DPAD_LEFT:
+    				count=-count;
+    				// intentional pass-through
+    			case KeyEvent.KEYCODE_DPAD_RIGHT:
+    				jumpSection(count);
     	    		result = true;
     				break;
 				default:
@@ -161,30 +179,104 @@ public class AndDaavenTefilla extends Activity {
     	return result;
 	}
     
+    /**
+     * Jumps back of forward a number of sections
+     * @param count the number of sections to jump forward.  Will jump 
+     * backward with a negative count
+     */
+	private void jumpSection(int count) {
+		Layout layout = daavenText.getLayout();
+    	if ( layout == null ) {
+    		Log.w(TAG, "jumpSection(): cannot jump if layout is null!");
+    		return;
+    	}
+    	
+    	// Check that jumpOffsets has been initialized
+    	if ( jumpOffsets.isEmpty() ) {
+    		Log.w(TAG, "jumpSection(): cannot jump if jumpOffsets is empty!");
+    		return;
+    	}
+	
+    	// Get current offset
+		int offset = locateCurrentOffset(layout);
+		Log.d(TAG, "Found offset=" + offset);
+		
+		// Find current section in jumpOffsets
+		int section=0;
+		for (section = 0; section+1 < jumpOffsets.size(); ++section) {
+			if ( offset < jumpOffsets.get(section+1) ) {
+				break;
+			}
+		}
+		Log.d(TAG, "Found section=" + section);
+		
+		// Calculate new section
+		section += count;
+		if ( section < 0 ) {
+			// Tried to scroll past initial section
+			// Reset position to beginning of initial section
+			section = 0;
+		} else if ( section >= jumpOffsets.size() ) {
+			// Tried to go past last section
+			// Scroll to end and return
+			daavenScroll.scrollTo(0, daavenText.getBottom());
+			return;
+		}
+		Log.d(TAG, "Adjusted section to" + section);
+		
+		// Scroll to new section
+		int newLine = layout.getLineForOffset(jumpOffsets.get(section));
+		int newY = layout.getLineTop(newLine);
+		Log.d(TAG, "Scrolling to line " + newLine + ", y=" + newY);
+		daavenScroll.scrollTo(0, newY);
+	}
+
 	/**
 	 * Saves the current scrolled position
 	 */
 	private void savePosition() {
 		Layout layout = daavenText.getLayout();
     	if ( layout != null ) {
-    		int line = layout.getLineForVertical(daavenScroll.getScrollY());
-    		currentOffset = (layout.getLineStart(line) + layout.getLineEnd(line))/2;
+    		currentOffset = locateCurrentOffset(layout);
 //    		setTitle("Saved current offset=" + currentOffset + ",line=" + line);
     	}
+    	else {
+    		Log.w(TAG, "savePosition(): cannot save if layout is null!");
+    	}
+	}
+
+	/**
+	 * 	Locates the current offset by examining the scroll state of the text
+	 * @param layout - the layout object of the current tefilla
+	 * @return The current offset of the tefilla (in characters of text)
+	 */
+	private int locateCurrentOffset(Layout layout) {
+		int result;
+		// Find highest pixel of interest (ignore e.g. faded pixels)
+		int topPixel = daavenScroll.getScrollY() + daavenScroll.getPaddingTop() + 
+					   daavenScroll.getVerticalFadingEdgeLength();
+		int line = layout.getLineForVertical(topPixel);
+		result = (layout.getLineStart(line) + layout.getLineEnd(line))/2;
+		return result;
 	}
 
 	/**
 	 * Restores the current scrolled position 
 	 */
 	private void restorePosition() {
-		Layout layout = daavenText.getLayout();
-    	if ( layout != null ) {
-    		int line = layout.getLineForOffset(currentOffset);
-    		daavenScroll.scrollTo(0, daavenText.getLineHeight() * line );
-//    		setTitle("Restored current offset=" + currentOffset + ", line=" + line);
-    	} else {
-    		Log.e(TAG, "Unable to restore scrolled position because layout was null");
-    	}
+		runOnUiThread(new Runnable() {
+			public void run() {
+				Layout layout = daavenText.getLayout();
+		    	if ( layout != null ) {
+		    		int line = layout.getLineForOffset(currentOffset);
+		    		daavenScroll.scrollTo(0, daavenText.getLineHeight() * line );
+//		    		setTitle("Restored current offset=" + currentOffset + ", line=" + line);
+		    	} else {
+		    		Log.e(TAG, "Unable to restore scrolled position because layout was null");
+		    	}
+			}
+		
+		});
 	}
     
     public void pageDown(int count) {
@@ -309,7 +401,7 @@ public class AndDaavenTefilla extends Activity {
 			InputStream is = getAssets().open(filename);
 			BufferedReader br = new BufferedReader(new InputStreamReader(is));
 			ssb.clear();
-			ArrayList<Integer> jumpOffsets = new ArrayList<Integer>(); 
+			jumpOffsets = new ArrayList<Integer>(); 
 			int offset=0;
 			while ( br.ready() ) {
 				String s = br.readLine();
@@ -356,4 +448,5 @@ public class AndDaavenTefilla extends Activity {
     private ScrollView daavenScroll=null; 
     private String currentFilename="";
     private int scrollHeight=0;
+	private ArrayList<Integer> jumpOffsets;
 }
