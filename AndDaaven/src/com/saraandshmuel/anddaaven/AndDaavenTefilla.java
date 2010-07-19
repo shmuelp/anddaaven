@@ -425,7 +425,7 @@ public class AndDaavenTefilla extends Activity {
 					jumpOffsets.add( offset );
 					String name = s.substring( 1 );
 					sectionNames.add( name );
-					if ( showSectionNames ) {
+					if ( showSectionNames && name.length() != 0 ) {
 						ssb.append(name);
 						ssb.append("\n");
 						offset += name.length() + 1;
