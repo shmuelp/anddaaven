@@ -93,8 +93,8 @@ public class AndDaavenTefilla extends Activity {
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
 		boolean result = false;
-		boolean pageDown = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("PageDown", false);
-		boolean sectionJump = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("SectionJump", false);
+		boolean pageDown = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("PageDown", true);
+		boolean sectionJump = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("SectionJump", true);
     	int keyAction = event.getAction();
     	int keyCode = event.getKeyCode();
     	Log.v(TAG,"dispatchKeyEvent(), action="+keyAction+",code="+keyCode);
