@@ -48,8 +48,9 @@ public class AndDaavenTefilla extends Activity {
     	setContentView(R.layout.daaven);
         findLayoutObjects();
 
-        // Make sure that Hebrew text is right-aligned on Froyo 
-        if ( VERSION.SDK_INT >= 8 )
+        // Make sure that Hebrew text is right-aligned on Froyo
+        final int version = Integer.parseInt(VERSION.SDK); 
+        if ( version >= 8 )
         {
         	daavenText.setGravity(Gravity.RIGHT);
         }
