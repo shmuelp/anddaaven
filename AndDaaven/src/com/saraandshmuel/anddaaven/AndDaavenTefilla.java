@@ -281,7 +281,9 @@ public class AndDaavenTefilla extends Activity {
 				Layout layout = daavenText.getLayout();
 		    	if ( layout != null ) {
 		    		int line = layout.getLineForOffset(currentOffset);
-		    		daavenScroll.scrollTo(0, daavenText.getLineHeight() * line );
+		    		daavenScroll.scrollTo(0, daavenText.getLineHeight() * line + 
+		    								 daavenText.getPaddingTop() + 
+		    								 daavenText.getVerticalFadingEdgeLength() );
 //		    		setTitle("Restored current offset=" + currentOffset + ", line=" + line);
 		    	} else {
 		    		Log.e(TAG, "Unable to restore scrolled position because layout was null");
