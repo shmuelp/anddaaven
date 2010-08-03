@@ -10,10 +10,13 @@ import com.saraandshmuel.anddaaven.R;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Build.VERSION;
 import android.preference.PreferenceManager;
+import android.preference.Preference.OnPreferenceChangeListener;
 import android.text.Layout;
 import android.text.SpannableStringBuilder;
 import android.text.format.Time;
@@ -28,7 +31,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class AndDaavenTefilla extends Activity {
+public class AndDaavenTefilla extends Activity implements OnSharedPreferenceChangeListener {
 	
 	private static final String TAG = "AndDaavenTefilla";
 
@@ -48,6 +51,7 @@ public class AndDaavenTefilla extends Activity {
     	setContentView(R.layout.daaven);
         findLayoutObjects();
 
+        PreferenceManager.getDefaultSharedPreferences(this).registerOnSharedPreferenceChangeListener(this);
 		boolean oldAlignment = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("OldAlignment", false);
 
 		// Make sure that Hebrew text is right-aligned on Froyo
@@ -466,6 +470,12 @@ public class AndDaavenTefilla extends Activity {
 			e.printStackTrace();
 		}
 		
+	}
+	
+	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
+			String key) {
+		// TODO Auto-generated method stub
+//		Toast.makeText(this, "Got a change to key " + key, Toast.LENGTH_SHORT).show();
 	}
 	
 	// use a SpannableStringBuilder to allow addition of formatting in
