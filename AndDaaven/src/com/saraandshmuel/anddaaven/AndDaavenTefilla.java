@@ -16,7 +16,6 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Build.VERSION;
 import android.preference.PreferenceManager;
-import android.preference.Preference.OnPreferenceChangeListener;
 import android.text.Layout;
 import android.text.SpannableStringBuilder;
 import android.text.format.Time;
@@ -44,29 +43,49 @@ public class AndDaavenTefilla extends Activity implements OnSharedPreferenceChan
     public void onCreate(Bundle savedInstanceState) {
     	// layout view from resource XML file
     	super.onCreate(savedInstanceState);
-		boolean fullScreen = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("FullScreen", false);
-		if ( fullScreen ) {
-			getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-		}
-    	setContentView(R.layout.daaven);
+		setFullScreen();
+
+		setContentView(R.layout.daaven);
         findLayoutObjects();
 
         PreferenceManager.getDefaultSharedPreferences(this).registerOnSharedPreferenceChangeListener(this);
-		boolean oldAlignment = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("OldAlignment", false);
 
-		// Make sure that Hebrew text is right-aligned on Froyo
-		// Some third-party ROMs need different logic for Froyo
-        final int version = Integer.parseInt(VERSION.SDK); 
-        if ( version >= 8 && !oldAlignment )
-        {
-        	daavenText.setGravity(Gravity.RIGHT);
-        }
-        
         setHebrewFont();
-        
+		setAlignment();
+                
         // find and setup text to display
         showTefilla(getIntent());
     }
+
+	/**
+	 * Sets the alignment - called from onCreate and on OldAlignment pref change
+	 */
+	private void setAlignment() {
+		// Make sure that Hebrew text is right-aligned on Froyo
+		// Some third-party ROMs need different logic for Froyo
+        boolean oldAlignment = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("OldAlignment", false);
+        final int version = Integer.parseInt(VERSION.SDK); 
+        if ( version >= 8 && !oldAlignment )
+        {
+			daavenText.setGravity(Gravity.RIGHT);
+        } else {
+			daavenText.setGravity(Gravity.LEFT);
+        }
+	}
+
+	/**
+	 * Sets the content view - called from onCreate and if FullScreen pref is changed
+	 */
+	private void setFullScreen() {
+		boolean fullScreen = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("FullScreen", false);
+		if ( fullScreen ) {
+			getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+	        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
+		} else {
+	        getWindow().addFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
+	        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		}
+	}
 
 	/**
 	 * Sets the Hebrew font on the tefilla text
@@ -474,8 +493,15 @@ public class AndDaavenTefilla extends Activity implements OnSharedPreferenceChan
 	
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
 			String key) {
-		// TODO Auto-generated method stub
-//		Toast.makeText(this, "Got a change to key " + key, Toast.LENGTH_SHORT).show();
+		if ( key.equals("TextFont") ) {
+			setHebrewFont();
+		} else if ( key.equals("FullScreen") ) {
+			setFullScreen();
+			daavenText.requestLayout();
+		} else if ( key.equals("OldAlignment") ) {
+			setAlignment();
+			daavenText.requestLayout();
+		}
 	}
 	
 	// use a SpannableStringBuilder to allow addition of formatting in
