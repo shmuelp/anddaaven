@@ -20,6 +20,12 @@
 <string name="FontSummary">Controls the font used to display Tefilla</string>
 <string name="FontDialogTitle">Select font...</string>
 <string name="FontDialogMessage">Selects the font used to display Tefilla</string>
+<string-array name="FontNames">
+	<item>FreeMono</item>
+	<item>FreeSans</item>
+	<item>Nachlieli Culmus Light</item>
+	<item>SIL Ezra</item>
+</string-array>
 <string name="PageDownKey">PageDown</string>
 <string name="PageDownTitle">Scroll by Screen</string>
 <string name="PageDownSummary">Controls whether or not text is scrolls a screen at a time</string>
@@ -43,4 +49,13 @@
 <string name="OldAlignmentKey">OldAlignment</string>
 <string name="OldAlignmentTitle">Force Old Alignment</string>
 <string name="OldAlignmentSummary">Forces the text alignment logic used for Android 1.0-2.1 in Android 2.2</string>
+<string name="VolumeButtonKey">VolumeButton</string>
+<string name="VolumeButtonTitle">Volume button behavior</string>
+<string name="VolumeButtonSummary">Controls the behavior when the volume buttons are pressed</string>
+<string name="VolumeButtonDialogTitle">Select Action...</string>
+<string-array name="VolumeButtonAction">
+	<item>Do not intercept (default)</item>
+	<item>Page up/down</item>
+	<item>Section back/forward</item>
+</string-array>
 </resources>

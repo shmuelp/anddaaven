@@ -31,10 +31,4 @@ Danny P., Craig E., Ari G.
 <b>Date Calculations</b>:
 Date calculation code adapted from <a href="http://emr.cs.uiuc.edu/~reingold/calendar.C">public domain C++ version</a> of code written by Nachum Dershowitz and <a href="http://emr.cs.uiuc.edu/~reingold/">Edward M. Reingold</a> in "Calendrical Calculations", published in Software---Practice &amp; Experience, vol. 20, no. 9 (September, 1990), pp. 899--928. 
 </string>
-<string-array name="FontNames">
-	<item>FreeMono</item>
-	<item>FreeSans</item>
-	<item>Nachlieli Culmus Light</item>
-	<item>SIL Ezra</item>
-</string-array>
 </resources>

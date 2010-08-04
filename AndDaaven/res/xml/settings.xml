@@ -11,6 +11,7 @@
 <PreferenceCategory android:title="@string/BehaviorTitle">
 <CheckBoxPreference android:enabled="true" android:key="@string/PageDownKey" android:persistent="true" android:title="@string/PageDownTitle" android:summary="@string/PageDownSummary" android:defaultValue="true" android:selectable="true" android:summaryOff="@string/PageDownSummaryOff" android:summaryOn="@string/PageDownSummaryOn"></CheckBoxPreference>
 <CheckBoxPreference android:enabled="true" android:key="@string/SectionJumpKey" android:persistent="true" android:title="@string/SectionJumpTitle" android:summary="@string/SectionJumpSummary" android:defaultValue="true" android:selectable="true" android:summaryOff="@string/SectionJumpSummaryOff" android:summaryOn="@string/SectionJumpSummaryOn"></CheckBoxPreference>
+<ListPreference android:key="@string/VolumeButtonKey" android:title="@string/VolumeButtonTitle" android:summary="@string/VolumeButtonSummary" android:persistent="true" android:enabled="true" android:selectable="true" android:dialogTitle="@string/VolumeButtonDialogTitle" android:entryValues="@array/VolumeButtonCode" android:entries="@array/VolumeButtonAction" android:dialogIcon="@drawable/icon"/>
 </PreferenceCategory>
 
 <PreferenceCategory android:title="@string/DistractionTitle">

@@ -122,6 +122,8 @@ public class AndDaavenTefilla extends Activity implements OnSharedPreferenceChan
 		boolean result = false;
 		boolean pageDown = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("PageDown", true);
 		boolean sectionJump = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("SectionJump", true);
+		String volumeButtonCode = PreferenceManager.getDefaultSharedPreferences(this).getString("VolumeButton", "IGNORE");
+		
     	int keyAction = event.getAction();
     	int keyCode = event.getKeyCode();
     	Log.v(TAG,"dispatchKeyEvent(), action="+keyAction+",code="+keyCode);
@@ -130,15 +132,34 @@ public class AndDaavenTefilla extends Activity implements OnSharedPreferenceChan
     	boolean handleEvent= false;
 
     	if ( pageDown && ( keyCode == KeyEvent.KEYCODE_DPAD_UP ||
-   			 			   keyCode != KeyEvent.KEYCODE_DPAD_DOWN ) )
+   			 			   keyCode == KeyEvent.KEYCODE_DPAD_DOWN ) )
     	{
     		handleEvent = true;
     	}
     	
     	if ( sectionJump && ( keyCode == KeyEvent.KEYCODE_DPAD_LEFT ||
-	 			   			  keyCode != KeyEvent.KEYCODE_DPAD_RIGHT) )
+	 			   			  keyCode == KeyEvent.KEYCODE_DPAD_RIGHT) )
     	{
     		handleEvent = true;
+    	}
+    	
+    	if ( !volumeButtonCode.equals("IGNORE") && ( keyCode == KeyEvent.KEYCODE_VOLUME_UP ||
+    												 keyCode == KeyEvent.KEYCODE_VOLUME_DOWN ) )
+    	{
+    		handleEvent = true;
+    		if ( volumeButtonCode.equals("PAGE") ) {
+    			if ( keyCode == KeyEvent.KEYCODE_VOLUME_UP ) {
+    				keyCode = KeyEvent.KEYCODE_DPAD_UP;
+    			} else {
+    				keyCode = KeyEvent.KEYCODE_DPAD_DOWN;
+    			}
+    		} else if ( volumeButtonCode.equals("SECTION") ) {
+    			if ( keyCode == KeyEvent.KEYCODE_VOLUME_UP ) {
+    				keyCode = KeyEvent.KEYCODE_DPAD_LEFT;
+    			} else {
+    				keyCode = KeyEvent.KEYCODE_DPAD_RIGHT;
+    			}
+    		}
     	}
 
 //    	Log.v(TAG, "Got keyAction=" + keyAction + ", keyCode=" + keyCode + 
