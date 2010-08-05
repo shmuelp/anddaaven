@@ -51,6 +51,7 @@ public class AndDaavenTefilla extends Activity implements OnSharedPreferenceChan
         PreferenceManager.getDefaultSharedPreferences(this).registerOnSharedPreferenceChangeListener(this);
 
         setHebrewFont();
+        setFontSize();
 		setAlignment();
                 
         // find and setup text to display
@@ -100,6 +101,15 @@ public class AndDaavenTefilla extends Activity implements OnSharedPreferenceChan
         runOnUiThread(new Runnable() {
         	public void run() { daavenText.setTypeface(face); }
         });
+	}
+
+	/**
+	 * Sets the font size of the tefilla text
+	 */
+	private void setFontSize() {
+		String sizePref = PreferenceManager.getDefaultSharedPreferences(this).getString("FontSize", "17"); 
+		float size = Float.parseFloat(sizePref);
+		daavenText.setTextSize(size);
 	}
 
 	/**
@@ -516,6 +526,9 @@ public class AndDaavenTefilla extends Activity implements OnSharedPreferenceChan
 			String key) {
 		if ( key.equals("TextFont") ) {
 			setHebrewFont();
+		} else if ( key.equals("FontSize") ) {
+			setFontSize();
+			daavenText.requestLayout();
 		} else if ( key.equals("FullScreen") ) {
 			setFullScreen();
 			daavenText.requestLayout();

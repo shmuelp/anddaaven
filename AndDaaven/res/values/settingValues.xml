@@ -26,6 +26,29 @@
 	<item>Nachlieli Culmus Light</item>
 	<item>SIL Ezra</item>
 </string-array>
+<string name="FontSizeKey">FontSize</string>
+<string name="FontSizeTitle">Text Size</string>
+<string name="FontSizeSummary">Controls the size of the font used to display Tefilla</string>
+<string name="FontSizeDialogTitle">Select font size...</string>
+<string name="FontSizeDialogMessage">Selects the font size used to display Tefilla</string>
+<string-array name="FontSizes">
+	<item>10</item>
+	<item>12</item>
+	<item>14</item>
+	<item>16</item>
+	<item>17</item>
+	<item>18</item>
+	<item>19</item>
+	<item>20</item>
+	<item>21</item>
+	<item>22</item>
+	<item>24</item>
+	<item>26</item>
+	<item>28</item>
+	<item>30</item>
+	<item>34</item>
+	<item>38</item>
+</string-array>
 <string name="PageDownKey">PageDown</string>
 <string name="PageDownTitle">Scroll by Screen</string>
 <string name="PageDownSummary">Controls whether or not text is scrolls a screen at a time</string>
