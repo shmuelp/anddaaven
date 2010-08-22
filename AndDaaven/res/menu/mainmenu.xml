@@ -4,4 +4,5 @@
 
 <item android:title="@string/MenuSettings" android:id="@+id/Settings" android:icon="@android:drawable/ic_menu_preferences"></item><item android:title="@string/MenuAbout" android:id="@+id/About" android:titleCondensed="@string/MenuAboutCondensed" android:icon="@android:drawable/ic_menu_info_details"></item>
 
+<item android:id="@+id/Index" android:title="@string/MenuIndex" android:icon="@android:drawable/ic_menu_view" android:visible="false"></item>
 </menu>

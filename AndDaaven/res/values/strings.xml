@@ -12,6 +12,7 @@
 <string name="MenuAbout">About AndDaaven</string>
 <string name="MenuSettings">Settings</string>
 <string name="MenuAboutCondensed">About...</string>
+<string name="MenuIndex">Index</string>
 <string name="TextViewAcknowledgementTitle">About AndDaaven</string>
 <string name="TextViewAcknowledgement">
 <a href="http://anddaaven.googlecode.com/">AndDaaven</a> (c) 2010 S. Popper
@@ -31,4 +32,5 @@ Danny P., Craig E., Ari G.
 <b>Date Calculations</b>:
 Date calculation code adapted from <a href="http://emr.cs.uiuc.edu/~reingold/calendar.C">public domain C++ version</a> of code written by Nachum Dershowitz and <a href="http://emr.cs.uiuc.edu/~reingold/">Edward M. Reingold</a> in "Calendrical Calculations", published in Software---Practice &amp; Experience, vol. 20, no. 9 (September, 1990), pp. 899--928. 
 </string>
+<string name="crash_toast_text">Error detected; report was submitted</string>
 </resources>
