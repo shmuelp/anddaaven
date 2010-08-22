@@ -10,6 +10,7 @@
 		<TextView android:id="@+id/DaavenText" 
 				  android:layout_height="fill_parent" 
 				  android:layout_width="fill_parent" 
+				  android:maxLength="120000" 
 				  android:text="Loading..." 
 				  android:textSize="17sp">
 	 	</TextView>
