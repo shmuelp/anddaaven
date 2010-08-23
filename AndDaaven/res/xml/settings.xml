@@ -21,6 +21,7 @@
 </PreferenceCategory>
 
 <PreferenceCategory android:title="@string/WorkaroundTitle">
+<CheckBoxPreference android:key="acra.disable" android:title="@string/pref_disable_acra" android:summaryOn="@string/pref_acra_disabled" android:summaryOff="@string/pref_acra_enabled" android:defaultValue="false"/>
 <CheckBoxPreference android:enabled="true" android:key="@string/OldAlignmentKey" android:persistent="true" android:title="@string/OldAlignmentTitle" android:summary="@string/OldAlignmentSummary" android:defaultValue="false" android:selectable="true"></CheckBoxPreference>
 </PreferenceCategory>
 

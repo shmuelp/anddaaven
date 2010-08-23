@@ -81,4 +81,8 @@
 	<item>Page up/down</item>
 	<item>Section back/forward</item>
 </string-array>
+
+<string name="pref_disable_acra">Disable error reporting</string>
+<string name="pref_acra_disabled">Error reports will NOT be sent</string>
+<string name="pref_acra_enabled">Error reports will be sent</string>
 </resources>

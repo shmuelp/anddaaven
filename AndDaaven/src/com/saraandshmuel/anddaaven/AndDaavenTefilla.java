@@ -5,6 +5,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+
+import org.acra.ErrorReporter;
+
 import com.saraandshmuel.anddaaven.R;
 
 import android.app.Activity;
@@ -18,6 +21,7 @@ import android.os.Build.VERSION;
 import android.preference.PreferenceManager;
 import android.text.Layout;
 import android.text.SpannableStringBuilder;
+import android.text.TextWatcher;
 import android.text.format.Time;
 import android.util.Log;
 import android.view.Gravity;
@@ -30,7 +34,8 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class AndDaavenTefilla extends Activity implements OnSharedPreferenceChangeListener {
+public class AndDaavenTefilla extends Activity implements OnSharedPreferenceChangeListener, TextWatcher
+{
 	
 	private static final String TAG = "AndDaavenTefilla";
 
@@ -117,7 +122,8 @@ public class AndDaavenTefilla extends Activity implements OnSharedPreferenceChan
 	 */
 	private void findLayoutObjects() {
 		daavenText = (TextView) findViewById(R.id.DaavenText);
-        daavenScroll = (ScrollView) findViewById(R.id.DaavenScroll);
+		daavenText.addTextChangedListener(this);
+		daavenScroll = (ScrollView) findViewById(R.id.DaavenScroll);
 	}
     
     // update text if needed (called when switching back to this Activity)
@@ -401,6 +407,8 @@ public class AndDaavenTefilla extends Activity implements OnSharedPreferenceChan
 		{
 	        MenuInflater inflater = getMenuInflater();
 	        inflater.inflate(R.menu.mainmenu, menu);
+//        	MenuItem index = menu.findItem(R.id.Index);
+//        	index.setVisible(true);
 	        return true;
 		}
 		
@@ -425,6 +433,14 @@ public class AndDaavenTefilla extends Activity implements OnSharedPreferenceChan
         		Intent intent = new Intent(this, com.saraandshmuel.anddaaven.AndDaavenSettings.class);
         		startActivity(intent);
         		return true;
+//        	case R.id.Index:
+        		// TODO implement this 
+//        		Toast.makeText(this, "Show index here", Toast.LENGTH_SHORT).show();
+//        		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//        		this.sectionNames
+//        		builder.setAdapter(arg1, arg1)
+//        		AlertDialog indexDialog = new AlertDialog(this);
+//        		return true;
         }
         Log.w(getClass().getName(), "Got an unknown MenuItem event");
         return false;        
@@ -467,9 +483,7 @@ public class AndDaavenTefilla extends Activity implements OnSharedPreferenceChan
 		boolean showNikud = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("ShowNikud", true);
 		boolean showSectionNames = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("SectionName", true);
 		currentOffset=0;
-		daavenText.setText(filename);
 		try {
-			daavenText.setText("Preparing " + filename);
 			InputStream is = getAssets().open(filename);
 			BufferedReader br = new BufferedReader(new InputStreamReader(is));
 			ssb.clear();
@@ -502,9 +516,17 @@ public class AndDaavenTefilla extends Activity implements OnSharedPreferenceChan
 					offset += s.length() + 1;
 				}
 			}
-			
-			daavenText.setText(ssb);
+
 			currentFilename = filename;
+
+			ErrorReporter er = ErrorReporter.getInstance();
+			er.addCustomData("ssb.length()", ""+ssb.length());
+			er.addCustomData("daavenText.getText().length()", ""+daavenText.getText().length());
+			er.addCustomData("showNikud", ""+showNikud);
+			er.addCustomData("showSectionNames", ""+showSectionNames);
+			er.addCustomData("currentFilename", currentFilename);
+
+			daavenText.setText(ssb);
 			
 //			// In UI thread:
 //			// Get layout
@@ -517,26 +539,62 @@ public class AndDaavenTefilla extends Activity implements OnSharedPreferenceChan
 //			});
 		} catch (IOException e) {
 			Toast.makeText(this, "Caught an exception: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-			e.printStackTrace();
+			ErrorReporter.getInstance().handleException(e);
 		}
-		
 	}
-	
+
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
 			String key) {
 		if ( key.equals("TextFont") ) {
 			setHebrewFont();
+			scrollHeight = 0; // recompute scroll height when needed
 		} else if ( key.equals("FontSize") ) {
 			setFontSize();
 			daavenText.requestLayout();
+			scrollHeight = 0;
 		} else if ( key.equals("FullScreen") ) {
 			setFullScreen();
 			daavenText.requestLayout();
+			scrollHeight = 0;
 		} else if ( key.equals("OldAlignment") ) {
 			setAlignment();
 			daavenText.requestLayout();
+			scrollHeight = 0;
 		}
 	}
+	
+	public void afterTextChanged(android.text.Editable s) {
+		ErrorReporter er = ErrorReporter.getInstance();
+		er.addCustomData("after:s.length", ""+s.length());
+		if (s.length() != ssb.length()) {
+			er.handleException(null);
+		}
+	}
+	
+	public void beforeTextChanged(CharSequence s, int start, int count,
+			int after) {
+	}
+	
+	public void onTextChanged(CharSequence s, int start, int before, int count) {
+	}
+	
+	protected void onPostCreate(Bundle savedInstanceState) {
+		ErrorReporter er = ErrorReporter.getInstance();
+		er.addCustomData("postCreate:daavenText.length()", ""+daavenText.length());
+		if (daavenText.length() != ssb.length()) {
+			ErrorReporter.getInstance().handleException(null);
+		}
+		super.onPostCreate(savedInstanceState);
+	};
+	
+	protected void onPostResume() {
+		ErrorReporter er = ErrorReporter.getInstance();
+		er.addCustomData("postResume:daavenText.length()", ""+daavenText.length());
+		if (daavenText.length() != ssb.length()) {
+			ErrorReporter.getInstance().handleException(null);
+		}
+		super.onPostResume();
+	};
 	
 	// use a SpannableStringBuilder to allow addition of formatting in
 	// future

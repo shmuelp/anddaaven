@@ -32,5 +32,16 @@ Danny P., Craig E., Ari G.
 <b>Date Calculations</b>:
 Date calculation code adapted from <a href="http://emr.cs.uiuc.edu/~reingold/calendar.C">public domain C++ version</a> of code written by Nachum Dershowitz and <a href="http://emr.cs.uiuc.edu/~reingold/">Edward M. Reingold</a> in "Calendrical Calculations", published in Software---Practice &amp; Experience, vol. 20, no. 9 (September, 1990), pp. 899--928. 
 </string>
-<string name="crash_toast_text">Error detected; report was submitted</string>
+
+<!-- <string name="crash_toast_text">Error detected; report was submitted</string> -->
+<string name="crash_notif_ticker_text">Unexpected error, please send a report...</string>
+<string name="crash_notif_title">AndDaaven has a problem...</string>
+<string name="crash_notif_text">Please tap here to help fix the issue.</string>
+        
+<string name="crash_dialog_title">AndDaaven has a problem</string>
+<string name="crash_dialog_text">An unexpected error occurred forcing the
+        application to stop. Please help us fix this by sending us error data,
+        all you have to do is click \'OK\'.</string>
+<string name="crash_dialog_comment_prompt">You might add your comments about the problem below:</string>
+<string name="crash_dialog_ok_toast">Thank you !</string>
 </resources>
