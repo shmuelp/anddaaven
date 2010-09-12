@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<string name="AppearanceTitle">Appearance</string>
+<string name="BehaviorTitle">Behavior</string>
+<string name="DistractionTitle">Distraction Control</string>
+<string name="WorkaroundTitle">Workarounds</string>
+
+<string name="ShowNikudKey">ShowNikud</string>
+<string name="ShowNikudTitle">Show Nikud</string>
+<string name="ShowNikudSummary">Controls whether or not Nikud is displayed</string>
+<string name="ShowNikudSummaryOn">Nikud will be displayed</string>
+<string name="ShowNikudSummaryOff">Nikud will not be displayed</string>
+<string name="FullScreenKey">FullScreen</string>
+<string name="FullScreenTitle">Full Screen</string>
+<string name="FullScreenSummary">Controls whether or not tefilla is displayed full screen</string>
+<string name="FullScreenSummaryOn">Tefilla will be displayed full screen</string>
+<string name="FullScreenSummaryOff">Tefilla will not be displayed full screen</string>
+<string name="FontKey">TextFont</string>
+<string name="FontTitle">Text Font</string>
+<string name="FontSummary">Controls the font used to display Tefilla</string>
+<string name="FontDialogTitle">Select font...</string>
+<string name="FontDialogMessage">Selects the font used to display Tefilla</string>
+<string-array name="FontNames">
+	<item>FreeMono</item>
+	<item>FreeSans</item>
+	<item>Nachlieli Culmus Light</item>
+	<item>SIL Ezra</item>
+</string-array>
+<string name="FontSizeKey">FontSize</string>
+<string name="FontSizeTitle">Text Size</string>
+<string name="FontSizeSummary">Controls the size of the font used to display Tefilla</string>
+<string name="FontSizeDialogTitle">Select font size...</string>
+<string name="FontSizeDialogMessage">Selects the font size used to display Tefilla</string>
+<string-array name="FontSizes">
+	<item>10</item>
+	<item>12</item>
+	<item>14</item>
+	<item>16</item>
+	<item>17</item>
+	<item>18</item>
+	<item>19</item>
+	<item>20</item>
+	<item>21</item>
+	<item>22</item>
+	<item>24</item>
+	<item>26</item>
+	<item>28</item>
+	<item>30</item>
+	<item>34</item>
+	<item>38</item>
+</string-array>
+<string name="PageDownKey">PageDown</string>
+<string name="PageDownTitle">Scroll by Screen</string>
+<string name="PageDownSummary">Controls whether or not text is scrolls a screen at a time</string>
+<string name="PageDownSummaryOn">Tefilla will scroll a screen at a time when up/down is pressed</string>
+<string name="PageDownSummaryOff">Tefilla will scroll as usual</string>
+<string name="SectionJumpKey">SectionJump</string>
+<string name="SectionJumpTitle">Section Jump</string>
+<string name="SectionJumpSummary">Controls whether or not text is scrolls a screen at a time</string>
+<string name="SectionJumpSummaryOn">Jump sections by pressing right/left</string>
+<string name="SectionJumpSummaryOff">Right/left will be ignored</string>
+<string name="SectionNameKey">SectionName</string>
+<string name="SectionNameTitle">Section Names</string>
+<string name="SectionNameSummary">Controls whether or not section names are shown</string>
+<string name="SectionNameSummaryOn">Section names will be shown</string>
+<string name="SectionNameSummaryOff">Section names will not be shown</string>
+<string name="SettingInTefillaKey">SettingInTefilla</string>
+<string name="SettingInTefillaTitle">Show Settings Menu in Tefilla</string>
+<string name="SettingInTefillaSummary">Controls whether or not the settings menu is displayed on the tefilla screen</string>
+<string name="SettingInTefillaSummaryOn">Settings menu will be displayed on the tefilla screen</string>
+<string name="SettingInTefillaSummaryOff">Settings menu will not be displayed on the tefilla screen</string>
+<string name="OldAlignmentKey">OldAlignment</string>
+<string name="OldAlignmentTitle">Force Old Alignment</string>
+<string name="OldAlignmentSummary">Forces the text alignment logic used for Android 1.0-2.1 in Android 2.2</string>
+<string name="VolumeButtonKey">VolumeButton</string>
+<string name="VolumeButtonTitle">Volume button behavior</string>
+<string name="VolumeButtonSummary">Controls the behavior when the volume buttons are pressed</string>
+<string name="VolumeButtonDialogTitle">Select Action...</string>
+<string-array name="VolumeButtonAction">
+	<item>Do not intercept (default)</item>
+	<item>Page up/down</item>
+	<item>Section back/forward</item>
+</string-array>
+
+<string name="pref_disable_acra">Disable error reporting</string>
+<string name="pref_acra_disabled">Error reports will NOT be sent</string>
+<string name="pref_acra_enabled">Error reports will be sent</string>
+</resources>

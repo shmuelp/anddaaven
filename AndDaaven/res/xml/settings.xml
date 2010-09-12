@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+  xmlns:android="http://schemas.android.com/apk/res/android">
+
+<PreferenceCategory android:title="@string/AppearanceTitle">
+<CheckBoxPreference android:enabled="true" android:key="@string/ShowNikudKey" android:persistent="true" android:title="@string/ShowNikudTitle" android:summary="@string/ShowNikudSummary" android:defaultValue="true" android:selectable="true" android:summaryOff="@string/ShowNikudSummaryOff" android:summaryOn="@string/ShowNikudSummaryOn"></CheckBoxPreference>
+<CheckBoxPreference android:enabled="true" android:key="@string/SectionNameKey" android:persistent="true" android:title="@string/SectionNameTitle" android:summary="@string/SectionNameSummary" android:defaultValue="true" android:selectable="true" android:summaryOff="@string/SectionNameSummaryOff" android:summaryOn="@string/SectionNameSummaryOn"></CheckBoxPreference>
+<ListPreference android:key="@string/FontKey" android:title="@string/FontTitle" android:summary="@string/FontSummary" android:persistent="true" android:enabled="true" android:selectable="true" android:dialogTitle="@string/FontDialogTitle" android:entryValues="@array/FontFiles" android:entries="@array/FontNames" android:dialogIcon="@drawable/icon"></ListPreference>
+<ListPreference android:key="@string/FontSizeKey" android:title="@string/FontSizeTitle" android:summary="@string/FontSizeSummary" android:persistent="true" android:enabled="true" android:selectable="true" android:dialogTitle="@string/FontSizeDialogTitle" android:entryValues="@array/FontSizes" android:entries="@array/FontSizes" android:dialogIcon="@drawable/icon"></ListPreference>
+</PreferenceCategory>
+
+<PreferenceCategory android:title="@string/BehaviorTitle">
+<CheckBoxPreference android:enabled="true" android:key="@string/PageDownKey" android:persistent="true" android:title="@string/PageDownTitle" android:summary="@string/PageDownSummary" android:defaultValue="true" android:selectable="true" android:summaryOff="@string/PageDownSummaryOff" android:summaryOn="@string/PageDownSummaryOn"></CheckBoxPreference>
+<CheckBoxPreference android:enabled="true" android:key="@string/SectionJumpKey" android:persistent="true" android:title="@string/SectionJumpTitle" android:summary="@string/SectionJumpSummary" android:defaultValue="true" android:selectable="true" android:summaryOff="@string/SectionJumpSummaryOff" android:summaryOn="@string/SectionJumpSummaryOn"></CheckBoxPreference>
+<ListPreference android:key="@string/VolumeButtonKey" android:title="@string/VolumeButtonTitle" android:summary="@string/VolumeButtonSummary" android:persistent="true" android:enabled="true" android:selectable="true" android:dialogTitle="@string/VolumeButtonDialogTitle" android:entryValues="@array/VolumeButtonCode" android:entries="@array/VolumeButtonAction" android:dialogIcon="@drawable/icon"/>
+</PreferenceCategory>
+
+<PreferenceCategory android:title="@string/DistractionTitle">
+<CheckBoxPreference android:enabled="true" android:key="@string/FullScreenKey" android:persistent="true" android:title="@string/FullScreenTitle" android:summary="@string/FullScreenSummary" android:defaultValue="false" android:selectable="true" android:summaryOff="@string/FullScreenSummaryOff" android:summaryOn="@string/FullScreenSummaryOn"></CheckBoxPreference>
+<CheckBoxPreference android:enabled="true" android:key="@string/SettingInTefillaKey" android:persistent="true" android:title="@string/SettingInTefillaTitle" android:summary="@string/SettingInTefillaSummary" android:defaultValue="true" android:selectable="true" android:summaryOff="@string/SettingInTefillaSummaryOff" android:summaryOn="@string/SettingInTefillaSummaryOn"></CheckBoxPreference>
+</PreferenceCategory>
+
+<PreferenceCategory android:title="@string/WorkaroundTitle">
+<CheckBoxPreference android:key="acra.disable" android:title="@string/pref_disable_acra" android:summaryOn="@string/pref_acra_disabled" android:summaryOff="@string/pref_acra_enabled" android:defaultValue="false"/>
+<CheckBoxPreference android:enabled="true" android:key="@string/OldAlignmentKey" android:persistent="true" android:title="@string/OldAlignmentTitle" android:summary="@string/OldAlignmentSummary" android:defaultValue="false" android:selectable="true"></CheckBoxPreference>
+</PreferenceCategory>
+
+</PreferenceScreen>
