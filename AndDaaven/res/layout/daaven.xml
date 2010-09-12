@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
   xmlns:android="http://schemas.android.com/apk/res/android"
   android:layout_height="fill_parent" android:layout_width="fill_parent">
-	<ScrollView android:scrollbarStyle="outsideInset" 
+	<ScrollView android:scrollbarStyle="outsideInset"
+				android:gravity="fill" 
 				android:layout_height="fill_parent" 
 				android:layout_width="fill_parent" 
 				android:fastScrollEnabled="true" 
@@ -15,4 +16,30 @@
 				  android:textSize="17sp">
 	 	</TextView>
 	</ScrollView>
-</LinearLayout>
+	 <SlidingDrawer
+	 android:visibility="invisible"
+     android:id="@+id/drawer"
+     android:layout_width="match_parent"
+     android:layout_height="match_parent"
+     
+     android:layout_alignParentLeft="true"
+
+     android:handle="@+id/handle"
+     android:content="@+id/content">
+
+     <Button
+         android:id="@id/handle"
+         android:layout_width="match_parent"
+         android:layout_height="15dip"
+         android:text="I am a handle" 
+         />
+
+     <ListView
+         android:id="@id/content"
+         android:layout_width="match_parent"
+         android:layout_height="match_parent"
+         />
+
+ </SlidingDrawer>
+	
+</RelativeLayout>
