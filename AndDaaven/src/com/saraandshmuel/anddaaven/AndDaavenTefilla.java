@@ -11,7 +11,9 @@ import org.acra.ErrorReporter;
 import com.saraandshmuel.anddaaven.R;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
@@ -34,7 +36,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class AndDaavenTefilla extends Activity implements OnSharedPreferenceChangeListener, TextWatcher
+public class AndDaavenTefilla extends Activity implements OnSharedPreferenceChangeListener, TextWatcher, android.content.DialogInterface.OnClickListener
 {
 	
 	private static final String TAG = "AndDaavenTefilla";
@@ -97,17 +99,19 @@ public class AndDaavenTefilla extends Activity implements OnSharedPreferenceChan
 	 * Sets the Hebrew font on the tefilla text
 	 */
 	private void setHebrewFont() {
-		String typefaceName;
-		typefaceName = PreferenceManager.getDefaultSharedPreferences(this).getString("TextFont", "SILEOTSR.ttf");
-        final Typeface face = Typeface.createFromAsset(getAssets(), typefaceName );
+		if ( hebrewTypeface == null ) {
+			String typefaceName;
+			typefaceName = PreferenceManager.getDefaultSharedPreferences(this).getString("TextFont", "SILEOTSR.ttf");
+	        hebrewTypeface = Typeface.createFromAsset(getAssets(), typefaceName );
 //        face = Typeface.createFromAsset(getAssets(), "SILEOTSR.ttf");
+		}
 
-//        daavenText.setTypeface(face);
+//        daavenText.setTypeface(hebrewTypeface);
         runOnUiThread(new Runnable() {
-        	public void run() { daavenText.setTypeface(face); }
+        	public void run() { daavenText.setTypeface(hebrewTypeface); }
         });
 	}
-
+	
 	/**
 	 * Sets the font size of the tefilla text
 	 */
@@ -344,10 +348,9 @@ public class AndDaavenTefilla extends Activity implements OnSharedPreferenceChan
 				Layout layout = daavenText.getLayout();
 		    	if ( layout != null ) {
 		    		int line = layout.getLineForOffset(currentOffset);
-		    		daavenScroll.scrollTo(0, daavenText.getLineHeight() * line + 
-		    								 daavenText.getPaddingTop() + 
-		    								 daavenText.getVerticalFadingEdgeLength() );
-//		    		setTitle("Restored current offset=" + currentOffset + ", line=" + line);
+		    		int y = layout.getLineTop(line);
+		    		daavenScroll.scrollTo(0, y);
+		    		Log.d(TAG, "Restored current offset=" + currentOffset + ", line=" + line);
 		    	} else {
 		    		Log.e(TAG, "Unable to restore scrolled position because layout was null");
 		    	}
@@ -407,8 +410,11 @@ public class AndDaavenTefilla extends Activity implements OnSharedPreferenceChan
 		{
 	        MenuInflater inflater = getMenuInflater();
 	        inflater.inflate(R.menu.mainmenu, menu);
-//        	MenuItem index = menu.findItem(R.id.Index);
-//        	index.setVisible(true);
+//	        final int version = Integer.parseInt(VERSION.SDK); 
+//	        if ( version >= 8 ) {
+//	        	MenuItem index = menu.findItem(R.id.Index);
+//	        	index.setVisible(true);
+//	        }
 	        return true;
 		}
 		
@@ -433,19 +439,82 @@ public class AndDaavenTefilla extends Activity implements OnSharedPreferenceChan
         		Intent intent = new Intent(this, com.saraandshmuel.anddaaven.AndDaavenSettings.class);
         		startActivity(intent);
         		return true;
-//        	case R.id.Index:
-        		// TODO implement this 
-//        		Toast.makeText(this, "Show index here", Toast.LENGTH_SHORT).show();
-//        		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//        		this.sectionNames
-//        		builder.setAdapter(arg1, arg1)
-//        		AlertDialog indexDialog = new AlertDialog(this);
-//        		return true;
+        	case R.id.Index:
+				showDialog(R.id.Index);
+        		return true;
         }
         Log.w(getClass().getName(), "Got an unknown MenuItem event");
         return false;        
     }
 
+	@Override
+	protected Dialog onCreateDialog(int id) {
+		switch (id) {
+		case R.id.Index:
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+			builder.setItems(sectionNames, this);
+			AlertDialog indexDialog = builder.create();
+			
+//			runOnUiThread(new Runnable() {
+//				public void run() {
+//					ListView lv = indexDialog.getListView();
+//					if ( hebrewTypeface==null ) setHebrewFont();
+//					for (int i = 0; i < lv.getChildCount(); i++) {
+//						View v = lv.getChildAt(i);
+//						if ( v instanceof TextView ) {
+//							TextView tv = (TextView) v;
+//							tv.setTypeface(hebrewTypeface);
+//						}
+//					}
+//				};
+//			});
+			
+//			/// TODO: Finish implementing this 
+//			ScrollView sv = new ScrollView(this);
+//			ListView lv = new ListView(this);
+////			ArrayAdapter<String> aa = new ArrayAdapter<String>(this, R.id.IndexDummyText, sectionNames);
+//			for (int i = 0; i < sectionNames.length; i++) {
+//				TextView tv = new TextView(this);
+//				tv.setText(sectionNames[i]);
+//				if ( hebrewTypeface==null ) setHebrewFont();
+//				tv.setTypeface(hebrewTypeface);
+//				tv.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+//				lv.addFooterView(tv);
+////				lv.addView(tv, LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+//			}
+////			lv.setAdapter(aa);
+//			sv.addView(lv, LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+//			
+//			LinearLayout ll = new LinearLayout(this);
+//			ll.addView(sv, LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+//			
+////			FrameLayout fl = (FrameLayout) findViewById(android.R.id.custom);
+////			fl.addView(sv, LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+//			
+//			Dialog indexDialog = new Dialog(this);
+//			indexDialog.setTitle("Select a section");
+//			indexDialog.setContentView(ll);
+
+			return indexDialog;
+		}
+		return super.onCreateDialog(id);
+	}
+
+	public void onClick(DialogInterface dialog, int which) {
+		Log.d(TAG, "Jump to index section " + which);
+		Layout layout = daavenText.getLayout();
+    	if ( layout != null ) {
+    		int newOffset = sectionOffsets.get(which);
+    		int newLine = layout.getLineForOffset(newOffset);
+    		int newY = layout.getLineTop(newLine);
+    		daavenScroll.scrollTo(0, newY);
+    		Log.d(TAG, "Scrolling to offset=" + newOffset + ", section=" + 
+    				   which + ", line=" + newLine + ", y=" + newY );
+    	} else {
+    		Toast.makeText(this, "Cannot jump; layout was null", Toast.LENGTH_SHORT).show();
+    	}
+	}
+	
     // build filename in assets to use to display tefilla, call helper to read it
     public void showTefilla(Intent intent) {
     	String tefillaPath = intent.getData().getSchemeSpecificPart();
@@ -476,9 +545,13 @@ public class AndDaavenTefilla extends Activity implements OnSharedPreferenceChan
      * @param filename The filename to read in
      */
 	private void prepareTefilla(final String filename) {
+		ErrorReporter er = ErrorReporter.getInstance();
+
 		if ( filename == this.currentFilename ) {
 			return;
 		}
+		
+		er.addCustomData("prepareTefilla()", filename);
 		
 		boolean showNikud = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("ShowNikud", true);
 		boolean showSectionNames = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("SectionName", true);
@@ -488,7 +561,8 @@ public class AndDaavenTefilla extends Activity implements OnSharedPreferenceChan
 			BufferedReader br = new BufferedReader(new InputStreamReader(is));
 			ssb.clear();
 			jumpOffsets.clear();
-			sectionNames.clear();
+			ArrayList<String> sectionNamesList = new ArrayList<String>();
+			sectionOffsets.clear();
 			int offset=0;
 			while ( br.ready() ) {
 				String s = br.readLine();
@@ -498,11 +572,14 @@ public class AndDaavenTefilla extends Activity implements OnSharedPreferenceChan
 				} else if ( s.charAt(0)=='\013' ) {
 					jumpOffsets.add( offset );
 					String name = s.substring( 1 );
-					sectionNames.add( name );
-					if ( showSectionNames && name.length() != 0 ) {
-						ssb.append(name);
-						ssb.append("\n");
-						offset += name.length() + 1;
+					if (name.length() > 0 ) {
+						sectionNamesList.add( name );
+						sectionOffsets.add(offset);
+						if ( showSectionNames ) {
+							ssb.append(name);
+							ssb.append("\n");
+							offset += name.length() + 1;
+						}
 					}
 				} else {
 					if ( ! showNikud ) {
@@ -516,10 +593,11 @@ public class AndDaavenTefilla extends Activity implements OnSharedPreferenceChan
 					offset += s.length() + 1;
 				}
 			}
+			
+			sectionNames = sectionNamesList.toArray(new String[0]);
 
 			currentFilename = filename;
 
-			ErrorReporter er = ErrorReporter.getInstance();
 			er.addCustomData("ssb.length()", ""+ssb.length());
 			er.addCustomData("daavenText.getText().length()", ""+daavenText.getText().length());
 			er.addCustomData("showNikud", ""+showNikud);
@@ -539,13 +617,15 @@ public class AndDaavenTefilla extends Activity implements OnSharedPreferenceChan
 //			});
 		} catch (IOException e) {
 			Toast.makeText(this, "Caught an exception: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-			ErrorReporter.getInstance().handleException(e);
+			er.addCustomData("IOException.getMessage", e.getMessage());
+			er.handleException(e);
 		}
 	}
 
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
 			String key) {
 		if ( key.equals("TextFont") ) {
+			hebrewTypeface=null;
 			setHebrewFont();
 			scrollHeight = 0; // recompute scroll height when needed
 		} else if ( key.equals("FontSize") ) {
@@ -605,5 +685,7 @@ public class AndDaavenTefilla extends Activity implements OnSharedPreferenceChan
     private String currentFilename="";
     private int scrollHeight=0;
 	private ArrayList<Integer> jumpOffsets = new ArrayList<Integer>();
-	private ArrayList<String> sectionNames = new ArrayList<String>();
+	private String[] sectionNames = new String[0];
+	private ArrayList<Integer> sectionOffsets = new ArrayList<Integer>();
+	private Typeface hebrewTypeface=null;
 }
