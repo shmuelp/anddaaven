@@ -30,7 +30,10 @@ Danny P., Craig E., Ari G.
 <a href="http://culmus.sourceforge.net/"><i>Nachlieli CLM</i></a> by The Culmus Project
 \n\n
 <b>Date Calculations</b>:
-Date calculation code adapted from <a href="http://emr.cs.uiuc.edu/~reingold/calendar.C">public domain C++ version</a> of code written by Nachum Dershowitz and <a href="http://emr.cs.uiuc.edu/~reingold/">Edward M. Reingold</a> in "Calendrical Calculations", published in Software---Practice &amp; Experience, vol. 20, no. 9 (September, 1990), pp. 899--928. 
+Date calculation code adapted from <a href="http://emr.cs.uiuc.edu/~reingold/calendar.C">public domain C++ version</a> of code written by Nachum Dershowitz and <a href="http://emr.cs.uiuc.edu/~reingold/">Edward M. Reingold</a> in "Calendrical Calculations", published in Software---Practice &amp; Experience, vol. 20, no. 9 (September, 1990), pp. 899--928.
+\n\n
+<b>Error Reporting</b>:
+Error reporting library from the <a href="http://acra.googlecode.com/">ACRA</a> project. 
 </string>
 
 <!-- <string name="crash_toast_text">Error detected; report was submitted</string> -->
