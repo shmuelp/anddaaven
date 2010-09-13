@@ -1,0 +1,11 @@
+syntax: glob
+*~
+.*.swp
+.*.swo
+AndDaaven/bin/*
+AndDaavenTest/bin/*
+AndDaaven/gen/*
+AndDaavenTest/gen/*
+
+syntax: regexp
+.*\#.*\#$8

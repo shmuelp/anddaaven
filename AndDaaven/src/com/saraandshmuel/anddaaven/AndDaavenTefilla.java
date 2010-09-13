@@ -31,7 +31,10 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.WindowManager;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -116,9 +119,18 @@ public class AndDaavenTefilla extends Activity implements OnSharedPreferenceChan
 	 * Sets the font size of the tefilla text
 	 */
 	private void setFontSize() {
+		float size = getFontSize();
+		daavenText.setTextSize(size);
+	}
+
+	/**
+	 * Gets the font size of the tefilla text
+	 * @return
+	 */
+	private float getFontSize() {
 		String sizePref = PreferenceManager.getDefaultSharedPreferences(this).getString("FontSize", "17"); 
 		float size = Float.parseFloat(sizePref);
-		daavenText.setTextSize(size);
+		return size;
 	}
 
 	/**
@@ -410,11 +422,8 @@ public class AndDaavenTefilla extends Activity implements OnSharedPreferenceChan
 		{
 	        MenuInflater inflater = getMenuInflater();
 	        inflater.inflate(R.menu.mainmenu, menu);
-//	        final int version = Integer.parseInt(VERSION.SDK); 
-//	        if ( version >= 8 ) {
-//	        	MenuItem index = menu.findItem(R.id.Index);
-//	        	index.setVisible(true);
-//	        }
+	    	MenuItem index = menu.findItem(R.id.Index);
+	    	index.setVisible(true);
 	        return true;
 		}
 		
@@ -452,22 +461,12 @@ public class AndDaavenTefilla extends Activity implements OnSharedPreferenceChan
 		switch (id) {
 		case R.id.Index:
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);
-			builder.setItems(sectionNames, this);
+			if ( hebrewTypeface==null ) setHebrewFont();
+			ArrayAdapter<String> aa = new ArrayAdapter<String>(this, R.layout.index_list_item, sectionNames);
+			TypefaceAdapter ta = new TypefaceAdapter(aa, hebrewTypeface, getFontSize());
+//			builder.setItems(sectionNames, this);
+			builder.setAdapter(ta, this);
 			AlertDialog indexDialog = builder.create();
-			
-//			runOnUiThread(new Runnable() {
-//				public void run() {
-//					ListView lv = indexDialog.getListView();
-//					if ( hebrewTypeface==null ) setHebrewFont();
-//					for (int i = 0; i < lv.getChildCount(); i++) {
-//						View v = lv.getChildAt(i);
-//						if ( v instanceof TextView ) {
-//							TextView tv = (TextView) v;
-//							tv.setTypeface(hebrewTypeface);
-//						}
-//					}
-//				};
-//			});
 			
 //			/// TODO: Finish implementing this 
 //			ScrollView sv = new ScrollView(this);
