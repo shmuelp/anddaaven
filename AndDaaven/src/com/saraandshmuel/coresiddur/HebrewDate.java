@@ -1,4 +1,4 @@
-package com.saraandshmuel.anddaaven;
+package com.saraandshmuel.coresiddur;
 
 import android.text.format.Time;
 //import android.util.Log;
@@ -26,7 +26,7 @@ import android.text.format.Time;
 
 // Hebrew dates
 
-class HebrewDate {
+public class HebrewDate {
 	private final static int HebrewEpoch = -1373429; // Absolute date of start of Hebrew calendar
 
 	public static boolean HebrewLeapYear(int year) {

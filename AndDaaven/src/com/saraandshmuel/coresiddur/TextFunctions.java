@@ -7,7 +7,7 @@
  * and open the template in the editor.
  */
 
-package com.saraandshmuel.anddaaven;
+package com.saraandshmuel.coresiddur;
 
 //import avrom.util.HebrewDate;
 //import java.util.Calendar;
