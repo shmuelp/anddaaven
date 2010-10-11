@@ -9,7 +9,7 @@
 				android:fastScrollEnabled="true" 
 				android:id="@+id/DaavenScroll">
 		<TextView android:id="@+id/DaavenText" 
-				  android:layout_height="fill_parent" 
+				  android:layout_height="wrap_content" 
 				  android:layout_width="fill_parent" 
 				  android:maxLength="120000" 
 				  android:text="Loading..." 
@@ -27,11 +27,20 @@
      android:handle="@+id/handle"
      android:content="@+id/content">
 
+<!-- 
      <Button
          android:id="@id/handle"
          android:layout_width="match_parent"
-         android:layout_height="15dip"
+         android:layout_height="2dp"
          android:text="I am a handle" 
+         />
+-->
+         <!--android:layout_height="1dip"-->
+     <TextView
+     	 android:id="@id/handle"
+         android:layout_width="match_parent"
+         android:layout_height="2dp"
+         android:text="" 
          />
 
      <ListView
