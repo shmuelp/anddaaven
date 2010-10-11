@@ -5,6 +5,7 @@
 	<item>mincha-ashkenaz.utf8</item>
 	<item>maariv-ashkenaz.utf8</item>
 	<item>other-ashkenaz.utf8</item>
+	<item>test.dat</item>
 </string-array>
 <string-array name="FontFiles">
 	<item>FreeMono.ttf</item>

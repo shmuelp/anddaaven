@@ -47,12 +47,14 @@ public class AndDaavenSplash extends Activity implements OnClickListener {
     	minchaButton = (Button) findViewById(R.id.MinchaButton);
     	maarivButton = (Button) findViewById(R.id.MaarivButton);
     	berachotButton = (Button) findViewById(R.id.BerachotButton);
+    	testButton = (Button) findViewById(R.id.TestButton);
     	
     	// register to receive clicks on the buttons
     	shacharitButton.setOnClickListener(this);
     	minchaButton.setOnClickListener(this);
     	maarivButton.setOnClickListener(this);
     	berachotButton.setOnClickListener(this);
+    	testButton.setOnClickListener(this);
     	
     	// set the typeface so Hebrew labels can be displayed correctly
     	shacharitButton.setTypeface(face);
@@ -127,6 +129,7 @@ public class AndDaavenSplash extends Activity implements OnClickListener {
     	else if ( v==minchaButton ) { index = 1; }
     	else if ( v==maarivButton ) { index = 2; }
     	else if ( v==berachotButton ) { index = 3; }
+    	else if ( v==testButton ) { index = 4; } 
     	
     	// retrieve appropriate filename from resources
     	if ( index != -1 ) {
@@ -144,4 +147,5 @@ public class AndDaavenSplash extends Activity implements OnClickListener {
     private Button minchaButton;
     private Button maarivButton;
     private Button berachotButton;
+    private Button testButton;
 }
