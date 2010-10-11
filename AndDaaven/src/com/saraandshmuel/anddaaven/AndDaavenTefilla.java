@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import org.acra.ErrorReporter;
 
 import com.saraandshmuel.anddaaven.R;
+import com.saraandshmuel.coresiddur.HebrewDate;
 
 import android.app.Activity;
 import android.app.AlertDialog;
