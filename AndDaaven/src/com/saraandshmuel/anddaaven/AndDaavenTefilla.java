@@ -10,6 +10,7 @@ import org.acra.ErrorReporter;
 
 import com.saraandshmuel.anddaaven.R;
 import com.saraandshmuel.coresiddur.HebrewDate;
+import com.saraandshmuel.coresiddur.TefillaModel;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -270,6 +271,8 @@ public class AndDaavenTefilla extends Activity implements OnSharedPreferenceChan
     		return;
     	}
     	
+    	ArrayList<Integer> jumpOffsets = tefillaModel.getJumpOffsets();
+    	
     	// Check that jumpOffsets has been initialized
     	if ( jumpOffsets.isEmpty() ) {
     		Log.w(TAG, "jumpSection(): cannot jump if jumpOffsets is empty!");
@@ -461,7 +464,7 @@ public class AndDaavenTefilla extends Activity implements OnSharedPreferenceChan
 		case R.id.Index:
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);
 			if ( hebrewTypeface==null ) setHebrewFont();
-			ArrayAdapter<String> aa = new ArrayAdapter<String>(this, R.layout.index_list_item, sectionNames);
+			ArrayAdapter<String> aa = new ArrayAdapter<String>(this, R.layout.index_list_item, tefillaModel.getSectionNames());
 			TypefaceAdapter ta = new TypefaceAdapter(aa, hebrewTypeface, getFontSize());
 //			builder.setItems(sectionNames, this);
 			builder.setAdapter(ta, this);
@@ -502,7 +505,7 @@ public class AndDaavenTefilla extends Activity implements OnSharedPreferenceChan
 		Log.d(TAG, "Jump to index section " + which);
 		Layout layout = daavenText.getLayout();
     	if ( layout != null ) {
-    		int newOffset = sectionOffsets.get(which);
+    		int newOffset = tefillaModel.getSectionOffsets().get(which);
     		int newLine = layout.getLineForOffset(newOffset);
     		int newY = layout.getLineTop(newLine);
     		daavenScroll.scrollTo(0, newY);
@@ -521,8 +524,18 @@ public class AndDaavenTefilla extends Activity implements OnSharedPreferenceChan
     		 tefillaId = Integer.parseInt(tefillaPath.substring(28));
 	 	}
     	String filename = getResources().getStringArray(R.array.FileName)[tefillaId];
-    	prepareTefilla(filename);
+		if ( filename != this.currentFilename ) {
+			tefillaModel.prepareTefilla(filename, ssb, this);
 
+			currentFilename = tefillaModel.getFilename();
+			daavenText.setText(ssb);
+			
+			ErrorReporter er = ErrorReporter.getInstance();
+			er.addCustomData("daavenText.getText().length()", ""+daavenText.getText().length());
+			er.addCustomData("currentFilename", currentFilename);
+
+		}
+		
         // Put Hebrew date on the title bar
         Time t = new Time();
         t.setToNow();
@@ -536,89 +549,6 @@ public class AndDaavenTefilla extends Activity implements OnSharedPreferenceChan
         HebrewDate h = new HebrewDate(t);
 		setTitle(getTitle() + " " + h);
     }
-
-    /** 
-     * Read text in from file (if not already being displayed) and display it 
-     * in the daavenText TextView
-     * @param filename The filename to read in
-     */
-	private void prepareTefilla(final String filename) {
-		ErrorReporter er = ErrorReporter.getInstance();
-
-		if ( filename == this.currentFilename ) {
-			return;
-		}
-		
-		er.addCustomData("prepareTefilla()", filename);
-		
-		boolean showNikud = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("ShowNikud", true);
-		boolean showSectionNames = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("SectionName", true);
-		currentOffset=0;
-		try {
-			InputStream is = getAssets().open(filename);
-			BufferedReader br = new BufferedReader(new InputStreamReader(is));
-			ssb.clear();
-			jumpOffsets.clear();
-			ArrayList<String> sectionNamesList = new ArrayList<String>();
-			sectionOffsets.clear();
-			int offset=0;
-			while ( br.ready() ) {
-				String s = br.readLine();
-				if ( s.length() == 0 ) {
-					ssb.append("\n");
-					++offset;
-				} else if ( s.charAt(0)=='\013' ) {
-					jumpOffsets.add( offset );
-					String name = s.substring( 1 );
-					if (name.length() > 0 ) {
-						sectionNamesList.add( name );
-						sectionOffsets.add(offset);
-						if ( showSectionNames ) {
-							ssb.append(name);
-							ssb.append("\n");
-							offset += name.length() + 1;
-						}
-					}
-				} else {
-					if ( ! showNikud ) {
-						// Remove nikud based on Unicode character ranges
-						// Does not replace combined characters (\ufb20-\ufb4f)
-						// See http://en.wikipedia.org/wiki/Unicode_and_HTML_for_the_Hebrew_alphabet
-						s = s.replaceAll("[\u05b0-\u05c7]", "");
-					}
-					ssb.append(s);
-					ssb.append("\n");
-					offset += s.length() + 1;
-				}
-			}
-			
-			sectionNames = sectionNamesList.toArray(new String[0]);
-
-			currentFilename = filename;
-
-			er.addCustomData("ssb.length()", ""+ssb.length());
-			er.addCustomData("daavenText.getText().length()", ""+daavenText.getText().length());
-			er.addCustomData("showNikud", ""+showNikud);
-			er.addCustomData("showSectionNames", ""+showSectionNames);
-			er.addCustomData("currentFilename", currentFilename);
-
-			daavenText.setText(ssb);
-			
-//			// In UI thread:
-//			// Get layout
-//			// For each jump offset:
-//			// 		layout.getLineForOffset
-//			//		layout.getLineForVertical
-//			daavenText.post( new Runnable() {
-//				public void run() {
-//				};
-//			});
-		} catch (IOException e) {
-			Toast.makeText(this, "Caught an exception: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-			er.addCustomData("IOException.getMessage", e.getMessage());
-			er.handleException(e);
-		}
-	}
 
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
 			String key) {
@@ -674,6 +604,10 @@ public class AndDaavenTefilla extends Activity implements OnSharedPreferenceChan
 		super.onPostResume();
 	};
 	
+	public void setCurrentOffset(int offset) {
+		currentOffset = offset;
+	}
+	
 	// use a SpannableStringBuilder to allow addition of formatting in
 	// future
 	SpannableStringBuilder ssb = new SpannableStringBuilder();
@@ -682,8 +616,6 @@ public class AndDaavenTefilla extends Activity implements OnSharedPreferenceChan
     private ScrollView daavenScroll=null; 
     private String currentFilename="";
     private int scrollHeight=0;
-	private ArrayList<Integer> jumpOffsets = new ArrayList<Integer>();
-	private String[] sectionNames = new String[0];
-	private ArrayList<Integer> sectionOffsets = new ArrayList<Integer>();
+	private TefillaModel tefillaModel = new TefillaModel();
 	private Typeface hebrewTypeface=null;
 }
