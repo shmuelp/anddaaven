@@ -1,9 +1,5 @@
 package com.saraandshmuel.anddaaven;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 import org.acra.ErrorReporter;
@@ -24,7 +20,6 @@ import android.os.Bundle;
 import android.os.Build.VERSION;
 import android.preference.PreferenceManager;
 import android.text.Layout;
-import android.text.SpannableStringBuilder;
 import android.text.TextWatcher;
 import android.text.format.Time;
 import android.util.Log;
@@ -525,10 +520,10 @@ public class AndDaavenTefilla extends Activity implements OnSharedPreferenceChan
 	 	}
     	String filename = getResources().getStringArray(R.array.FileName)[tefillaId];
 		if ( filename != this.currentFilename ) {
-			tefillaModel.prepareTefilla(filename, ssb, this);
+			tefillaModel.prepareTefilla(filename);
 
 			currentFilename = tefillaModel.getFilename();
-			daavenText.setText(ssb);
+			daavenText.setText(tefillaModel.getSSB());
 			
 			ErrorReporter er = ErrorReporter.getInstance();
 			er.addCustomData("daavenText.getText().length()", ""+daavenText.getText().length());
@@ -574,7 +569,7 @@ public class AndDaavenTefilla extends Activity implements OnSharedPreferenceChan
 	public void afterTextChanged(android.text.Editable s) {
 		ErrorReporter er = ErrorReporter.getInstance();
 		er.addCustomData("after:s.length", ""+s.length());
-		if (s.length() != ssb.length()) {
+		if (s.length() != tefillaModel.getSSB().length()) {
 			er.handleException(null);
 		}
 	}
@@ -589,7 +584,7 @@ public class AndDaavenTefilla extends Activity implements OnSharedPreferenceChan
 	protected void onPostCreate(Bundle savedInstanceState) {
 		ErrorReporter er = ErrorReporter.getInstance();
 		er.addCustomData("postCreate:daavenText.length()", ""+daavenText.length());
-		if (daavenText.length() != ssb.length()) {
+		if (daavenText.length() != tefillaModel.getSSB().length()) {
 			ErrorReporter.getInstance().handleException(null);
 		}
 		super.onPostCreate(savedInstanceState);
@@ -598,7 +593,7 @@ public class AndDaavenTefilla extends Activity implements OnSharedPreferenceChan
 	protected void onPostResume() {
 		ErrorReporter er = ErrorReporter.getInstance();
 		er.addCustomData("postResume:daavenText.length()", ""+daavenText.length());
-		if (daavenText.length() != ssb.length()) {
+		if (daavenText.length() != tefillaModel.getSSB().length()) {
 			ErrorReporter.getInstance().handleException(null);
 		}
 		super.onPostResume();
@@ -608,14 +603,11 @@ public class AndDaavenTefilla extends Activity implements OnSharedPreferenceChan
 		currentOffset = offset;
 	}
 	
-	// use a SpannableStringBuilder to allow addition of formatting in
-	// future
-	SpannableStringBuilder ssb = new SpannableStringBuilder();
 	private int currentOffset=0;
     private TextView daavenText=null;
     private ScrollView daavenScroll=null; 
     private String currentFilename="";
     private int scrollHeight=0;
-	private TefillaModel tefillaModel = new TefillaModel();
+	private TefillaModel tefillaModel = new TefillaModel(this);
 	private Typeface hebrewTypeface=null;
 }
