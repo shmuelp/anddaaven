@@ -10,34 +10,49 @@ import org.acra.ErrorReporter;
 
 import com.saraandshmuel.anddaaven.AndDaavenTefilla;
 
-import android.content.Context;
-import android.content.res.AssetManager;
 import android.preference.PreferenceManager;
 import android.text.SpannableStringBuilder;
-import android.widget.Toast;
 
 public class TefillaModel {
-	public TefillaModel() {
+	public TefillaModel(AndDaavenTefilla tefillaView) {
+		this.tefillaView = tefillaView;
 	}
 	
     /** 
      * Read text in from file (if not already being displayed) and display it 
      * in the daavenText TextView
      * @param filename The filename to read in
-     * @param ssb 
      * @param context 
      */
-	public void prepareTefilla(String filename, SpannableStringBuilder ssb, AndDaavenTefilla activity) {
+	public void prepareTefilla(String filename) {
 		this.setFilename(filename);
 		ErrorReporter er = ErrorReporter.getInstance();
 
 		er.addCustomData("prepareTefilla()", filename);
 		
-		boolean showNikud = PreferenceManager.getDefaultSharedPreferences(activity).getBoolean("ShowNikud", true);
-		boolean showSectionNames = PreferenceManager.getDefaultSharedPreferences(activity).getBoolean("SectionName", true);
-		activity.setCurrentOffset(0);
+		boolean showNikud = PreferenceManager.getDefaultSharedPreferences(tefillaView).getBoolean("ShowNikud", true);
+		boolean showSectionNames = PreferenceManager.getDefaultSharedPreferences(tefillaView).getBoolean("SectionName", true);
+		tefillaView.setCurrentOffset(0);
+		if (filename.endsWith(".utf8")) {
+			readPlainText(filename, er, showNikud, showSectionNames);
+		} else if (filename.endsWith(".dat")) {
+			readDatFile(filename, er, showNikud, showSectionNames);
+		} else {
+			er.addCustomData("error", "Invalid filename");
+			er.handleException(null);
+		}
+	}
+
+	/**
+	 * @param filename
+	 * @param er
+	 * @param showNikud
+	 * @param showSectionNames
+	 */
+	private void readPlainText(String filename, ErrorReporter er,
+			boolean showNikud, boolean showSectionNames) {
 		try {
-			InputStream is = activity.getAssets().open(filename);
+			InputStream is = tefillaView.getAssets().open(filename);
 			BufferedReader br = new BufferedReader(new InputStreamReader(is));
 			ssb.clear();
 			jumpOffsets.clear();
@@ -80,20 +95,44 @@ public class TefillaModel {
 			er.addCustomData("showNikud", ""+showNikud);
 			er.addCustomData("showSectionNames", ""+showSectionNames);
 
-//			// In UI thread:
-//			// Get layout
-//			// For each jump offset:
-//			// 		layout.getLineForOffset
-//			//		layout.getLineForVertical
-//			daavenText.post( new Runnable() {
-//				public void run() {
-//				};
-//			});
 		} catch (IOException e) {
-//			Toast.makeText(this, "Caught an exception: " + e.getMessage(), Toast.LENGTH_SHORT).show();
 			er.addCustomData("IOException.getMessage", e.getMessage());
 			er.handleException(e);
 		}
+	}
+
+	/**
+	 * Reads Dynamic files
+	 * 
+	 * File format:
+	 *  <magic number=101011>
+	 * 
+	 * x Tefilla Records
+	 *  <4-byte # of Tefilla Records>
+	 *  <4-byte Tefilla name length><tefilla name>
+	 *  <4-byte format flag><4-byte text record #>
+	 *  <4-byte format flag><4-byte text record #>
+	 *  ...
+	 *  <4-byte format flag><4-byte text record #>
+	 * 
+	 * n Text Records:
+	 *   <4-byte # of text records
+	 * 	 <4-byte length><text data>
+	 * 	 <4-byte length><text data>
+	 * 	 ...
+	 * 	 <4-byte length><text data>
+	 * 
+	 * @param filename
+	 * @param er
+	 * @param showNikud
+	 * @param showSectionNames
+	 */
+	private void readDatFile(String filename, ErrorReporter er,
+			boolean showNikud, boolean showSectionNames) {
+	}
+
+	public SpannableStringBuilder getSSB() {
+		return ssb;
 	}
 
 	public void setFilename(String filename) {
@@ -104,30 +143,24 @@ public class TefillaModel {
 		return filename;
 	}
 
-	private void setSectionNames(String[] sectionNames) {
-		this.sectionNames = sectionNames;
-	}
-
 	public String[] getSectionNames() {
 		return sectionNames;
-	}
-
-	private void setJumpOffsets(ArrayList<Integer> jumpOffsets) {
-		this.jumpOffsets = jumpOffsets;
 	}
 
 	public ArrayList<Integer> getJumpOffsets() {
 		return jumpOffsets;
 	}
 
-	private void setSectionOffsets(ArrayList<Integer> sectionOffsets) {
-		this.sectionOffsets = sectionOffsets;
-	}
-
 	public ArrayList<Integer> getSectionOffsets() {
 		return sectionOffsets;
 	}
-
+	
+	AndDaavenTefilla tefillaView = null;
+	
+	// use a SpannableStringBuilder to allow addition of formatting in
+	// future
+	SpannableStringBuilder ssb = new SpannableStringBuilder();
+	
 	private String filename="";
 	private String[] sectionNames = new String[0];
 	private ArrayList<Integer> jumpOffsets = new ArrayList<Integer>();
