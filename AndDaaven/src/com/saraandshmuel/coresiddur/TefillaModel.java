@@ -1,10 +1,12 @@
 package com.saraandshmuel.coresiddur;
 
 import java.io.BufferedReader;
+import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import org.acra.ErrorReporter;
 
@@ -12,8 +14,13 @@ import com.saraandshmuel.anddaaven.AndDaavenTefilla;
 
 import android.preference.PreferenceManager;
 import android.text.SpannableStringBuilder;
+import android.util.Log;
+import android.widget.Toast;
 
 public class TefillaModel {
+
+	private static final String TAG = "TefillaModel";
+
 	public TefillaModel(AndDaavenTefilla tefillaView) {
 		this.tefillaView = tefillaView;
 	}
@@ -105,11 +112,12 @@ public class TefillaModel {
 	 * Reads Dynamic files
 	 * 
 	 * File format:
-	 *  <magic number=101011>
+	 *  <magic number=SP101010>
+	 *  <4-byte # of Tefilla Records>
 	 * 
 	 * x Tefilla Records
-	 *  <4-byte # of Tefilla Records>
 	 *  <4-byte Tefilla name length><tefilla name>
+	 *  <4-byte # of Tefilla text components>
 	 *  <4-byte format flag><4-byte text record #>
 	 *  <4-byte format flag><4-byte text record #>
 	 *  ...
@@ -129,6 +137,60 @@ public class TefillaModel {
 	 */
 	private void readDatFile(String filename, ErrorReporter er,
 			boolean showNikud, boolean showSectionNames) {
+		try {
+			Toast.makeText(tefillaView, "readDatFile", Toast.LENGTH_SHORT).show();
+			InputStream is = tefillaView.getAssets().open(filename);
+			DataInputStream dis = new DataInputStream(is);
+			BufferedReader br = new BufferedReader(new InputStreamReader(is));
+			ssb.clear();
+			jumpOffsets.clear();
+			ArrayList<String> sectionNamesList = new ArrayList<String>();
+			sectionOffsets.clear();
+			
+			// Check magic number
+			byte[] magic = new byte[8];
+			byte[] test = {'S', 'P', '1', '0', '1', '0', '1', '0'};
+			dis.readFully(magic);
+			if (!Arrays.equals(magic, test)) {
+				Log.e(TAG, "Invalid magic number found in dat file " + filename);
+				er.addCustomData("readDatFileError", "Invalid magic number found in dat file " + filename);
+			}
+
+			// Read # of tefillot
+			String temp = br.readLine();
+			temp = br.readLine();
+			int numTefillot = Integer.parseInt(temp);
+			ssb.append("# Tefillot: " + numTefillot + "\n");
+			
+			for (int i=0; i<numTefillot; ++i) {
+				ssb.append("Reading tefilla ");
+				temp = br.readLine();
+				int size = Integer.parseInt(temp);
+				String name="";
+				while (name.length() < size) {
+					name = name + br.readLine() + "\n";
+				}
+				ssb.append(" " + name);
+				temp = br.readLine();
+				int numComponents = Integer.parseInt(temp);
+				ssb.append("# components: " + numComponents + "\n");
+				for (int j=0; j<numComponents; ++j) {
+					temp = br.readLine();
+					int format = Integer.parseInt(temp);
+					temp = br.readLine();
+					int component = Integer.parseInt(temp);
+					ssb.append("Format: " + format + ", component=" + component);
+				}
+			}
+			sectionNames = sectionNamesList.toArray(new String[0]);
+
+			ssb.append("readDatFile successful!");
+//			Toast.makeText(tefillaView, "ReadDatFile successful", Toast.LENGTH_SHORT).show();
+		} catch (IOException e) {
+			Toast.makeText(tefillaView, "IOException: " + e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+			er.addCustomData("IOException.getMessage", e.getMessage());
+//			er.handleException(e);
+		}
 	}
 
 	public SpannableStringBuilder getSSB() {
