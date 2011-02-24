@@ -31,6 +31,7 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.ScrollView;
@@ -211,17 +212,7 @@ public class AndDaavenTefilla extends Activity implements OnSharedPreferenceChan
 
     	// Calculate screen height for page scrolling if not already cached
     	if ( scrollHeight == 0 ) {
-            Log.v(TAG, "height=" + daavenScroll.getHeight() + 
-            		   ", padBottom=" + daavenScroll.getPaddingBottom() + 
-            		   ", padTop=" + daavenScroll.getPaddingTop() +
-            		   ", fadingEdge=" + daavenScroll.getVerticalFadingEdgeLength() );
-
-            scrollHeight = daavenScroll.getHeight() - 
-			   daavenScroll.getPaddingBottom() - 
-			   daavenScroll.getPaddingTop() - 
-			   daavenScroll.getVerticalFadingEdgeLength() * 2;
-
-            Log.v(TAG, "scrollHeight=" + scrollHeight );
+            calculateScrollHeight();
     	}
     	
     	if ( keyAction == KeyEvent.ACTION_DOWN) {
@@ -672,7 +663,102 @@ public class AndDaavenTefilla extends Activity implements OnSharedPreferenceChan
 		}
 		super.onPostResume();
 	};
+
+//	private String getMotionEventString(MotionEvent event) {
+//		StringBuilder result = new StringBuilder("action=");
+//		int action = event.getAction();
+//		if ( action==MotionEvent.ACTION_CANCEL ) result.append("ACTION_CANCEL");
+//		else if ( action==MotionEvent.ACTION_DOWN ) result.append("ACTION_DOWN");
+//		else if ( action==MotionEvent.ACTION_MASK) result.append("ACTION_MASK");
+//		else if ( action==MotionEvent.ACTION_UP) result.append("ACTION_UP");
+//		else result.append("UNKNOWN");
+//		
+//		result.append(", x=").append(event.getX());
+//		result.append(", y=").append(event.getY());
+//		
+//		result.append(", rawX=").append(event.getRawX());
+//		result.append(", rawY=").append(event.getRawY());
+//		
+//		result.append(", downTime=").append(event.getDownTime());
+//		result.append(", eventTime=").append(event.getEventTime());
+//		
+//		long delta=event.getEventTime()-event.getDownTime();
+//		result.append(", delta=").append(delta);
+//		
+//		boolean tap=false;
+//		if (action==MotionEvent.ACTION_UP && delta > 0 && delta <= 500 ) tap=true;
+//		
+//		result.append(", tap=").append(tap);
+//		
+//		return result.toString();
+//	}
+
+	private boolean handleTap(float x, float y) {
+		int right=daavenScroll.getRight();
+		int left=daavenScroll.getLeft();
+		int width=right-left;
+		int top=daavenScroll.getTop();
+		int bottom=daavenScroll.getBottom();
+		int height=bottom-top;
+
+    	// Calculate screen height for page scrolling if not already cached
+    	if ( scrollHeight == 0 ) {
+            calculateScrollHeight();
+    	}
+    	
+		if ( x>=left && x<right && y>=top && y<bottom) {
+			if (x<(width/10)) {
+				jumpSection(-1);
+				return true;
+			}
+			if (x>(width*9)/10) {
+				jumpSection(1);
+				return true;
+			}
+			if (y<((height*45)/100)) {
+				pageUp(1);
+				return true;
+			}
+			if (y>((height*55)/100)) {
+				pageDown(1);
+				return true;
+			}
+		} else {
+			Log.v(TAG, "Skipping tap, x="+x+", y="+y+
+					", left="+left+", right="+right+
+					", top="+top+", bottom="+bottom);
+		}
+		
+		return false;
+	}
+
+	private void calculateScrollHeight() {
+		Log.v(TAG, "height=" + daavenScroll.getHeight() + 
+				   ", padBottom=" + daavenScroll.getPaddingBottom() + 
+				   ", padTop=" + daavenScroll.getPaddingTop() +
+				   ", fadingEdge=" + daavenScroll.getVerticalFadingEdgeLength() );
+
+		scrollHeight = daavenScroll.getHeight() - 
+		   daavenScroll.getPaddingBottom() - 
+		   daavenScroll.getPaddingTop() - 
+		   daavenScroll.getVerticalFadingEdgeLength() * 2;
+
+		Log.v(TAG, "scrollHeight=" + scrollHeight );
+	}
 	
+	@Override
+	public boolean dispatchTouchEvent(MotionEvent ev) {
+//		String toast = "dispatchTouchEvent: event={" + getMotionEventString(ev) + "}";
+//		Toast.makeText(this, toast, Toast.LENGTH_SHORT).show();
+
+		long delta=ev.getEventTime()-ev.getDownTime();
+		if (ev.getAction()==MotionEvent.ACTION_UP && delta > 0 && delta <= 500 ) {
+			return handleTap(ev.getX(), ev.getY());
+		} else {		
+			return super.dispatchTouchEvent(ev);
+		}
+	}
+
 	// use a SpannableStringBuilder to allow addition of formatting in
 	// future
 	SpannableStringBuilder ssb = new SpannableStringBuilder();
