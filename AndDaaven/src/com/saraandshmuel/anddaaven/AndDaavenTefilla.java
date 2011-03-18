@@ -62,6 +62,7 @@ public class AndDaavenTefilla extends Activity implements OnSharedPreferenceChan
         setHebrewFont();
         setFontSize();
 		setAlignment();
+        tapToScroll=PreferenceManager.getDefaultSharedPreferences(this).getBoolean("TapToScroll", tapToScroll);
                 
         // find and setup text to display
         showTefilla(getIntent());
@@ -101,11 +102,34 @@ public class AndDaavenTefilla extends Activity implements OnSharedPreferenceChan
 	 * Sets the Hebrew font on the tefilla text
 	 */
 	private void setHebrewFont() {
-		if ( hebrewTypeface == null ) {
-			String typefaceName;
-			typefaceName = PreferenceManager.getDefaultSharedPreferences(this).getString("TextFont", "SILEOTSR.ttf");
-	        hebrewTypeface = Typeface.createFromAsset(getAssets(), typefaceName );
+		try {
+			if ( hebrewTypeface == null ) {
+				String typefaceName;
+				typefaceName = PreferenceManager.getDefaultSharedPreferences(this).getString("TextFont", "FreeSerifBoldSubset.ttf");
+				
+				// Backwards compatibility
+				if (typefaceName=="FreeSans.ttf") {
+					SharedPreferences.Editor edit = PreferenceManager.getDefaultSharedPreferences(this).edit();
+					edit.putString("TextFont", "FreeSansSubset.ttf");
+				}
+				if (typefaceName=="FreeMono.ttf") {
+					SharedPreferences.Editor edit = PreferenceManager.getDefaultSharedPreferences(this).edit();
+					edit.putString("TextFont", "FreeMonoSubset.ttf");
+				}
+				
+				
+			    hebrewTypeface = Typeface.createFromAsset(getAssets(), typefaceName );
 //        face = Typeface.createFromAsset(getAssets(), "SILEOTSR.ttf");
+			}
+		} catch (Exception e) {
+			// Apparently, the expected font does not exist.  Most likely, the user selected something 
+			// which has changed names.  Clear the pref and use the default
+			String typefaceName = "FreeSerifBoldSubset.ttf";
+			SharedPreferences.Editor edit = PreferenceManager.getDefaultSharedPreferences(this).edit();
+			edit.putString("TextFont", "FreeSerifBoldSubset.ttf");
+			edit.commit();
+		    hebrewTypeface = Typeface.createFromAsset(getAssets(), typefaceName );
+			e.printStackTrace();
 		}
 
 //        daavenText.setTypeface(hebrewTypeface);
@@ -628,7 +652,9 @@ public class AndDaavenTefilla extends Activity implements OnSharedPreferenceChan
 			setAlignment();
 			daavenText.requestLayout();
 			scrollHeight = 0;
-		}
+		} else if ( key.equals("TapToScroll") ) {
+			tapToScroll=sharedPreferences.getBoolean(key, tapToScroll);
+		} 
 	}
 	
 	public void afterTextChanged(android.text.Editable s) {
@@ -750,13 +776,25 @@ public class AndDaavenTefilla extends Activity implements OnSharedPreferenceChan
 	public boolean dispatchTouchEvent(MotionEvent ev) {
 //		String toast = "dispatchTouchEvent: event={" + getMotionEventString(ev) + "}";
 //		Toast.makeText(this, toast, Toast.LENGTH_SHORT).show();
+		
+		if (!tapToScroll) return super.dispatchTouchEvent(ev);
 
-		long delta=ev.getEventTime()-ev.getDownTime();
-		if (ev.getAction()==MotionEvent.ACTION_UP && delta > 0 && delta <= 500 ) {
-			return handleTap(ev.getX(), ev.getY());
-		} else {		
-			return super.dispatchTouchEvent(ev);
+		if (ev.getAction()==MotionEvent.ACTION_DOWN ) {
+			currentDownTime=ev.getEventTime();
+			currentDownX=ev.getX();
+			currentDownY=ev.getY();
 		}
+
+		if (ev.getAction()==MotionEvent.ACTION_UP && ev.getDownTime()==currentDownTime) {
+			float dx=ev.getX() - currentDownX;
+			float dy=ev.getY() - currentDownY;
+			float distance2= dx*dx + dy*dy;
+			if ( distance2 < tapThreshold2 ) {
+				return handleTap(ev.getX(), ev.getY());
+			}
+		}
+	
+		return super.dispatchTouchEvent(ev);
 	}
 
 	// use a SpannableStringBuilder to allow addition of formatting in
@@ -771,4 +809,10 @@ public class AndDaavenTefilla extends Activity implements OnSharedPreferenceChan
 	private String[] sectionNames = new String[0];
 	private ArrayList<Integer> sectionOffsets = new ArrayList<Integer>();
 	private Typeface hebrewTypeface=null;
+	private boolean tapToScroll=false;
+
+	private long currentDownTime=0;
+	private float currentDownX=0;
+	private float currentDownY=0;
+	private float tapThreshold2=25*25;
 }

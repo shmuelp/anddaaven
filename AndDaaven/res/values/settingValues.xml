@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 <string name="AppearanceTitle">Appearance</string>
-<string name="BehaviorTitle">Behavior</string>
+<string name="NavigationTitle">Navigation</string>
 <string name="DistractionTitle">Distraction Control</string>
+<string name="AutoIndexTitle">Automatically Show Index (Not working yet)</string>
 <string name="WorkaroundTitle">Workarounds</string>
 
 <string name="ShowNikudKey">ShowNikud</string>
@@ -23,8 +24,13 @@
 <string-array name="FontNames">
 	<item>FreeMono</item>
 	<item>FreeSans</item>
+	<item>FreeSerifBold</item>
 	<item>Nachlieli Culmus Light</item>
 	<item>SIL Ezra</item>
+	<item>TaameyDavidCLM</item>
+	<item>TaameyDavidCLM Bold</item>
+	<item>TaameyFrankCLM</item>
+	<item>TaameyFrankCLM Bold</item>
 </string-array>
 <string name="FontSizeKey">FontSize</string>
 <string name="FontSizeTitle">Text Size</string>
@@ -69,6 +75,33 @@
 <string name="SettingInTefillaSummary">Controls whether or not the settings menu is displayed on the tefilla screen</string>
 <string name="SettingInTefillaSummaryOn">Settings menu will be displayed on the tefilla screen</string>
 <string name="SettingInTefillaSummaryOff">Settings menu will not be displayed on the tefilla screen</string>
+<string name="TapToScrollKey">TapToScroll</string>
+<string name="TapToScrollTitle">Enable Tap-to-scroll (Experimental) </string>
+<string name="TapToScrollSummary">Controls whether or not the screen scrolls in response to taps</string>
+<string name="TapToScrollSummaryOn">Screen taps will scroll the screen</string>
+<string name="TapToScrollSummaryOff">Screen taps will be ignored</string>
+
+<string name="AutoIndexShacharitKey">AutoIndexShacharit</string>
+<string name="AutoIndexShacharitTitle">Auto-show index for Shacharit</string>
+<string name="AutoIndexShacharitSummary">Automatically show index when opening Shacharit</string>
+<string name="AutoIndexShacharitSummaryOn">Opening Shacharit will automatically show index</string>
+<string name="AutoIndexShacharitSummaryOff">Opening Shacharit will show the beginning of the text</string>
+<string name="AutoIndexMinchaKey">AutoIndexMincha</string>
+<string name="AutoIndexMinchaTitle">Auto-show index for Mincha</string>
+<string name="AutoIndexMinchaSummary">Automatically show index when opening Mincha</string>
+<string name="AutoIndexMinchaSummaryOn">Opening Mincha will automatically show index</string>
+<string name="AutoIndexMinchaSummaryOff">Opening Mincha will show the beginning of the text</string>
+<string name="AutoIndexMaarivKey">AutoIndexMaariv</string>
+<string name="AutoIndexMaarivTitle">Auto-show index for </string>
+<string name="AutoIndexMaarivSummary">Automatically show index when opening Maariv</string>
+<string name="AutoIndexMaarivSummaryOn">Opening Maariv will automatically show index</string>
+<string name="AutoIndexMaarivSummaryOff">Opening Maariv will show the beginning of the text</string>
+<string name="AutoIndexBrachotKey">AutoIndexBrachot</string>
+<string name="AutoIndexBrachotTitle">Auto-show index for Brachot</string>
+<string name="AutoIndexBrachotSummary">Automatically show index when opening Brachot</string>
+<string name="AutoIndexBrachotSummaryOn">Opening Brachot will automatically show index</string>
+<string name="AutoIndexBrachotSummaryOff">Opening Brachot will show the beginning of the text</string>
+
 <string name="OldAlignmentKey">OldAlignment</string>
 <string name="OldAlignmentTitle">Force Old Alignment</string>
 <string name="OldAlignmentSummary">Forces the text alignment logic used for Android 1.0-2.1 in Android 2.2</string>
