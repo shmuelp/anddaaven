@@ -40,25 +40,28 @@ public class AndDaavenSplash extends Activity implements OnClickListener {
 
         // setup Typeface object with Hebrew font
         Typeface face;
-        face = Typeface.createFromAsset(getAssets(), "SILEOTSR.ttf");
+        face = Typeface.createFromAsset(getAssets(), "FreeSerifBoldSubset.ttf");
 
         // get references to buttons
     	shacharitButton = (Button) findViewById(R.id.ShacharitButton);
     	minchaButton = (Button) findViewById(R.id.MinchaButton);
     	maarivButton = (Button) findViewById(R.id.MaarivButton);
     	berachotButton = (Button) findViewById(R.id.BerachotButton);
+    	estherButton = (Button) findViewById(R.id.EstherButton);
     	
     	// register to receive clicks on the buttons
     	shacharitButton.setOnClickListener(this);
     	minchaButton.setOnClickListener(this);
     	maarivButton.setOnClickListener(this);
     	berachotButton.setOnClickListener(this);
+    	estherButton.setOnClickListener(this);
     	
     	// set the typeface so Hebrew labels can be displayed correctly
     	shacharitButton.setTypeface(face);
     	minchaButton.setTypeface(face);
     	maarivButton.setTypeface(face);
     	berachotButton.setTypeface(face);
+    	estherButton.setTypeface(face);
     	
     	// get time
     	Time time = new Time();
@@ -127,6 +130,7 @@ public class AndDaavenSplash extends Activity implements OnClickListener {
     	else if ( v==minchaButton ) { index = 1; }
     	else if ( v==maarivButton ) { index = 2; }
     	else if ( v==berachotButton ) { index = 3; }
+    	else if ( v==estherButton ) { index = 4; }
     	
     	// retrieve appropriate filename from resources
     	if ( index != -1 ) {
@@ -144,4 +148,5 @@ public class AndDaavenSplash extends Activity implements OnClickListener {
     private Button minchaButton;
     private Button maarivButton;
     private Button berachotButton;
+    private Button estherButton;
 }

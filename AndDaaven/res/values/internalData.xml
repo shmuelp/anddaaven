@@ -5,12 +5,18 @@
 	<item>mincha-ashkenaz.utf8</item>
 	<item>maariv-ashkenaz.utf8</item>
 	<item>other-ashkenaz.utf8</item>
+	<item>ester.utf8</item>
 </string-array>
 <string-array name="FontFiles">
-	<item>FreeMono.ttf</item>
-	<item>FreeSans.ttf</item>
+	<item>FreeMonoSubset.ttf</item>
+	<item>FreeSansSubset.ttf</item>
+	<item>FreeSerifBoldSubset.ttf</item>
 	<item>NachlieliCLM-Light.ttf</item>
 	<item>SILEOTSR.ttf</item>
+	<item>TaameyDavidCLM-Medium.ttf</item>
+	<item>TaameyDavidCLM-Bold.ttf</item>
+	<item>TaameyFrankCLM-Medium.ttf</item>
+	<item>TaameyFrankCLM-Bold.ttf</item>
 </string-array>
 <string-array name="VolumeButtonCode">
 	<item>IGNORE</item>

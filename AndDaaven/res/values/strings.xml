@@ -7,6 +7,7 @@
 	<item>Mincha</item>
 	<item>Maariv</item>
 	<item>B\'rachot</item>
+	<item>Esther</item>
 </string-array>
 <string name="GoText">Da\'aven! תפילה</string>
 <string name="MenuAbout">About AndDaaven</string>
@@ -19,6 +20,7 @@
 \n\n
 <b>Texts</b>:
 Thanks to Moishe (Richard) Davidovichi for the text of daavening.
+Text of Megillat Esther from <a href="http://he.wikisource.org/wiki/%D7%90%D7%A1%D7%AA%D7%A8_%D7%98%D7%A2%D7%9E%D7%99%D7%9D_%D7%9E%D7%A1%D7%95%D7%9E%D7%9F">Wikisource</a>.  Text is licensed <a href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons BY-SA 3.0</a> 
 \n\n
 <b>Testing/Suggestions</b>:
 Danny P., Craig E., Ari G.
@@ -27,6 +29,7 @@ Danny P., Craig E., Ari G.
 <a href="http://scripts.sil.org/cms/scripts/page.php?site_id=nrsi&amp;item_id=EzraSIL_home"><i>Ezra SIL</i></a> by <a href="http://www.sil.org/">SIL International</a>\n
 <a href="http://ftp.gnu.org/gnu/freefont/"><i>FreeMono</i></a> by GNU FreeFont\n
 <a href="http://ftp.gnu.org/gnu/freefont/"><i>FreeSans</i></a> by GNU FreeFont\n
+<a href="http://ftp.gnu.org/gnu/freefont/"><i>FreeSerif</i></a> by GNU FreeFont\n
 <a href="http://culmus.sourceforge.net/"><i>Nachlieli CLM</i></a> by The Culmus Project
 \n\n
 <b>Date Calculations</b>:
