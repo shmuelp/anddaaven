@@ -45,11 +45,13 @@ public class AndDaavenTefilla extends Activity implements OnSharedPreferenceChan
 
 	public AndDaavenTefilla() {
 //	    System.setProperty("log.tag."+TAG, "VERBOSE");
+		Log.v(TAG, "AndDaavenTefilla()");
 	}
 	
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
+    	Log.v(TAG, "onCreate() beginning");
     	// layout view from resource XML file
     	super.onCreate(savedInstanceState);
 		setFullScreen();
@@ -66,12 +68,14 @@ public class AndDaavenTefilla extends Activity implements OnSharedPreferenceChan
                 
         // find and setup text to display
         showTefilla(getIntent());
+    	Log.v(TAG, "onCreate() ending");
     }
 
 	/**
 	 * Sets the alignment - called from onCreate and on OldAlignment pref change
 	 */
 	private void setAlignment() {
+    	Log.v(TAG, "setAlignment() beginning");
 		// Make sure that Hebrew text is right-aligned on Froyo
 		// Some third-party ROMs need different logic for Froyo
         boolean oldAlignment = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("OldAlignment", false);
@@ -82,12 +86,14 @@ public class AndDaavenTefilla extends Activity implements OnSharedPreferenceChan
         } else {
 			daavenText.setGravity(Gravity.LEFT);
         }
+    	Log.v(TAG, "setAlignment() ending");
 	}
 
 	/**
 	 * Sets the content view - called from onCreate and if FullScreen pref is changed
 	 */
 	private void setFullScreen() {
+    	Log.v(TAG, "setFullScreen() beginning");
 		boolean fullScreen = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("FullScreen", false);
 		if ( fullScreen ) {
 			getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -96,12 +102,14 @@ public class AndDaavenTefilla extends Activity implements OnSharedPreferenceChan
 	        getWindow().addFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
 	        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		}
+    	Log.v(TAG, "setAlignment() ending");
 	}
 
 	/**
 	 * Sets the Hebrew font on the tefilla text
 	 */
 	private void setHebrewFont() {
+    	Log.v(TAG, "setHebrewFont() beginning");
 		try {
 			if ( hebrewTypeface == null ) {
 				String typefaceName;
@@ -136,14 +144,17 @@ public class AndDaavenTefilla extends Activity implements OnSharedPreferenceChan
         runOnUiThread(new Runnable() {
         	public void run() { daavenText.setTypeface(hebrewTypeface); }
         });
+    	Log.v(TAG, "setHebrewFont() ending");
 	}
 	
 	/**
 	 * Sets the font size of the tefilla text
 	 */
 	private void setFontSize() {
+    	Log.v(TAG, "setFontSize() beginning");
 		float size = getFontSize();
 		daavenText.setTextSize(size);
+    	Log.v(TAG, "setFontSize() ending");
 	}
 
 	/**
@@ -151,8 +162,10 @@ public class AndDaavenTefilla extends Activity implements OnSharedPreferenceChan
 	 * @return
 	 */
 	private float getFontSize() {
-		String sizePref = PreferenceManager.getDefaultSharedPreferences(this).getString("FontSize", "17"); 
+    	Log.v(TAG, "getFontSize() beginning");
+		String sizePref = PreferenceManager.getDefaultSharedPreferences(this).getString("FontSize", "19"); 
 		float size = Float.parseFloat(sizePref);
+    	Log.v(TAG, "getFontSize() about to return "+size);
 		return size;
 	}
 
@@ -160,20 +173,25 @@ public class AndDaavenTefilla extends Activity implements OnSharedPreferenceChan
 	 * Saves local pointers to interesting objects so they may be manipulated
 	 */
 	private void findLayoutObjects() {
+    	Log.v(TAG, "findLayoutObjects() beginning");
 		daavenText = (TextView) findViewById(R.id.DaavenText);
 		daavenText.addTextChangedListener(this);
 		daavenScroll = (ScrollView) findViewById(R.id.DaavenScroll);
+    	Log.v(TAG, "findLayoutObjects() ending");
 	}
     
     // update text if needed (called when switching back to this Activity)
     @Override
     protected void onNewIntent(Intent intent) {
+    	Log.v(TAG, "onNewIntent() beginning");
     	showTefilla(intent);
     	super.onNewIntent(intent);
+    	Log.v(TAG, "findLayoutObjects() ending");
     }
     
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
+    	Log.v(TAG, "dispatchKeyEvent() beginning");
 		boolean result = false;
 		boolean pageDown = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("PageDown", true);
 		boolean sectionJump = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("SectionJump", true);
@@ -181,7 +199,7 @@ public class AndDaavenTefilla extends Activity implements OnSharedPreferenceChan
 		
     	int keyAction = event.getAction();
     	int keyCode = event.getKeyCode();
-    	Log.v(TAG,"dispatchKeyEvent(), action="+keyAction+",code="+keyCode);
+    	Log.d(TAG,"dispatchKeyEvent(), action="+keyAction+",code="+keyCode);
     	
     	// Flag to determine if AndDaaven handles the event or if it delegates
     	boolean handleEvent= false;
@@ -217,12 +235,13 @@ public class AndDaavenTefilla extends Activity implements OnSharedPreferenceChan
     		}
     	}
 
-//    	Log.v(TAG, "Got keyAction=" + keyAction + ", keyCode=" + keyCode + 
+//    	Log.d(TAG, "Got keyAction=" + keyAction + ", keyCode=" + keyCode + 
 //    			", ACTION_UP=" + KeyEvent.ACTION_UP + 
 //    			", ACTION_DOWN=" + KeyEvent.ACTION_DOWN 
 //    			);
     	
     	if ( !handleEvent ) {
+        	Log.v(TAG, "findLayoutObjects() about to return early");
     		return super.dispatchKeyEvent(event);
     	}
 
@@ -269,6 +288,7 @@ public class AndDaavenTefilla extends Activity implements OnSharedPreferenceChan
     		result = super.dispatchKeyEvent(event);
     	}
 
+    	Log.v(TAG, "findLayoutObjects() about to return");
     	return result;
 	}
     
@@ -278,6 +298,7 @@ public class AndDaavenTefilla extends Activity implements OnSharedPreferenceChan
      * backward with a negative count
      */
 	private void jumpSection(int count) {
+    	Log.v(TAG, "jumpSection(" + count + ") beginning");
 		Layout layout = daavenText.getLayout();
     	if ( layout == null ) {
     		Log.w(TAG, "jumpSection(): cannot jump if layout is null!");
@@ -318,6 +339,7 @@ public class AndDaavenTefilla extends Activity implements OnSharedPreferenceChan
 			// Tried to go past last section
 			// Scroll to end and return
 			daavenScroll.scrollTo(0, daavenText.getBottom());
+	    	Log.v(TAG, "jumpSection() about to return early");
 			return;
 		}
 		
@@ -328,12 +350,15 @@ public class AndDaavenTefilla extends Activity implements OnSharedPreferenceChan
 		Log.d(TAG, "Scrolling to offset=" + newOffset + ", section=" + 
 				   section + ", line=" + newLine + ", y=" + newY );
 		daavenScroll.scrollTo(0, newY);
+
+		Log.v(TAG, "jumpSection() ending");
 	}
 
 	/**
 	 * Saves the current scrolled position
 	 */
 	private void savePosition() {
+		Log.v(TAG, "savePosition() beginning");
 		Layout layout = daavenText.getLayout();
     	if ( layout != null ) {
     		int newOffset = locateCurrentOffset(layout);
@@ -346,6 +371,7 @@ public class AndDaavenTefilla extends Activity implements OnSharedPreferenceChan
     	else {
     		Log.w(TAG, "savePosition(): cannot save if layout is null!");
     	}
+		Log.v(TAG, "savePosition() ending");
 	}
 
 	/**
@@ -354,6 +380,7 @@ public class AndDaavenTefilla extends Activity implements OnSharedPreferenceChan
 	 * @return The current offset of the tefilla (in characters of text)
 	 */
 	private int locateCurrentOffset(Layout layout) {
+		Log.v(TAG, "locateCurrentOffset() beginning");
 		int result;
 		// Find highest pixel of interest (ignore e.g. faded pixels)
 		int topPixel = daavenScroll.getScrollY() + daavenScroll.getPaddingTop() + 
@@ -361,6 +388,7 @@ public class AndDaavenTefilla extends Activity implements OnSharedPreferenceChan
 		int line = layout.getLineForVertical(topPixel);
 //		result = (layout.getLineStart(line) + layout.getLineEnd(line))/2;
 		result = layout.getLineStart(line);
+		Log.v(TAG, "locateCurrentOffset() returning " + result);
 		return result;
 	}
 
@@ -368,6 +396,7 @@ public class AndDaavenTefilla extends Activity implements OnSharedPreferenceChan
 	 * Restores the current scrolled position 
 	 */
 	private void restorePosition() {
+		Log.v(TAG, "restorePosition() beginning");
 		runOnUiThread(new Runnable() {
 			public void run() {
 				Layout layout = daavenText.getLayout();
@@ -382,33 +411,39 @@ public class AndDaavenTefilla extends Activity implements OnSharedPreferenceChan
 			}
 		
 		});
+		Log.v(TAG, "restorePosition() ending");
 	}
     
     public void pageDown(int count) {
-    	Log.v(TAG, "pageDown("+count+")" );
+    	Log.v(TAG, "pageDown("+count+") beginning" );
     	for ( int i=0; i < count; ++i ) {
     		daavenScroll.scrollBy(0, scrollHeight);
-    		Log.v(TAG, "scrollBy(0," + scrollHeight + ")" );
+    		Log.d(TAG, "scrollBy(0," + scrollHeight + ")" );
     	}
+		Log.v(TAG, "pageDown() ending");
     }
 
     public void pageUp(int count) {
-    	Log.v(TAG, "pageUp("+count+")" );
+    	Log.v(TAG, "pageUp("+count+") beginning" );
     	for ( int i=0; i < count; ++i ) {
     		daavenScroll.scrollBy(0, -scrollHeight);
     		Log.v(TAG, "scrollBy(0," + (-scrollHeight) + ")" );
     	}
+    	Log.v(TAG, "pageUp() ending" );
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
+    	Log.v(TAG, "onSaveInstanceState() beginning" );
     	super.onSaveInstanceState(outState);
     	savePosition();
     	outState.putInt("TefillaPosition", currentOffset);
+    	Log.v(TAG, "onSaveInstanceState() ending" );
     }
     
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
+    	Log.v(TAG, "onRestoreInstanceState() beginning" );
     	super.onRestoreInstanceState(savedInstanceState);
     	final Bundle myState = savedInstanceState;
     	daavenText.post( new Runnable() {
@@ -420,6 +455,7 @@ public class AndDaavenTefilla extends Activity implements OnSharedPreferenceChan
     	    	restorePosition();
     		}
     	} );
+    	Log.v(TAG, "onRestoreInstanceState() ending" );
     }
 
     /**
@@ -429,6 +465,7 @@ public class AndDaavenTefilla extends Activity implements OnSharedPreferenceChan
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+    	Log.v(TAG, "onCreateOptionsMenu() beginning" );
 		boolean settingInTefilla = PreferenceManager.getDefaultSharedPreferences(this).getBoolean("SettingInTefilla", false);
     	
 		if (settingInTefilla)
@@ -437,9 +474,11 @@ public class AndDaavenTefilla extends Activity implements OnSharedPreferenceChan
 	        inflater.inflate(R.menu.mainmenu, menu);
 	    	MenuItem index = menu.findItem(R.id.Index);
 	    	index.setVisible(true);
+	    	Log.v(TAG, "onCreateOptionsMenu() returning early" );
 	        return true;
 		}
 		
+    	Log.v(TAG, "onCreateOptionsMenu() about to return" );
         return super.onCreateOptionsMenu(menu);
     }
     
@@ -450,27 +489,33 @@ public class AndDaavenTefilla extends Activity implements OnSharedPreferenceChan
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+    	Log.v(TAG, "onOptionsItemSelected() beginning" );
         switch (item.getItemId()) {
         	case R.id.About:
         		Dialog aboutDialog = new Dialog(this);
         		aboutDialog.setContentView(R.layout.acknowlegements);
         		aboutDialog.setTitle(getString(R.string.TextViewAcknowledgementTitle));
         		aboutDialog.show();
+            	Log.v(TAG, "onOptionsItemSelected() returning early 1" );
         		return true;
         	case R.id.Settings:
         		Intent intent = new Intent(this, com.saraandshmuel.anddaaven.AndDaavenSettings.class);
         		startActivity(intent);
+            	Log.v(TAG, "onOptionsItemSelected() returning early 2" );
         		return true;
         	case R.id.Index:
 				showDialog(R.id.Index);
+		    	Log.v(TAG, "onOptionsItemSelected() returning early 3" );
         		return true;
         }
         Log.w(getClass().getName(), "Got an unknown MenuItem event");
+    	Log.v(TAG, "onOptionsItemSelected() about to return" );
         return false;        
     }
 
 	@Override
 	protected Dialog onCreateDialog(int id) {
+    	Log.v(TAG, "onCreateDialog(" + id + ") beginning" );
 		switch (id) {
 		case R.id.Index:
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -507,12 +552,15 @@ public class AndDaavenTefilla extends Activity implements OnSharedPreferenceChan
 //			indexDialog.setTitle("Select a section");
 //			indexDialog.setContentView(ll);
 
+	    	Log.v(TAG, "onCreateDialog() returning early" );
 			return indexDialog;
 		}
+    	Log.v(TAG, "onCreateDialog() about to return" );
 		return super.onCreateDialog(id);
 	}
 
 	public void onClick(DialogInterface dialog, int which) {
+    	Log.v(TAG, "onClick(dialog,"+which+") beginning" );
 		Log.d(TAG, "Jump to index section " + which);
 		Layout layout = daavenText.getLayout();
     	if ( layout != null ) {
@@ -525,10 +573,12 @@ public class AndDaavenTefilla extends Activity implements OnSharedPreferenceChan
     	} else {
     		Toast.makeText(this, "Cannot jump; layout was null", Toast.LENGTH_SHORT).show();
     	}
+    	Log.v(TAG, "onClick() about to return" );
 	}
 	
     // build filename in assets to use to display tefilla, call helper to read it
     public void showTefilla(Intent intent) {
+    	Log.v(TAG, "showTefilla() beginning" );
     	String tefillaPath = intent.getData().getSchemeSpecificPart();
     	int tefillaId=0;
     	if ( tefillaPath.startsWith("com.saraandshmuel.anddaaven/")) {
@@ -549,6 +599,7 @@ public class AndDaavenTefilla extends Activity implements OnSharedPreferenceChan
 
         HebrewDate h = new HebrewDate(t);
 		setTitle(getTitle() + " " + h);
+    	Log.v(TAG, "showTefilla() about to return" );
     }
 
     /** 
@@ -557,9 +608,11 @@ public class AndDaavenTefilla extends Activity implements OnSharedPreferenceChan
      * @param filename The filename to read in
      */
 	private void prepareTefilla(final String filename) {
+    	Log.v(TAG, "prepareTefilla(" + filename + ") beginning" );
 		ErrorReporter er = ErrorReporter.getInstance();
 
 		if ( filename == this.currentFilename ) {
+	    	Log.v(TAG, "prepareTefilla() about to return early" );
 			return;
 		}
 		
@@ -632,10 +685,12 @@ public class AndDaavenTefilla extends Activity implements OnSharedPreferenceChan
 			er.addCustomData("IOException.getMessage", e.getMessage());
 			er.handleException(e);
 		}
+    	Log.v(TAG, "prepareTefilla() ending" );
 	}
 
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
 			String key) {
+    	Log.v(TAG, "onSharedPreferenceChanged(sharedPreferences, " + key + ") beginning" );
 		if ( key.equals("TextFont") ) {
 			hebrewTypeface=null;
 			setHebrewFont();
@@ -655,39 +710,48 @@ public class AndDaavenTefilla extends Activity implements OnSharedPreferenceChan
 		} else if ( key.equals("TapToScroll") ) {
 			tapToScroll=sharedPreferences.getBoolean(key, tapToScroll);
 		} 
+    	Log.v(TAG, "onSharedPreferenceChanged() ending" );
 	}
 	
 	public void afterTextChanged(android.text.Editable s) {
+    	Log.v(TAG, "afterTextChanged() beginning" );
 		ErrorReporter er = ErrorReporter.getInstance();
 		er.addCustomData("after:s.length", ""+s.length());
 		if (s.length() != ssb.length()) {
 			er.handleException(null);
 		}
+    	Log.v(TAG, "afterTextChanged() ending" );
 	}
 	
 	public void beforeTextChanged(CharSequence s, int start, int count,
 			int after) {
+    	Log.v(TAG, "beforeTextChanged()" );
 	}
 	
 	public void onTextChanged(CharSequence s, int start, int before, int count) {
+    	Log.v(TAG, "onTextChanged()" );
 	}
 	
 	protected void onPostCreate(Bundle savedInstanceState) {
+    	Log.v(TAG, "onPostCreate() beginning" );
 		ErrorReporter er = ErrorReporter.getInstance();
 		er.addCustomData("postCreate:daavenText.length()", ""+daavenText.length());
 		if (daavenText.length() != ssb.length()) {
 			ErrorReporter.getInstance().handleException(null);
 		}
 		super.onPostCreate(savedInstanceState);
+    	Log.v(TAG, "onPostCreate() ending" );
 	};
 	
 	protected void onPostResume() {
+    	Log.v(TAG, "onPostResume() beginning" );
 		ErrorReporter er = ErrorReporter.getInstance();
 		er.addCustomData("postResume:daavenText.length()", ""+daavenText.length());
 		if (daavenText.length() != ssb.length()) {
 			ErrorReporter.getInstance().handleException(null);
 		}
 		super.onPostResume();
+    	Log.v(TAG, "onPostResume() ending" );
 	};
 
 //	private String getMotionEventString(MotionEvent event) {
@@ -720,6 +784,7 @@ public class AndDaavenTefilla extends Activity implements OnSharedPreferenceChan
 //	}
 
 	private boolean handleTap(float x, float y) {
+    	Log.v(TAG, "handleTap(" + x + ", " + y + ") beginning" );
 		int right=daavenScroll.getRight();
 		int left=daavenScroll.getLeft();
 		int width=right-left;
@@ -735,18 +800,22 @@ public class AndDaavenTefilla extends Activity implements OnSharedPreferenceChan
 		if ( x>=left && x<right && y>=top && y<bottom) {
 			if (x<(width/10)) {
 				jumpSection(-1);
+		    	Log.v(TAG, "handleTap() returning early 1" );
 				return true;
 			}
 			if (x>(width*9)/10) {
 				jumpSection(1);
+		    	Log.v(TAG, "handleTap() returning early 2" );
 				return true;
 			}
 			if (y<((height*45)/100)) {
 				pageUp(1);
+		    	Log.v(TAG, "handleTap() returning early 3" );
 				return true;
 			}
 			if (y>((height*55)/100)) {
 				pageDown(1);
+		    	Log.v(TAG, "handleTap() returning early 4" );
 				return true;
 			}
 		} else {
@@ -755,11 +824,13 @@ public class AndDaavenTefilla extends Activity implements OnSharedPreferenceChan
 					", top="+top+", bottom="+bottom);
 		}
 		
+    	Log.v(TAG, "handleTap() returning" );
 		return false;
 	}
 
 	private void calculateScrollHeight() {
-		Log.v(TAG, "height=" + daavenScroll.getHeight() + 
+    	Log.v(TAG, "calculateScrollHeight() beginning" );
+		Log.d(TAG, "height=" + daavenScroll.getHeight() + 
 				   ", padBottom=" + daavenScroll.getPaddingBottom() + 
 				   ", padTop=" + daavenScroll.getPaddingTop() +
 				   ", fadingEdge=" + daavenScroll.getVerticalFadingEdgeLength() );
@@ -770,10 +841,12 @@ public class AndDaavenTefilla extends Activity implements OnSharedPreferenceChan
 		   daavenScroll.getVerticalFadingEdgeLength() * 2;
 
 		Log.v(TAG, "scrollHeight=" + scrollHeight );
+    	Log.v(TAG, "calculateScrollHeight() ending" );
 	}
 	
 	@Override
 	public boolean dispatchTouchEvent(MotionEvent ev) {
+    	Log.v(TAG, "dispatchTouchEvent() beginning" );
 //		String toast = "dispatchTouchEvent: event={" + getMotionEventString(ev) + "}";
 //		Toast.makeText(this, toast, Toast.LENGTH_SHORT).show();
 		
@@ -794,6 +867,7 @@ public class AndDaavenTefilla extends Activity implements OnSharedPreferenceChan
 			}
 		}
 	
+    	Log.v(TAG, "dispatchTouchEvent() about to return" );
 		return super.dispatchTouchEvent(ev);
 	}
 
