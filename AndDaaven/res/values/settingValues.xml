@@ -103,7 +103,7 @@
 <string name="AutoIndexBrachotSummaryOff">Opening Brachot will show the beginning of the text</string>
 
 <string name="OldAlignmentKey">OldAlignment</string>
-<string name="OldAlignmentTitle">Force Old Alignment</string>
+<string name="OldAlignmentTitle">Reverse alignment</string>
 <string name="OldAlignmentSummary">Forces the text alignment logic used for Android 1.0-2.1 in Android 2.2</string>
 <string name="VolumeButtonKey">VolumeButton</string>
 <string name="VolumeButtonTitle">Volume button behavior</string>
