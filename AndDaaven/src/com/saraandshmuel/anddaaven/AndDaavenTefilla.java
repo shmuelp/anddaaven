@@ -68,7 +68,11 @@ public class AndDaavenTefilla extends Activity implements OnSharedPreferenceChan
                 
         // find and setup text to display
         showTefilla(getIntent());
-    	Log.v(TAG, "onCreate() ending");
+
+//        SDP TODO: if is brachot and autoindex brachot
+        
+        
+        Log.v(TAG, "onCreate() ending");
     }
 
 	/**
@@ -499,8 +503,7 @@ public class AndDaavenTefilla extends Activity implements OnSharedPreferenceChan
             	Log.v(TAG, "onOptionsItemSelected() returning early 1" );
         		return true;
         	case R.id.Settings:
-        		Intent intent = new Intent(this, com.saraandshmuel.anddaaven.AndDaavenSettings.class);
-        		startActivity(intent);
+				showIndex();
             	Log.v(TAG, "onOptionsItemSelected() returning early 2" );
         		return true;
         	case R.id.Index:
@@ -512,6 +515,14 @@ public class AndDaavenTefilla extends Activity implements OnSharedPreferenceChan
     	Log.v(TAG, "onOptionsItemSelected() about to return" );
         return false;        
     }
+
+	/**
+	 * 
+	 */
+	private void showIndex() {
+		Intent intent = new Intent(this, com.saraandshmuel.anddaaven.AndDaavenSettings.class);
+		startActivity(intent);
+	}
 
 	@Override
 	protected Dialog onCreateDialog(int id) {
