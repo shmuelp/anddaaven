@@ -11,44 +11,9 @@
 		<TextView android:id="@+id/DaavenText" 
 				  android:layout_height="wrap_content" 
 				  android:layout_width="fill_parent" 
-				  android:maxLength="120000" 
+				  android:maxLength="250000" 
 				  android:text="Loading..." 
 				  android:textSize="19sp">
 	 	</TextView>
 	</ScrollView>
-	 <SlidingDrawer
-	 android:visibility="invisible"
-     android:id="@+id/drawer"
-     android:layout_width="match_parent"
-     android:layout_height="match_parent"
-     
-     android:layout_alignParentLeft="true"
-
-     android:handle="@+id/handle"
-     android:content="@+id/content">
-
-<!-- 
-     <Button
-         android:id="@id/handle"
-         android:layout_width="match_parent"
-         android:layout_height="2dp"
-         android:text="I am a handle" 
-         />
--->
-         <!--android:layout_height="1dip"-->
-     <TextView
-     	 android:id="@id/handle"
-         android:layout_width="match_parent"
-         android:layout_height="2dp"
-         android:text="" 
-         />
-
-     <ListView
-         android:id="@id/content"
-         android:layout_width="match_parent"
-         android:layout_height="match_parent"
-         />
-
- </SlidingDrawer>
-	
 </RelativeLayout>

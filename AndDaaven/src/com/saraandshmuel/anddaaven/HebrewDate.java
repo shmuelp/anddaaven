@@ -30,13 +30,22 @@ class HebrewDate {
 	private final static int HebrewEpoch = -1373429; // Absolute date of start of Hebrew calendar
 
 	public static boolean HebrewLeapYear(int year) {
-	// True if year is an Hebrew leap year
-	  
-	  if ((((7 * year) + 1) % 19) < 7)
-	    return true;
-	  else
-	    return false;
-	}
+		// True if year is an Hebrew leap year
+		  
+		  if ((((7 * year) + 1) % 19) < 7)
+		    return true;
+		  else
+		    return false;
+		}
+
+	public boolean HebrewLeapYear() {
+		// True if year is an Hebrew leap year
+		  
+		  if ((((7 * year) + 1) % 19) < 7)
+		    return true;
+		  else
+		    return false;
+		}
 
 	public static int LastMonthOfHebrewYear(int year) {
 	// Last month of Hebrew year.
@@ -207,13 +216,17 @@ public int getAbsoluteDate() { // Computes the absolute date of Hebrew date.
 	if ( ( month == 1 && day > 15 ) || 
 		 month == 2 || 
 		 ( month == 3 && day < 6 ) ) {
-		int omerday = getAbsoluteDate() - (new HebrewDate(1, 15, year)).getAbsoluteDate();
-		result += " day " + omerday + " of the Omer";
+		int omerday = getOmerNumber();
+		result += "- Day " + omerday + " of the Omer";
 	}
 	
 	return result;
   }
 
+	public int getOmerNumber() {
+		return getAbsoluteDate() - (new HebrewDate(1, 15, year)).getAbsoluteDate();
+	}
+  
   final static String MonthNames[] = { "", "Nissan", "Iyar", "Sivan", "Tamuz", 
 	  								   "Av", "Elul", "Tishrei", "Cheshvan",
 	  								   "Kislev", "Teves", "Shvat", "Adar", 

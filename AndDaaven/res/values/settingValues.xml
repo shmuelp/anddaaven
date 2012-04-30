@@ -11,6 +11,16 @@
 <string name="ShowNikudSummary">Controls whether or not Nikud is displayed</string>
 <string name="ShowNikudSummaryOn">Nikud will be displayed</string>
 <string name="ShowNikudSummaryOff">Nikud will not be displayed</string>
+<string name="DarkModeKey">DarkMode</string>
+<string name="DarkModeTitle">Night mode</string>
+<string name="DarkModeSummary">Controls whether or not text is displayed black-on-white</string>
+<string name="DarkModeSummaryOn">Text will be white-on-black</string>
+<string name="DarkModeSummaryOff">Text will be black-on-white</string>
+<string name="ScreenOnKey">ScreenOn</string>
+<string name="ScreenOnTitle">Keep screen on</string>
+<string name="ScreenOnSummary">Controls whether or not screen is prevented from shutting off</string>
+<string name="ScreenOnSummaryOn">Screen will be kept on</string>
+<string name="ScreenOnSummaryOff">Screen will dim/sleep as usual</string>
 <string name="FullScreenKey">FullScreen</string>
 <string name="FullScreenTitle">Full Screen</string>
 <string name="FullScreenSummary">Controls whether or not tefilla is displayed full screen</string>
@@ -76,7 +86,7 @@
 <string name="SettingInTefillaSummaryOn">Settings menu will be displayed on the tefilla screen</string>
 <string name="SettingInTefillaSummaryOff">Settings menu will not be displayed on the tefilla screen</string>
 <string name="TapToScrollKey">TapToScroll</string>
-<string name="TapToScrollTitle">Enable Tap-to-scroll (Experimental) </string>
+<string name="TapToScrollTitle">Enable Tap-to-scroll</string>
 <string name="TapToScrollSummary">Controls whether or not the screen scrolls in response to taps</string>
 <string name="TapToScrollSummaryOn">Screen taps will scroll the screen</string>
 <string name="TapToScrollSummaryOff">Screen taps will be ignored</string>
@@ -104,7 +114,7 @@
 
 <string name="OldAlignmentKey">OldAlignment</string>
 <string name="OldAlignmentTitle">Reverse alignment</string>
-<string name="OldAlignmentSummary">Forces the text alignment logic used for Android 1.0-2.1 in Android 2.2</string>
+<string name="OldAlignmentSummary">Reverses the right-left alignment</string>
 <string name="VolumeButtonKey">VolumeButton</string>
 <string name="VolumeButtonTitle">Volume button behavior</string>
 <string name="VolumeButtonSummary">Controls the behavior when the volume buttons are pressed</string>
@@ -114,6 +124,8 @@
 	<item>Page up/down</item>
 	<item>Section back/forward</item>
 </string-array>
+
+<string name="LastNusachKey">LastNusach</string>
 
 <string name="pref_disable_acra">Disable error reporting</string>
 <string name="pref_acra_disabled">Error reports will NOT be sent</string>

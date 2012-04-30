@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+  xmlns:android="http://schemas.android.com/apk/res/android">
+
+<PreferenceCategory android:title="Test Settings">
+<CheckBoxPreference android:key="test.extraNusach" android:title="Extra nuschaot" android:defaultValue="false"/>
+<CheckBoxPreference android:key="test.extraActions" android:title="Extra actions" android:defaultValue="false"/>
+<CheckBoxPreference android:key="test.autoIndex" android:title="AutoIndex" android:defaultValue="false"/>
+<CheckBoxPreference android:key="test.omer" android:title="Omer" android:defaultValue="false" />
+<CheckBoxPreference android:key="test.playgroundText" android:title="Text playground" android:defaultValue="false" />
+</PreferenceCategory>
+
+</PreferenceScreen>
