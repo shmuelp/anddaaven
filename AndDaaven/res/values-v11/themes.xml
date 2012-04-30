@@ -1,0 +1,4 @@
+<resources>
+    <style name="MyLight" parent="@android:style/Theme.Holo.Light"/>
+	<style name="MyDark" parent="@android:style/Theme.Holo"/>
+</resources>

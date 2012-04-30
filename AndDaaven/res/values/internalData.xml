@@ -1,12 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 <string-array name="FileName">
-	<item>shacharit-ashkenaz.utf8</item>
-	<item>mincha-ashkenaz.utf8</item>
-	<item>maariv-ashkenaz.utf8</item>
-	<item>other-ashkenaz.utf8</item>
-	<item>ester.utf8</item>
+	<item>shacharit</item>
+	<item>mincha</item>
+	<item>minchafast</item>
+	<item>maariv</item>
+	<item>other</item>
+	<item>kiddush-levana</item>
+	<item>ester</item>
 </string-array>
+<string-array name="FileNameNusach">
+    <item>ashkenaz</item>
+    <item>sfardi-seattle</item>
+    <item>chabad</item>
+</string-array>
+<string name="FileNameSuffix">utf8</string>
 <string-array name="FontFiles">
 	<item>FreeMonoSubset.ttf</item>
 	<item>FreeSansSubset.ttf</item>
