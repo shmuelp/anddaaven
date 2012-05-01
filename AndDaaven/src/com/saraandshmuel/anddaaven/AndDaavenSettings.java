@@ -20,11 +20,9 @@ public class AndDaavenSettings extends PreferenceActivity {
         addPreferencesFromResource(R.xml.settings);
 		
 		SharedPreferences prefs=PreferenceManager.getDefaultSharedPreferences(this);
-		Toast.makeText(this, "Looking for AutoIndex testpref, #prefs=" + prefs.getAll().size(), Toast.LENGTH_SHORT).show();
 		if (prefs.getBoolean("test.autoIndex", false)) {
 			PreferenceManager man=getPreferenceManager();
 			man.findPreference("AutoIndexBrachot").setEnabled(true);
-			Toast.makeText(this, "Enabling AutoIndex", Toast.LENGTH_SHORT).show();
 		}
 		
 		Log.v(TAG, "onCreate() ending");

@@ -570,10 +570,10 @@ GestureDetector.OnGestureListener
 			index.setVisible(false);
 		}
 		
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        if (prefs.getBoolean("test.extraActions", false)) {
-        	menu.findItem(R.id.ChangelogButton).setVisible(true);
-        }
+//        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+//        if (prefs.getBoolean("test.extraActions", false)) {
+//        	menu.findItem(R.id.ChangelogButton).setVisible(true);
+//        }
 
         Log.v(TAG, "onCreateOptionsMenu() about to return");
 		return true;
@@ -619,7 +619,6 @@ GestureDetector.OnGestureListener
 			break;
 		case R.id.FeedbackButton:
 			controller.feedback(this);
-			Toast.makeText(this, "Feedback done", Toast.LENGTH_SHORT).show();
 			break;
 		}
 		Log.w(getClass().getName(), "Got an unknown MenuItem event");

@@ -159,10 +159,10 @@ public class AndDaavenSplash extends Activity implements OnClickListener, OnItem
 		Log.v(TAG, "onCreateOptions() beginning");
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.mainmenu, menu);
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        if (prefs.getBoolean("test.extraActions", false)) {
-        	menu.findItem(R.id.ChangelogButton).setVisible(true);
-        }
+//        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+//        if (prefs.getBoolean("test.extraActions", false)) {
+//        	menu.findItem(R.id.ChangelogButton).setVisible(true);
+//        }
 		Log.v(TAG, "onCreateOptions() returning true");
         return true;
 	}
@@ -200,7 +200,6 @@ public class AndDaavenSplash extends Activity implements OnClickListener, OnItem
 				break;
 			case R.id.FeedbackButton:
 				controller.feedback(this);
-				Toast.makeText(this, "Feedback done", Toast.LENGTH_SHORT).show();
 				break;
         }
         Log.w(getClass().getName(), "Got an unknown MenuItem event");

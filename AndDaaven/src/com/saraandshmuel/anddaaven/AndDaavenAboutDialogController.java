@@ -20,17 +20,9 @@ import android.app.*;
  * @author shmuelp
  *
  */
-public class AndDaavenAboutDialogController implements OnLongClickListener, DialogInterface.OnKeyListener
+public class AndDaavenAboutDialogController implements OnLongClickListener
 {
 
-	public boolean onKey(DialogInterface dialog, int p2, KeyEvent keyEvent)
-	{
-		//dialog.dismiss();
-		context.removeDialog(R.id.About);
-		return true;
-	}
-
-	
 	private Activity context;
 	private TextView versionText;
 	
@@ -79,8 +71,6 @@ public class AndDaavenAboutDialogController implements OnLongClickListener, Dial
 			.setTitle(context.getString(R.string.TextViewAcknowledgementTitle));
 		aboutDialog.setCancelable(true);
 		aboutDialog.setOwnerActivity(context);
-		aboutDialog.setOnKeyListener(this);
-		aboutDialog.show();
 		Log.v(TAG, "onOptionsItemSelected() returning early 1");
 		return aboutDialog;
 	}

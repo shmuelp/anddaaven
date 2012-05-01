@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ScaleGestureDetector.OnScaleGestureListener;
 import android.view.View.OnTouchListener;
 import android.widget.Toast;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
 /**
  * Adds pinch-to-zoom behavior to AndDaavenTefilla
@@ -24,7 +26,10 @@ public class AndDaavenTefillaFroyo extends AndDaavenTefilla implements OnScaleGe
 		super.onCreate(savedInstanceState);
 		sgd = new ScaleGestureDetector(this, this);
 		originalSpan = 0;
-		daavenText.setOnTouchListener(this);
+		SharedPreferences prefs=PreferenceManager.getDefaultSharedPreferences(this);
+		if (prefs.getBoolean("test.zoom", false)) {
+			daavenText.setOnTouchListener(this);
+		}
 	}
 	
 	public boolean onScale(ScaleGestureDetector detector) {
