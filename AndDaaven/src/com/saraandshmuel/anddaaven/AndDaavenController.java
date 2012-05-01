@@ -21,7 +21,6 @@ public class AndDaavenController
 		sb.append("\n\nFeedback: \n");
 		String body = sb.toString();
 		intent.putExtra(Intent.EXTRA_TEXT, body);
-		Toast.makeText(context, "Send email", Toast.LENGTH_SHORT).show();
 		context.startActivity(intent);
 	}
 }

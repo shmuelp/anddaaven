@@ -22,16 +22,8 @@ import android.preference.*;
  * @author shmuelp
  *
  */
-public class AndDaavenChangelogController implements DialogInterface.OnKeyListener
+public class AndDaavenChangelogController
 {
-
-	public boolean onKey(DialogInterface dialog, int p2, KeyEvent keyEvent)
-	{
-		//dialog.dismiss();
-		context.removeDialog(R.id.ChangelogButton);
-		return true;
-	}
-
 	
 	private Activity context;
 	private static final String TAG = "AndDaavenChangelogController";
@@ -78,8 +70,6 @@ public class AndDaavenChangelogController implements DialogInterface.OnKeyListen
 		
 		changelogDialog.setCancelable(true);
 		changelogDialog.setOwnerActivity(context);
-		changelogDialog.setOnKeyListener(this);
-		changelogDialog.show();
 		Log.v(TAG, "onOptionsItemSelected() returning early 1");
 		return changelogDialog;
 	}
