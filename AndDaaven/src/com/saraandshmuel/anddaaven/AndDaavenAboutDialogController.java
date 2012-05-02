@@ -1,7 +1,7 @@
 package com.saraandshmuel.anddaaven;
 
+import android.app.Activity;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -9,10 +9,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnLongClickListener;
 import android.widget.TextView;
-import android.widget.Toast;
-import android.content.*;
-import android.view.*;
-import android.app.*;
 
 
 /**

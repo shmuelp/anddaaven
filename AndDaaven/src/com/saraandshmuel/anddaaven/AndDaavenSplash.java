@@ -16,10 +16,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Button;
 import android.widget.Spinner;
-import android.widget.Toast;
-import android.widget.AdapterView.OnItemSelectedListener;
 
 
 /**
@@ -34,10 +33,6 @@ public class AndDaavenSplash extends Activity implements OnClickListener, OnItem
 
 	public AndDaavenSplash() {
 		Log.v(TAG, "AndDaavenSplash()");
-		model = new AndDaavenModel();
-		view = new AndDaavenView();
-		controller = new AndDaavenController();
-		changelogController = new AndDaavenChangelogController(this);
 	}
 	
 	/** Called when the activity is first created. */
@@ -47,15 +42,18 @@ public class AndDaavenSplash extends Activity implements OnClickListener, OnItem
 		// set preferences defaults from XML
 		PreferenceManager.setDefaultValues(this, R.xml.settings, false);
 		
-		view.setNightMode(this, model);
+		model = new AndDaavenModel();
+		view = new AndDaavenView(this);
+		controller = new AndDaavenController();
+		changelogController = new AndDaavenChangelogController(this);
+
+		view.setNightModeTheme();
 		
     	// layout view from resource XML file
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
-        // setup Typeface object with Hebrew font
-        Typeface face;
-        face = Typeface.createFromAsset(getAssets(), "FreeSerifBoldSubset.ttf");
+        Typeface face = view.getDefaultHebrewTypeface();
 
         // get references to buttons
         nusachSpinner = (Spinner) findViewById(R.id.NusachSpinner);
@@ -193,7 +191,7 @@ public class AndDaavenSplash extends Activity implements OnClickListener, OnItem
 //				intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
 				finish(); 
 				startActivity(intent);
-				model.toggleNightMode(this);
+				view.toggleNightMode();
 				berachotButton.getParent().getParent().requestLayout();
 				this.findViewById(R.id.MainScreenScrollView).requestLayout();
 				berachotButton.requestLayout();

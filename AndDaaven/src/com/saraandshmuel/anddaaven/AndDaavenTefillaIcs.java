@@ -1,8 +1,6 @@
 package com.saraandshmuel.anddaaven;
-import android.content.Intent;
-import android.os.*;
+import android.os.Bundle;
 import android.util.Log;
-import android.view.MenuItem;
 
 public class AndDaavenTefillaIcs extends AndDaavenTefillaHoneycomb
 {

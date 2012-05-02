@@ -1,6 +1,5 @@
 package com.saraandshmuel.anddaaven;
 import android.content.Intent;
-import android.os.*;
 import android.util.Log;
 import android.view.MenuItem;
 

@@ -5,7 +5,7 @@
 <item android:title="@string/MenuSettings" android:id="@+id/Settings" android:icon="@android:drawable/ic_menu_preferences" android:showAsAction="ifRoom"></item>
 <item android:id="@+id/Index" android:title="@string/MenuIndex" android:icon="@android:drawable/ic_menu_view" android:visible="false" android:showAsAction="always"></item>
 <item android:title="@string/MenuAbout" android:id="@+id/About" android:titleCondensed="@string/MenuAboutCondensed" android:icon="@android:drawable/ic_menu_info_details" android:showAsAction="ifRoom"></item>
-<item android:id="@+id/NightModeButton" android:title="@string/MenuDarkMode" android:showAsAction="ifRoom"></item>
+	<item android:id="@+id/NightModeButton" android:title="@string/MenuDarkMode" android:showAsAction="ifRoom"></item>
 <item android:id="@+id/FeedbackButton" android:title="@string/MenuFeedback" android:showAsAction="ifRoom" android:icon="@drawable/ic_menu_compose"></item>
-<item android:id="@+id/ChangelogButton" android:title="@string/MenuChangelog" android:showAsAction="ifRoom"/>
+	<item android:id="@+id/ChangelogButton" android:title="@string/MenuChangelog" android:showAsAction="ifRoom" android:icon="@drawable/ic_menu_archive"/>
 </menu>

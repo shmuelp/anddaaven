@@ -33,20 +33,6 @@ public class AndDaavenModel implements TefillaModelInterface
 		return result;
 	}
 	
-	public boolean getNightMode(Context context) {
-		boolean result=PreferenceManager.getDefaultSharedPreferences(context)
-			.getBoolean("DarkMode", false);
-		return result;
-	}
-
-	public void toggleNightMode(Context context) {
-		// TODO Auto-generated method stub
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-		boolean current=prefs.getBoolean("DarkMode", false);
-		prefs.edit().putBoolean("DarkMode", !current).commit();
-//		view.reload();
-	}
-
 	public void advanceDay() { 
 		Log.v(TAG, "Delegating advanceDay() to TefillaModel");
 		tefillaModel.advanceDay();

@@ -17,6 +17,8 @@ import android.preference.PreferenceManager;
  */
 public class AndDaavenTefillaFroyo extends AndDaavenTefilla implements OnScaleGestureListener, OnTouchListener
 {
+ 
+    public float thresh=(float)0.1;
 
 	public AndDaavenTefillaFroyo() {
 	}
@@ -34,6 +36,11 @@ public class AndDaavenTefillaFroyo extends AndDaavenTefilla implements OnScaleGe
 	
 	public boolean onScale(ScaleGestureDetector detector) {
 		float total = detector.getCurrentSpan() / originalSpan;
+		if ( total > originalSpan + thresh ||
+			 total < originalSpan - thresh ) {
+				view.adjustFontSize(total);
+		}
+		
 		Toast.makeText(this, "onScale(" + detector.getScaleFactor() + "), total=" + total, Toast.LENGTH_SHORT).show();
 		return true;
 	}
