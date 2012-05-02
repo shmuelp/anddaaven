@@ -1,6 +1,6 @@
 package com.saraandshmuel.anddaaven;
-import android.content.*;
-import android.widget.*;
+import android.content.Context;
+import android.content.Intent;
 
 public class AndDaavenController
 {

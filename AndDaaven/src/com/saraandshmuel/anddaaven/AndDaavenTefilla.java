@@ -17,14 +17,15 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.content.res.Resources;
 import android.graphics.Typeface;
-import android.os.Bundle;
 import android.os.Build.VERSION;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.Layout;
 import android.text.SpannableStringBuilder;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
+import android.view.GestureDetector;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -32,13 +33,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewConfiguration;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.view.*;
 
 public class AndDaavenTefilla extends Activity implements
 		OnSharedPreferenceChangeListener, TextWatcher,
@@ -46,15 +45,11 @@ public class AndDaavenTefilla extends Activity implements
 		View.OnTouchListener,
 GestureDetector.OnGestureListener
 {
-	private static final String TAG = "AndDaavenTefilla";
+	static final String TAG = "AndDaavenTefilla";
 
 	public AndDaavenTefilla() {
 		Log.v(TAG, "AndDaavenTefilla()");
 		System.setProperty("log.tag." + TAG, "VERBOSE");
-//		tefillaModel = new TefillaModel();
-		model = new AndDaavenModel();
-		view = new AndDaavenView();
-		controller = new AndDaavenController();
 	}
 
 	/** Called when the activity is first created. */
@@ -62,12 +57,15 @@ GestureDetector.OnGestureListener
 	public void onCreate(Bundle savedInstanceState) {
 		Log.v(TAG, "onCreate() beginning");
 
-		ViewConfiguration vc = ViewConfiguration.get(this);
-		tapThreshold2 = vc.getScaledTouchSlop() * vc.getScaledTouchSlop();
+//		tefillaModel = new TefillaModel();
+		model = new AndDaavenModel();
+		view = new AndDaavenView(this);
+		controller = new AndDaavenController();
+
 		gestureDetector = new GestureDetector(this, this);
 
 		// layout view from resource XML file
-		view.setNightMode(this, model);
+		view.setNightModeTheme();
 		super.onCreate(savedInstanceState);
 		setWindowFlags();
 
@@ -184,41 +182,8 @@ GestureDetector.OnGestureListener
 	 */
 	private void setHebrewFont() {
 		Log.v(TAG, "setHebrewFont() beginning");
-		try {
-			if (hebrewTypeface == null) {
-				String typefaceName;
-				typefaceName = PreferenceManager.getDefaultSharedPreferences(
-						this).getString("TextFont", "FreeSerifBoldSubset.ttf");
-
-				// Backwards compatibility
-				if (typefaceName == "FreeSans.ttf") {
-					SharedPreferences.Editor edit = PreferenceManager
-							.getDefaultSharedPreferences(this).edit();
-					edit.putString("TextFont", "FreeSansSubset.ttf");
-				}
-				if (typefaceName == "FreeMono.ttf") {
-					SharedPreferences.Editor edit = PreferenceManager
-							.getDefaultSharedPreferences(this).edit();
-					edit.putString("TextFont", "FreeMonoSubset.ttf");
-				}
-
-				hebrewTypeface = Typeface.createFromAsset(getAssets(),
-						typefaceName);
-				// face = Typeface.createFromAsset(getAssets(), "SILEOTSR.ttf");
-			}
-		} catch (Exception e) {
-			// Apparently, the expected font does not exist. Most likely, the
-			// user selected something
-			// which has changed names. Clear the pref and use the default
-			String typefaceName = "FreeSerifBoldSubset.ttf";
-			SharedPreferences.Editor edit = PreferenceManager
-					.getDefaultSharedPreferences(this).edit();
-			edit.putString("TextFont", "FreeSerifBoldSubset.ttf");
-			edit.commit();
-			hebrewTypeface = Typeface
-					.createFromAsset(getAssets(), typefaceName);
-			e.printStackTrace();
-		}
+		if (hebrewTypeface==null)
+			view.getSelectedHebrewTypeface();
 
 		// daavenText.setTypeface(hebrewTypeface);
 		runOnUiThread(new Runnable() {
@@ -234,25 +199,10 @@ GestureDetector.OnGestureListener
 	 */
 	private void setFontSize() {
 		Log.v(TAG, "setFontSize() beginning");
-		float size = getFontSize();
+		float size = view.getFontSize();
 		daavenText.setTextSize(size);
 		Log.v(TAG, "setFontSize() ending");
 	}
-
-	/**
-	 * Gets the font size of the tefilla text
-	 * 
-	 * @return
-	 */
-	private float getFontSize() {
-		Log.v(TAG, "getFontSize() beginning");
-		String sizePref = PreferenceManager.getDefaultSharedPreferences(this)
-				.getString("FontSize", "20");
-		float size = Float.parseFloat(sizePref);
-		Log.v(TAG, "getFontSize() about to return " + size);
-		return size;
-	}
-	
 
 	/**
 	 * Saves local pointers to interesting objects so they may be manipulated
@@ -610,7 +560,7 @@ GestureDetector.OnGestureListener
 			Log.v(TAG, "onOptionsItemSelected() returning early 3");
 			return true;
 		case R.id.NightModeButton:
-			model.toggleNightMode(this);
+			view.toggleNightMode();
 			intent = new Intent(getIntent());
 			intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
 			intent.putExtra("ScrollPosition", daavenScroll.getScrollY());
@@ -648,7 +598,7 @@ GestureDetector.OnGestureListener
 		switch (id) {
 		case R.id.Index:
 			ContextThemeWrapper ctx = new ContextThemeWrapper(this,
-				view.getNightModeStyle(this, model));
+				view.getNightModeStyle(model));
 
 			AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
 			if (hebrewTypeface == null)
@@ -656,7 +606,7 @@ GestureDetector.OnGestureListener
 			ArrayAdapter<String> aa = new ArrayAdapter<String>(this,
 					R.layout.index_list_item, sectionNames);
 			TypefaceAdapter ta = new TypefaceAdapter(aa, hebrewTypeface,
-					getFontSize());
+					view.getFontSize());
 			// builder.setItems(sectionNames, this);
 			builder.setAdapter(ta, this);
 			AlertDialog indexDialog = builder.create();
@@ -1058,9 +1008,6 @@ GestureDetector.OnGestureListener
 		return false;
 	}
 
-
-	
-
 	// use a SpannableStringBuilder to allow addition of formatting in
 	// future
 	SpannableStringBuilder ssb = new SpannableStringBuilder();
@@ -1075,15 +1022,10 @@ GestureDetector.OnGestureListener
 	private Typeface hebrewTypeface = null;
 	private boolean tapToScroll = false;
 
-	private AndDaavenController controller;
-	private AndDaavenModel model;
-	private AndDaavenView view;
+	protected AndDaavenController controller;
+	protected AndDaavenModel model;
+	protected AndDaavenView view;
 //	private TefillaModel tefillaModel;
 
 	private GestureDetector gestureDetector;
-
-	private long currentDownTime = 0;
-	private float currentDownX = 0;
-	private float currentDownY = 0;
-	private float tapThreshold2 = 0;
 }
