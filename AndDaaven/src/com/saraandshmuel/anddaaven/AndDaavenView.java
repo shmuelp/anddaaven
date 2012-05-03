@@ -88,11 +88,13 @@ public class AndDaavenView
 	/**
 	 */
 	public Typeface getSelectedHebrewTypeface() {
+		Log.v(TAG, "getSelectedHebrewTypeface beginning");
 		Typeface result=null;
 		
 		try {
 			String typefaceName;
 			typefaceName = prefs.getString("TextFont", "FreeSerifBoldSubset.ttf");
+			Log.v(TAG, "got name=" + typefaceName);
 	
 			// Backwards compatibility
 			if (typefaceName == "FreeSans.ttf") {
@@ -107,6 +109,7 @@ public class AndDaavenView
 			result = Typeface.createFromAsset(activity.getAssets(), typefaceName);
 			// face = Typeface.createFromAsset(getAssets(), "SILEOTSR.ttf");
 		} catch (Exception e) {
+			Log.e(TAG, "Couldn't create font, will try default");
 			// Apparently, the expected font does not exist. Most likely, the
 			// user selected something
 			// which has changed names. Clear the pref and use the default
@@ -116,7 +119,6 @@ public class AndDaavenView
 			edit.commit();
 			result = Typeface
 					.createFromAsset(activity.getAssets(), typefaceName);
-			e.printStackTrace();
 		}
 		
 		return result;

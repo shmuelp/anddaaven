@@ -183,7 +183,7 @@ GestureDetector.OnGestureListener
 	private void setHebrewFont() {
 		Log.v(TAG, "setHebrewFont() beginning");
 		if (hebrewTypeface==null)
-			view.getSelectedHebrewTypeface();
+			hebrewTypeface=view.getSelectedHebrewTypeface();
 
 		// daavenText.setTypeface(hebrewTypeface);
 		runOnUiThread(new Runnable() {
