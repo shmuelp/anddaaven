@@ -38,7 +38,8 @@ public class AndDaavenTefillaFroyo extends AndDaavenTefilla implements OnScaleGe
 		float total = detector.getCurrentSpan() / originalSpan;
 		if ( total > originalSpan + thresh ||
 			 total < originalSpan - thresh ) {
-				view.adjustFontSize(total);
+			view.adjustFontSize(total);
+			originalSpan = detector.getCurrentSpan();
 		}
 		
 		return true;
