@@ -29,7 +29,7 @@ public class AndDaavenChangelogController
 	public void showIfNewVersion() {
 		try
 		{
-			String pkg=context.getApplication().getApplicationInfo().packageName;
+			String pkg=context.getPackageName();
 			PackageInfo pi = context.getPackageManager().getPackageInfo(pkg, 0);
 			int curVersion = pi.versionCode;
 			
