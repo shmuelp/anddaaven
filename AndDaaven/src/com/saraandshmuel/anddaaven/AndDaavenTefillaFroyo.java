@@ -41,32 +41,27 @@ public class AndDaavenTefillaFroyo extends AndDaavenTefilla implements OnScaleGe
 				view.adjustFontSize(total);
 		}
 		
-		Toast.makeText(this, "onScale(" + detector.getScaleFactor() + "), total=" + total, Toast.LENGTH_SHORT).show();
 		return true;
 	}
 
 	public boolean onScaleBegin(ScaleGestureDetector detector) {
-		Toast.makeText(this, "onScaleBegin(" + detector.getScaleFactor() + ")", Toast.LENGTH_SHORT).show();
 		originalSpan = detector.getCurrentSpan();
 		return true;
 	}
 	
 	public void onScaleEnd(ScaleGestureDetector detector) {
-		Toast.makeText(this, "onScaleEnd(" + detector.getScaleFactor() + ")", Toast.LENGTH_SHORT).show();
+		// TODO: Consider scaling the text here
 	}
 	
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
-		Toast.makeText(this, "Froyo onTouchEvent", Toast.LENGTH_SHORT).show();
 		sgd.onTouchEvent(event);
 		return super.onTouchEvent(event);
 	}
 
-@Override
+	@Override
 	public boolean onTouch(View view, MotionEvent ev) {
-	//Toast.makeText(this, "Froyo onTouch, view=" + view.getId(), Toast.LENGTH_SHORT).show();
 		if (view==daavenText || view==daavenScroll) {
-			//Toast.makeText(this, "Froyo onTouch from daavenText or daavenScroll", Toast.LENGTH_SHORT).show();
 			sgd.onTouchEvent(ev);
 		}
 		return super.onTouch(view, ev);
