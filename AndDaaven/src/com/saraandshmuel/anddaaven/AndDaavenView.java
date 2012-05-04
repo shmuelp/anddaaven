@@ -26,7 +26,7 @@ public class AndDaavenView
 		String sizeStr = prefs.getString("FontSize", "20");
 		float size=Float.parseFloat(sizeStr);
 		size *= total;
-		prefs.edit().putString("FontSize", Float.toString(size));
+		prefs.edit().putString("FontSize", Float.toString(size)).commit();
 		View v = activity.findViewById(R.id.DaavenText);
 		if (v != null ) {
 			TextView text = (TextView) v;
