@@ -45,7 +45,7 @@ public class AndDaavenAboutDialogController implements OnLongClickListener
 		// Add the version number to the title bar
 		try
 		{
-			PackageInfo pi = context.getPackageManager().getPackageInfo("com.saraandshmuel.anddaaven", 0);
+			PackageInfo pi = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
 			version = pi.versionName;
 		}
 		catch (NameNotFoundException e)

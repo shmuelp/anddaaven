@@ -23,7 +23,7 @@ public class AndDaavenModel implements TefillaModelInterface
 	{
 		String result = "Unknown";
     	try {
-			PackageInfo pi = context.getPackageManager().getPackageInfo("com.saraandshmuel.anddaaven",0);
+			PackageInfo pi = context.getPackageManager().getPackageInfo(context.getPackageName(),0);
 	        result = pi.versionName;
 		} catch (NameNotFoundException e) {
 			e.printStackTrace();
