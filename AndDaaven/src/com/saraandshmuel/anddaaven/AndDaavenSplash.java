@@ -248,6 +248,7 @@ public class AndDaavenSplash extends Activity implements OnClickListener, OnItem
 										 Long.toString(index),
 										 ""));
     		intent.putExtra("nusach", nusachSpinner.getSelectedItemPosition());
+    		Log.i(TAG, "About to launch tefilla with Intent " + intent.toURI());
     		// call AndDaavenTefilla Activity
     		startActivity(intent);
     	} else {
