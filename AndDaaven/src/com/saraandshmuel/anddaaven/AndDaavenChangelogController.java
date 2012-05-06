@@ -39,7 +39,11 @@ public class AndDaavenChangelogController
 			Log.v(TAG, "Last run check, current=" + curVersion + ", lastRunVersion=" + runVersion);
 			
 			if (runVersion < curVersion ) {
-				context.showDialog(R.id.ChangelogButton);
+				context.runOnUiThread(new Runnable() {
+					public void run() {
+						context.showDialog(R.id.ChangelogButton);
+					}
+				});
 				prefs.edit().putInt("LastRunVersion", curVersion).commit();
 			}
 		}
