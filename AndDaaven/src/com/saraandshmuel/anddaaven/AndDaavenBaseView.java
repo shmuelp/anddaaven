@@ -7,13 +7,13 @@ import android.app.Activity;
 import android.widget.TextView;
 import android.view.View;
 
-public class AndDaavenView
+public class AndDaavenBaseView
 {
 	private String TAG="AndDaavenView";
-	private Activity activity;
-	private SharedPreferences prefs;
+	protected Activity activity;
+	protected SharedPreferences prefs;
 
-	public AndDaavenView(Activity activity) {
+	public AndDaavenBaseView(Activity activity) {
 		System.setProperty("log.tag." + TAG, "VERBOSE");
 		this.activity = activity;
 		Log.v(TAG, "Getting prefs, activity=" + activity);
@@ -34,7 +34,7 @@ public class AndDaavenView
 		}
 	}
 	
-	public int getNightModeStyle(AndDaavenModel model) {
+	public int getNightModeStyle(AndDaavenBaseModel model) {
 		if (getNightMode())
 			return R.style.MyDark;
 		else
