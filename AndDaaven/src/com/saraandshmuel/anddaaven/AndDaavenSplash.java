@@ -28,8 +28,10 @@ import android.widget.Spinner;
  */
 public class AndDaavenSplash extends Activity implements OnClickListener, OnItemSelectedListener {
 
-	private static final String TAG = "AndDaavenSplash";
+	static final String TAG = "AndDaavenSplash";
 	private AndDaavenChangelogController changelogController;
+
+	private AndDaavenBaseFactory factory;
 
 	public AndDaavenSplash() {
 		Log.v(TAG, "AndDaavenSplash()");
@@ -41,20 +43,26 @@ public class AndDaavenSplash extends Activity implements OnClickListener, OnItem
 		Log.v(TAG, "onCreate() beginning");
 		// set preferences defaults from XML
 		PreferenceManager.setDefaultValues(this, R.xml.settings, false);
-		
-		model = new AndDaavenModel();
-		view = new AndDaavenView(this);
-		controller = new AndDaavenController();
+
+		factory=new AndDaavenBaseFactory(this);
+		factory.createMvc();
+		model=factory.getModel();
+		view=factory.getView();
+		controller=factory.getController();
 		changelogController = new AndDaavenChangelogController(this);
 
+		Log.v(TAG, "onCreate() 01 view=" + view);
 		view.setNightModeTheme();
+		Log.v(TAG, "onCreate() 02");
 		
     	// layout view from resource XML file
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
+		Log.v(TAG, "onCreate() 03");
         Typeface face = view.getDefaultHebrewTypeface();
-
+		Log.v(TAG, "onCreate() 04");
+		
         // get references to buttons
         nusachSpinner = (Spinner) findViewById(R.id.NusachSpinner);
     	shacharitButton = (Button) findViewById(R.id.ShacharitButton);
@@ -65,7 +73,9 @@ public class AndDaavenSplash extends Activity implements OnClickListener, OnItem
     	kiddushLevanaButton = (Button) findViewById(R.id.KiddushLevanaButton);
     	estherButton = (Button) findViewById(R.id.EstherButton);
     	
-    	// set defaults
+		Log.v(TAG, "onCreate() 05");
+		
+		// set defaults
 		SharedPreferences prefs=PreferenceManager.getDefaultSharedPreferences(this);
     	int nusachPosition=prefs.getInt("LastNusach", -1);
     	nusachSpinner.setSelection(nusachPosition);
@@ -92,6 +102,8 @@ public class AndDaavenSplash extends Activity implements OnClickListener, OnItem
     	kiddushLevanaButton.setTypeface(face);
     	estherButton.setTypeface(face);
     	
+		Log.v(TAG, "onCreate() 06");
+
     	// get time
     	Time time = new Time();
     	time.setToNow();
@@ -107,17 +119,20 @@ public class AndDaavenSplash extends Activity implements OnClickListener, OnItem
     		toHighlight = maarivButton;
     	}
 
+		Log.v(TAG, "onCreate() 07");
     	HebrewDate h = new HebrewDate(time);
-    	if (isFastDay(h, time)) {
+    	if (model.isFastDay(h, time)) {
     		minchaFastDayButton.setVisibility(View.VISIBLE);
     		if (toHighlight==minchaButton) toHighlight=minchaFastDayButton;
     	}
+
+		Log.v(TAG, "onCreate() 08");
 
     	toHighlight.setLines(4);
     	toHighlight.requestFocus();
     	
     	// Add the version number to the title bar
-		setTitle(getTitle() + " " + AndDaavenModel.getVersion(this));
+		setTitle(getTitle() + " " + AndDaavenBaseModel.getVersion(this));
 		
 		Log.v(TAG, "onCreate() ending");
     }
@@ -129,27 +144,7 @@ public class AndDaavenSplash extends Activity implements OnClickListener, OnItem
 		super.onResume();
 	}
 
-/// @todo this belongs in a HebrewDateModel type class
-    private boolean isFastDay(HebrewDate h, Time time) {
-    	boolean result=false;
-    	
-    	int month=h.GetMonth();
-    	int day=h.GetDay();
-    	
-    	if ( month==4  && day==17 ||
-    	     month==4  && day==18 && time.weekDay==0 ||
-    		 month==5  && day==9  || 
-    		 month==5  && day==10 && time.weekDay==0 || 
-    		 month==7  && day==3  ||
-    		 month==7  && day==4  && time.weekDay==0 ||
-    		 month==10 && day==10 ||
-    		 month==12 && day==13 && !h.HebrewLeapYear() ||
-    		 month==13 && day==13 && h.HebrewLeapYear() ) 
-    		result=true;
-		return result;
-	}
-
-	/** 
+    /** 
      * Create menu to display when requested
      */
     @Override
@@ -166,44 +161,12 @@ public class AndDaavenSplash extends Activity implements OnClickListener, OnItem
 	}
     
     /**
-     * Initial menu item handler - still being implemented
-     */
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-		Log.v(TAG, "onOptionsItemSelected() beginning");
-        switch (item.getItemId()) {
-        	case R.id.About:
-        		showDialog(R.id.About);
-        		Log.v(TAG, "onOptionsItemSelected() returning early 1");
-        		return true;
-        	case R.id.ChangelogButton:
-        		showDialog(R.id.ChangelogButton);
-        		Log.v(TAG, "onOptionsItemSelected() returning early 1");
-        		return true;
-        	case R.id.Settings:
-        		Intent intent = new Intent(this, com.saraandshmuel.anddaaven.AndDaavenSettings.class);
-        		startActivity(intent);
-        		Log.v(TAG, "onOptionsItemSelected() returning early 2");
-        		return true;
-			case R.id.NightModeButton:
-				intent = getIntent();
-//				Only available in API 5 (Eclair)
-//				intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-				finish(); 
-				startActivity(intent);
-				view.toggleNightMode();
-				berachotButton.getParent().getParent().requestLayout();
-				this.findViewById(R.id.MainScreenScrollView).requestLayout();
-				berachotButton.requestLayout();
-				break;
-			case R.id.FeedbackButton:
-				controller.feedback(this);
-				break;
-        }
-        Log.w(getClass().getName(), "Got an unknown MenuItem event");
-		Log.v(TAG, "onOptionsItemSelected() ending");
-        return false;        
-    }
+	 * Initial menu item handler - still being implemented
+	 */
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		return controller.onOptionsItemSelected(item);
+	}
 
 	@Override
 	protected void onPrepareDialog(int id, Dialog dialog) {
@@ -242,7 +205,7 @@ public class AndDaavenSplash extends Activity implements OnClickListener, OnItem
     	
     	// retrieve appropriate filename from resources
     	if ( index != -1 ) {
-    		Intent intent = AndDaavenFactory.getTefillaIntent(this);
+    		Intent intent = AndDaavenBaseFactory.getTefillaIntent(this);
     		intent.setData(Uri.fromParts("content", 
 										 "com.saraandshmuel.anddaaven/" + 
 										 Long.toString(index),
@@ -265,9 +228,9 @@ public class AndDaavenSplash extends Activity implements OnClickListener, OnItem
     private Button berachotButton;
     private Button kiddushLevanaButton;
     private Button estherButton;
-	private AndDaavenModel model;
-	private AndDaavenView view;
-	private AndDaavenController controller;
+	private AndDaavenBaseModel model;
+	AndDaavenBaseView view;
+	private AndDaavenBaseController controller;
 
 	public void onItemSelected(AdapterView<?> parent, View view, int position,
 			long id) {

@@ -47,6 +47,8 @@ GestureDetector.OnGestureListener
 {
 	static final String TAG = "AndDaavenTefilla";
 
+	protected AndDaavenTefillaFactory factory;
+
 	public AndDaavenTefilla() {
 		Log.v(TAG, "AndDaavenTefilla()");
 		System.setProperty("log.tag." + TAG, "VERBOSE");
@@ -57,11 +59,13 @@ GestureDetector.OnGestureListener
 	public void onCreate(Bundle savedInstanceState) {
 		Log.v(TAG, "onCreate() beginning");
 
-//		tefillaModel = new TefillaModel();
-		model = new AndDaavenModel();
-		view = new AndDaavenView(this);
-		controller = new AndDaavenController();
-
+		//AndDaavenBaseFactory.initMvc(this, model, view, controller);
+		factory=new AndDaavenTefillaFactory(this);
+		factory.createMvc();
+		model=factory.getModel();
+		view=factory.getView();
+		controller=factory.getController();
+		
 		gestureDetector = new GestureDetector(this, this);
 
 		// layout view from resource XML file
@@ -71,6 +75,7 @@ GestureDetector.OnGestureListener
 
 		setContentView(R.layout.daaven);
 		findLayoutObjects();
+		view.findLayoutObjects();
 
 		PreferenceManager.getDefaultSharedPreferences(this)
 				.registerOnSharedPreferenceChangeListener(this);
@@ -536,44 +541,7 @@ GestureDetector.OnGestureListener
 	 */
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		Log.v(TAG, "onOptionsItemSelected() beginning");
-		switch (item.getItemId()) {
-		case android.R.id.home:
-			// app icon in action bar clicked; go home
-			Intent intent = new Intent(this, AndDaavenSplash.class);
-			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-			startActivity(intent);
-			return true;
-		case R.id.About:
-			showDialog(R.id.About);
-			return true;
-		case R.id.ChangelogButton:
-			showDialog(R.id.ChangelogButton);
-			return true;
-		case R.id.Settings:
-			showIndex();
-			Log.v(TAG, "onOptionsItemSelected() returning early 2");
-			return true;
-		case R.id.Index:
-			Log.v(TAG, "onOptionsItemSelected() about to show index");
-			showDialog(R.id.Index);
-			Log.v(TAG, "onOptionsItemSelected() returning early 3");
-			return true;
-		case R.id.NightModeButton:
-			view.toggleNightMode();
-			intent = new Intent(getIntent());
-			intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-			intent.putExtra("ScrollPosition", daavenScroll.getScrollY());
-			finish();
-			startActivity(intent);
-			break;
-		case R.id.FeedbackButton:
-			controller.feedback(this);
-			break;
-		}
-		Log.w(getClass().getName(), "Got an unknown MenuItem event");
-		Log.v(TAG, "onOptionsItemSelected() about to return");
-		return false;
+		return controller.onOptionsItemSelected(item);
 	}
 
 	@Override
@@ -581,15 +549,6 @@ GestureDetector.OnGestureListener
 		// TODO Auto-generated method stub
 		Log.v(TAG, "onPrepareDialog() calling superclass");
 		super.onPrepareDialog(id, dialog);
-	}
-
-	/**
-	 * 
-	 */
-	private void showIndex() {
-		Intent intent = new Intent(this,
-				com.saraandshmuel.anddaaven.AndDaavenSettings.class);
-		startActivity(intent);
 	}
 
 	@Override
@@ -1022,9 +981,9 @@ GestureDetector.OnGestureListener
 	private Typeface hebrewTypeface = null;
 	private boolean tapToScroll = false;
 
-	protected AndDaavenController controller;
-	protected AndDaavenModel model;
-	protected AndDaavenView view;
+	protected AndDaavenTefillaController controller;
+	protected AndDaavenTefillaModel model;
+	protected AndDaavenTefillaView view;
 //	private TefillaModel tefillaModel;
 
 	private GestureDetector gestureDetector;
