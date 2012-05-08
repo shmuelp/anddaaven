@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hello">AndDaaven version </string>
+    <string name="app_name">AndDaaven</string>
+<string-array name="TefillaName">
+	<item>Shacharit</item>
+	<item>Mincha</item>
+	<item>Mincha (fast days)</item>
+	<item>Maariv</item>
+	<item>B\'rachot</item>
+	<item>Kiddush Levana</item>
+	<item>Esther</item>
+</string-array>
+<string-array name="Nusach">
+    <item>Ashkenaz</item>
+    <item>Edot HaMizrah - Seattle - Zehut Yosef</item>
+    <item>Ari - Chabad - Tehillat Hashem</item>
+</string-array>
+<string name="GoText">Da\'aven! תפילה</string>
+<string name="MenuAbout">About AndDaaven</string>
+<string name="MenuSettings">Settings</string>
+<string name="MenuAboutCondensed">About...</string>
+<string name="MenuIndex">Index</string>
+<string name="MenuDarkMode">Day/Night Mode</string>
+<string name="MenuFeedback">Bugs/Feedback</string>
+<string name="MenuChangelog">Recent changes...</string>
+<string name="foo">bar</string>
+<string name="ChangelogTitle">Recent changes</string>
+<string name="TextViewAcknowledgementTitle">About AndDaaven</string>
+<string name="TextViewAcknowledgement">
+<a href="http://anddaaven.googlecode.com/">AndDaaven</a> (c) 2010 S. Popper
+\n\n
+<b>Texts</b>:
+Thanks to Moishe (Richard) Davidovichi for the text of daavening.
+Text of Megillat Esther from <a href="http://he.wikisource.org/wiki/%D7%90%D7%A1%D7%AA%D7%A8_%D7%98%D7%A2%D7%9E%D7%99%D7%9D_%D7%9E%D7%A1%D7%95%D7%9E%D7%9F">Wikisource</a>.  Text is licensed <a href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons BY-SA 3.0</a> 
+Text of fast day additions and kiddush levana from Siddur Bnei Ashkenaz via <a href="http://http://opensiddur.org">OpenSiddur</a>.  Text is licensed <a href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons BY-SA 3.0</a>\n
+Text of Zehut Yosef provided by Isaac Azose / Sephardic Traditions Foundation.\n
+Text of Nusach Ari/Chabad provided by Shmuel Gonzales to OpenSiddur. 
+\n\n
+<b>Testing/Suggestions</b>:
+Danny P., Craig E., Ari G., and many others.
+\n\n
+<b>Font</b>:
+<a href="http://scripts.sil.org/cms/scripts/page.php?site_id=nrsi&amp;item_id=EzraSIL_home"><i>Ezra SIL</i></a> by <a href="http://www.sil.org/">SIL International</a>\n
+<a href="http://ftp.gnu.org/gnu/freefont/"><i>FreeMono</i></a> by GNU FreeFont\n
+<a href="http://ftp.gnu.org/gnu/freefont/"><i>FreeSans</i></a> by GNU FreeFont\n
+<a href="http://ftp.gnu.org/gnu/freefont/"><i>FreeSerif</i></a> by GNU FreeFont\n
+<a href="http://culmus.sourceforge.net/"><i>Nachlieli CLM</i></a> by The Culmus Project
+\n\n
+<b>Date Calculations</b>:
+Date calculation code adapted from <a href="http://emr.cs.uiuc.edu/~reingold/calendar.C">public domain C++ version</a> of code written by Nachum Dershowitz and <a href="http://emr.cs.uiuc.edu/~reingold/">Edward M. Reingold</a> in "Calendrical Calculations", published in Software---Practice &amp; Experience, vol. 20, no. 9 (September, 1990), pp. 899--928.
+\n\n
+<b>Error Reporting</b>:
+Error reporting library from the <a href="http://acra.googlecode.com/">ACRA</a> project. 
+</string>
+<!-- <string name="crash_toast_text">Error detected; report was submitted</string> -->
+<string name="crash_notif_ticker_text">Unexpected error, please send a report...</string>
+<string name="crash_notif_title">AndDaaven has a problem...</string>
+<string name="crash_notif_text">Please tap here to help fix the issue.</string>
+        
+<string name="crash_dialog_title">AndDaaven has a problem</string>
+<string name="crash_dialog_text">An unexpected error occurred forcing the
+        application to stop. Please help us fix this by sending us error data,
+        all you have to do is click \'OK\'.</string>
+<string name="crash_dialog_comment_prompt">You might add your comments about the problem below:</string>
+<string name="crash_dialog_ok_toast">Thank you !</string>
+</resources>

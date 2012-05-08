@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+  xmlns:android="http://schemas.android.com/apk/res/android">
+
+<item android:id="@+id/Settings" android:title="@string/MenuSettings" android:showAsAction="ifRoom" android:icon="@android:drawable/ic_menu_preferences"></item>
+<item android:id="@+id/Index" android:title="@string/MenuIndex" android:showAsAction="always" android:icon="@android:drawable/ic_menu_view" android:visible="false"></item>
+<item android:id="@+id/About" android:title="@string/MenuAbout" android:showAsAction="ifRoom" android:icon="@android:drawable/ic_menu_info_details" android:titleCondensed="@string/MenuAboutCondensed"></item>
+<item android:id="@+id/NightModeButton" android:title="@string/MenuDarkMode" android:showAsAction="ifRoom" android:icon="@drawable/ic_menu_nightmode"></item>
+<item android:id="@+id/FeedbackButton" android:title="@string/MenuFeedback" android:showAsAction="ifRoom" android:icon="@drawable/ic_menu_compose"></item>
+<item android:id="@+id/ChangelogButton" android:title="@string/MenuChangelog" android:showAsAction="ifRoom" android:icon="@drawable/ic_menu_archive"/>
+</menu>

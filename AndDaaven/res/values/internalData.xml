@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<string-array name="FileName">
+	<item>shacharit</item>
+	<item>mincha</item>
+	<item>minchafast</item>
+	<item>maariv</item>
+	<item>other</item>
+	<item>kiddush-levana</item>
+	<item>ester</item>
+</string-array>
+<string-array name="FileNameNusach">
+    <item>ashkenaz</item>
+    <item>sfardi-seattle</item>
+    <item>chabad</item>
+</string-array>
+<string name="FileNameSuffix">utf8</string>
+<string-array name="FontFiles">
+	<item>FreeMonoSubset.ttf</item>
+	<item>FreeSansSubset.ttf</item>
+	<item>FreeSerifBoldSubset.ttf</item>
+	<item>NachlieliCLM-Light.ttf</item>
+	<item>SILEOTSR.ttf</item>
+	<item>TaameyDavidCLM-Medium.ttf</item>
+	<item>TaameyDavidCLM-Bold.ttf</item>
+	<item>TaameyFrankCLM-Medium.ttf</item>
+	<item>TaameyFrankCLM-Bold.ttf</item>
+</string-array>
+<string-array name="VolumeButtonCode">
+	<item>IGNORE</item>
+	<item>PAGE</item>
+	<item>SECTION</item>
+</string-array>
+</resources>

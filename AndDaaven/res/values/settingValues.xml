@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<string name="AppearanceTitle">Appearance</string>
+<string name="NavigationTitle">Navigation</string>
+<string name="DistractionTitle">Distraction Control</string>
+<string name="AutoIndexTitle">Automatically Show Index (Not working yet)</string>
+<string name="WorkaroundTitle">Workarounds</string>
+
+<string name="ShowNikudKey">ShowNikud</string>
+<string name="ShowNikudTitle">Show Nikud</string>
+<string name="ShowNikudSummary">Controls whether or not Nikud is displayed</string>
+<string name="ShowNikudSummaryOn">Nikud will be displayed</string>
+<string name="ShowNikudSummaryOff">Nikud will not be displayed</string>
+<string name="DarkModeKey">DarkMode</string>
+<string name="DarkModeTitle">Night mode</string>
+<string name="DarkModeSummary">Controls whether or not text is displayed black-on-white</string>
+<string name="DarkModeSummaryOn">Text will be white-on-black</string>
+<string name="DarkModeSummaryOff">Text will be black-on-white</string>
+<string name="ScreenOnKey">ScreenOn</string>
+<string name="ScreenOnTitle">Keep screen on</string>
+<string name="ScreenOnSummary">Controls whether or not screen is prevented from shutting off</string>
+<string name="ScreenOnSummaryOn">Screen will be kept on</string>
+<string name="ScreenOnSummaryOff">Screen will dim/sleep as usual</string>
+<string name="FullScreenKey">FullScreen</string>
+<string name="FullScreenTitle">Full Screen</string>
+<string name="FullScreenSummary">Controls whether or not tefilla is displayed full screen</string>
+<string name="FullScreenSummaryOn">Tefilla will be displayed full screen</string>
+<string name="FullScreenSummaryOff">Tefilla will not be displayed full screen</string>
+<string name="FontKey">TextFont</string>
+<string name="FontTitle">Text Font</string>
+<string name="FontSummary">Controls the font used to display Tefilla</string>
+<string name="FontDialogTitle">Select font...</string>
+<string name="FontDialogMessage">Selects the font used to display Tefilla</string>
+<string-array name="FontNames">
+	<item>FreeMono</item>
+	<item>FreeSans</item>
+	<item>FreeSerifBold</item>
+	<item>Nachlieli Culmus Light</item>
+	<item>SIL Ezra</item>
+	<item>TaameyDavidCLM</item>
+	<item>TaameyDavidCLM Bold</item>
+	<item>TaameyFrankCLM</item>
+	<item>TaameyFrankCLM Bold</item>
+</string-array>
+<string name="FontSizeKey">FontSize</string>
+<string name="FontSizeTitle">Text Size</string>
+<string name="FontSizeSummary">Controls the size of the font used to display Tefilla</string>
+<string name="FontSizeDialogTitle">Select font size...</string>
+<string name="FontSizeDialogMessage">Selects the font size used to display Tefilla</string>
+<string-array name="FontSizes">
+	<item>10</item>
+	<item>12</item>
+	<item>14</item>
+	<item>16</item>
+	<item>17</item>
+	<item>18</item>
+	<item>19</item>
+	<item>20</item>
+	<item>21</item>
+	<item>22</item>
+	<item>24</item>
+	<item>26</item>
+	<item>28</item>
+	<item>30</item>
+	<item>34</item>
+	<item>38</item>
+</string-array>
+<string name="PageDownKey">PageDown</string>
+<string name="PageDownTitle">Scroll by Screen</string>
+<string name="PageDownSummary">Controls whether or not text is scrolls a screen at a time</string>
+<string name="PageDownSummaryOn">Tefilla will scroll a screen at a time when up/down is pressed</string>
+<string name="PageDownSummaryOff">Tefilla will scroll as usual</string>
+<string name="SectionJumpKey">SectionJump</string>
+<string name="SectionJumpTitle">Section Jump</string>
+<string name="SectionJumpSummary">Controls whether or not text is scrolls a screen at a time</string>
+<string name="SectionJumpSummaryOn">Jump sections by pressing right/left</string>
+<string name="SectionJumpSummaryOff">Right/left will be ignored</string>
+<string name="SectionNameKey">SectionName</string>
+<string name="SectionNameTitle">Section Names</string>
+<string name="SectionNameSummary">Controls whether or not section names are shown</string>
+<string name="SectionNameSummaryOn">Section names will be shown</string>
+<string name="SectionNameSummaryOff">Section names will not be shown</string>
+<string name="SettingInTefillaKey">SettingInTefilla</string>
+<string name="SettingInTefillaTitle">Show Settings Menu in Tefilla</string>
+<string name="SettingInTefillaSummary">Controls whether or not the settings menu is displayed on the tefilla screen</string>
+<string name="SettingInTefillaSummaryOn">Settings menu will be displayed on the tefilla screen</string>
+<string name="SettingInTefillaSummaryOff">Settings menu will not be displayed on the tefilla screen</string>
+<string name="TapToScrollKey">TapToScroll</string>
+<string name="TapToScrollTitle">Enable Tap-to-scroll</string>
+<string name="TapToScrollSummary">Controls whether or not the screen scrolls in response to taps</string>
+<string name="TapToScrollSummaryOn">Screen taps will scroll the screen</string>
+<string name="TapToScrollSummaryOff">Screen taps will be ignored</string>
+
+<string name="AutoIndexShacharitKey">AutoIndexShacharit</string>
+<string name="AutoIndexShacharitTitle">Auto-show index for Shacharit</string>
+<string name="AutoIndexShacharitSummary">Automatically show index when opening Shacharit</string>
+<string name="AutoIndexShacharitSummaryOn">Opening Shacharit will automatically show index</string>
+<string name="AutoIndexShacharitSummaryOff">Opening Shacharit will show the beginning of the text</string>
+<string name="AutoIndexMinchaKey">AutoIndexMincha</string>
+<string name="AutoIndexMinchaTitle">Auto-show index for Mincha</string>
+<string name="AutoIndexMinchaSummary">Automatically show index when opening Mincha</string>
+<string name="AutoIndexMinchaSummaryOn">Opening Mincha will automatically show index</string>
+<string name="AutoIndexMinchaSummaryOff">Opening Mincha will show the beginning of the text</string>
+<string name="AutoIndexMaarivKey">AutoIndexMaariv</string>
+<string name="AutoIndexMaarivTitle">Auto-show index for </string>
+<string name="AutoIndexMaarivSummary">Automatically show index when opening Maariv</string>
+<string name="AutoIndexMaarivSummaryOn">Opening Maariv will automatically show index</string>
+<string name="AutoIndexMaarivSummaryOff">Opening Maariv will show the beginning of the text</string>
+<string name="AutoIndexBrachotKey">AutoIndexBrachot</string>
+<string name="AutoIndexBrachotTitle">Auto-show index for Brachot</string>
+<string name="AutoIndexBrachotSummary">Automatically show index when opening Brachot</string>
+<string name="AutoIndexBrachotSummaryOn">Opening Brachot will automatically show index</string>
+<string name="AutoIndexBrachotSummaryOff">Opening Brachot will show the beginning of the text</string>
+
+<string name="OldAlignmentKey">OldAlignment</string>
+<string name="OldAlignmentTitle">Reverse alignment</string>
+<string name="OldAlignmentSummary">Reverses the right-left alignment</string>
+<string name="VolumeButtonKey">VolumeButton</string>
+<string name="VolumeButtonTitle">Volume button behavior</string>
+<string name="VolumeButtonSummary">Controls the behavior when the volume buttons are pressed</string>
+<string name="VolumeButtonDialogTitle">Select Action...</string>
+<string-array name="VolumeButtonAction">
+	<item>Do not intercept (default)</item>
+	<item>Page up/down</item>
+	<item>Section back/forward</item>
+</string-array>
+
+<string name="LastNusachKey">LastNusach</string>
+
+<string name="pref_disable_acra">Disable error reporting</string>
+<string name="pref_acra_disabled">Error reports will NOT be sent</string>
+<string name="pref_acra_enabled">Error reports will be sent</string>
+</resources>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    >
+    <Spinner android:id="@+id/NusachSpinner" android:layout_height="wrap_content" android:layout_width="match_parent" android:entries="@array/Nusach" android:visibility="gone"/>
+    <ScrollView android:id="@+id/MainScreenScrollView" android:layout_height="wrap_content" android:layout_width="fill_parent"><LinearLayout android:id="@+id/LinearLayout02" android:layout_height="wrap_content" android:orientation="vertical" android:layout_width="fill_parent">
+		<Button android:layout_height="wrap_content" android:id="@+id/ShacharitButton" android:text=" Shacharit שחרית " android:layout_width="fill_parent" android:textSize="19sp"/>
+		<Button android:layout_height="wrap_content" android:id="@+id/MinchaButton" android:text=" Mincha מנחה " android:layout_width="fill_parent" android:textSize="19sp"/>
+		<Button android:layout_height="wrap_content" android:id="@+id/MinchaFastDayButton" android:text=" Mincha (fast day) מנחה לתענית ציבור " android:layout_width="fill_parent" android:textSize="19sp" android:visibility="gone"/>
+		<Button android:layout_height="wrap_content" android:id="@+id/MaarivButton" android:text=" Ma'ariv מעריב " android:layout_width="fill_parent" android:textSize="19sp"/>
+		<Button android:layout_height="wrap_content" android:id="@+id/BerachotButton" android:text=" Berachot ברכות " android:layout_width="fill_parent" android:textSize="19sp"/>
+		<Button android:layout_height="wrap_content" android:id="@+id/KiddushLevanaButton" android:text=" Kiddush Levana קידוש לבנה " android:layout_width="fill_parent" android:textSize="19sp"/>
+		<Button android:layout_height="wrap_content" android:id="@+id/EstherButton" android:text=" Esther אסתר " android:layout_width="fill_parent" android:textSize="19sp" android:visibility="visible"/>
+	</LinearLayout></ScrollView>
+</LinearLayout>

@@ -1,0 +1,13 @@
+syntax: glob
+*~
+.*.swp
+.*.swo
+AndDaaven/bin
+AndDaavenTest/bin
+AndDaaven/fonts
+AndDaaven/source-texts
+AndDaaven/gen
+AndDaavenTest/gen
+
+syntax: regexp
+.*\#.*\#$8
