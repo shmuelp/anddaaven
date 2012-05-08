@@ -768,9 +768,15 @@ GestureDetector.OnGestureListener
 			setHebrewFont();
 			scrollHeight = 0; // recompute scroll height when needed
 		} else if (key.equals("FontSize")) {
+			savePosition();
 			setFontSize();
 			daavenText.requestLayout();
 			scrollHeight = 0;
+			daavenText.postDelayed(new Runnable() {
+				public void run() {
+					restorePosition();
+				}
+			}, 500);
 		} else if (key.equals("FullScreen") || 
 		           key.equals("ScreenOn") ) {
 			setWindowFlags();

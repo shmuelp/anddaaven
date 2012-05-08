@@ -27,11 +27,11 @@ public class AndDaavenBaseView
 		float size=Float.parseFloat(sizeStr);
 		size *= total;
 		prefs.edit().putString("FontSize", Float.toString(size)).commit();
-		View v = activity.findViewById(R.id.DaavenText);
-		if (v != null ) {
-			TextView text = (TextView) v;
-			text.setTextSize((int) size);
-		}
+//		View v = activity.findViewById(R.id.DaavenText);
+//		if (v != null ) {
+//			TextView text = (TextView) v;
+//			text.setTextSize((int) size);
+//		}
 	}
 	
 	public int getNightModeStyle(AndDaavenBaseModel model) {
