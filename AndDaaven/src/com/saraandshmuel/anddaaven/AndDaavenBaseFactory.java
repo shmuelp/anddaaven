@@ -49,7 +49,7 @@ public class AndDaavenBaseFactory
 			result.setClassName(pkg, "com.saraandshmuel.anddaaven.AndDaavenTefillaIcs");
 		// Honeycomb
 		} else if (AndDaavenBaseModel.getAndroidSdkVersion() >= 11 ) {
-			result.setClassName(pkg, "com.saraandshmuel.anddaaven.AndDaavenTefillaHoneycomb.class");
+			result.setClassName(pkg, "com.saraandshmuel.anddaaven.AndDaavenTefillaHoneycomb");
 		// Froyo
 		} else if (AndDaavenBaseModel.getAndroidSdkVersion() >= 8 ) { 
 			result.setClassName(pkg, "com.saraandshmuel.anddaaven.AndDaavenTefillaFroyo");
