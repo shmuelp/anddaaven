@@ -9,7 +9,7 @@ import android.view.View;
 
 public class AndDaavenBaseView
 {
-	private String TAG="AndDaavenView";
+	private static final String TAG="AndDaavenView";
 	protected Activity activity;
 	protected SharedPreferences prefs;
 
@@ -46,6 +46,12 @@ public class AndDaavenBaseView
 		return result;
 	}
 
+	public static boolean getNightMode(Context context) {
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+		boolean result=prefs.getBoolean("DarkMode", false);
+		return result;
+	}
+
 	public void toggleNightMode() {
 		// TODO Auto-generated method stub
 		boolean current=prefs.getBoolean("DarkMode", false);
@@ -54,10 +60,14 @@ public class AndDaavenBaseView
 	}
 
 	public void setNightModeTheme() {
+		setNightModeTheme(activity);
+	}
+	
+	public static void setNightModeTheme(Context context) {
 		Log.v(TAG, "setNightMode() beginning");
-		boolean nightMode = getNightMode();
+		boolean nightMode = getNightMode(context);
 		if (nightMode) {
-			activity.setTheme(R.style.MyDark);
+			context.setTheme(R.style.MyDark);
 		}
 		Log.v(TAG, "setNightMode() ending");
 	}

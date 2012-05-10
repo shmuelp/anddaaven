@@ -6,6 +6,27 @@ import android.util.Log;
 public class AndDaavenCrashReporting extends org.acra.CrashReportingApplication {
 	private static final String TAG = "AndDaavenCrashReporting";
 
+	/** Called when the activity is first created. */
+    @Override
+    public void onCreate() {
+		Log.v(TAG, "onCreate() beginning");
+
+		// new AndDaavenBaseView(this).setNightModeTheme();
+		
+//		factory=new AndDaavenBaseFactory(this);
+//		factory.createMvc();
+//		model=factory.getModel();
+//		view=factory.getView();
+//		controller=factory.getController();
+//		changelogController = new AndDaavenChangelogController(this);
+
+		//Log.v(TAG, "onCreate() 01 view=" + view);
+		AndDaavenBaseView.setNightModeTheme(this);
+		//Log.v(TAG, "onCreate() 02");
+		super.onCreate();
+	}
+
+	// layout view from resource XML file
 	@Override
 	public String getFormId() {
 		Log.v(TAG, "getFormId()");
