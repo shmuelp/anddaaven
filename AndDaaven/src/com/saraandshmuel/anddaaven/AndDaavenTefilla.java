@@ -683,8 +683,10 @@ GestureDetector.OnGestureListener
 
 		er.addCustomData("prepareTefilla()", filename);
 
-		boolean showNikud = PreferenceManager.getDefaultSharedPreferences(this)
-				.getBoolean("ShowNikud", true);
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this); 
+		boolean showNikud = prefs.getBoolean("ShowNikud", true);
+		boolean showMeteg = prefs.getBoolean("test.autoIndex", true);
+
 		boolean showSectionNames = PreferenceManager
 				.getDefaultSharedPreferences(this).getBoolean("SectionName",
 						true);
@@ -720,7 +722,14 @@ GestureDetector.OnGestureListener
 						// Does not replace combined characters (\ufb20-\ufb4f)
 						// See
 						// http://en.wikipedia.org/wiki/Unicode_and_HTML_for_the_Hebrew_alphabet
-						s = s.replaceAll("[\u05b0-\u05c7]", "");
+						s = s. replaceAll("[\u05b0-\u05c7]", "");
+					}
+					if (!showMeteg) {
+						// Remove meteg based on Unicode character ranges
+						// Does not replace combined characters (\ufb20-\ufb4f)
+						// See
+						// http://en.wikipedia.org/wiki/Unicode_and_HTML_for_the_Hebrew_alphabet
+						s = s.replaceAll("\u05bd", "");
 					}
 					ssb.append(s);
 					ssb.append("\n");

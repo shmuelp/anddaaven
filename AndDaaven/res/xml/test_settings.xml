@@ -9,6 +9,7 @@
 <CheckBoxPreference android:key="test.omer" android:title="Omer" android:defaultValue="false" />
 <!-- CheckBoxPreference android:key="test.playgroundText" android:title="Text playground" android:defaultValue="false" / -->
 <CheckBoxPreference android:key="test.zoom" android:title="Pinch to zoom" android:defaultValue="false" />
+<CheckBoxPreference android:key="test.meteg" android:title="Show meteg" android:defaultValue="false" />
 </PreferenceCategory>
 
 </PreferenceScreen>

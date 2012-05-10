@@ -11,6 +11,11 @@
 <string name="ShowNikudSummary">Controls whether or not Nikud is displayed</string>
 <string name="ShowNikudSummaryOn">Nikud will be displayed</string>
 <string name="ShowNikudSummaryOff">Nikud will not be displayed</string>
+<string name="ShowMetegKey">ShowMeteg</string>
+<string name="ShowMetegTitle">Show Meteg</string>
+<string name="ShowMetegSummary">Controls whether or not Meteg is displayed</string>
+<string name="ShowMetegSummaryOn">Meteg will be displayed</string>
+<string name="ShowMetegSummaryOff">Meteg will not be displayed</string>
 <string name="DarkModeKey">DarkMode</string>
 <string name="DarkModeTitle">Night mode</string>
 <string name="DarkModeSummary">Controls whether or not text is displayed black-on-white</string>
