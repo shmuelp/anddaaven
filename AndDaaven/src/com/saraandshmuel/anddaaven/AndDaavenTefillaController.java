@@ -32,9 +32,9 @@ public class AndDaavenTefillaController extends AndDaavenBaseController {
 				//				Only available in API 5 (Eclair)
 				//				intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
 				intent.putExtra("ScrollPosition", view.getScrollPos());
-				activity.finish(); 
+				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				activity.startActivity(intent);
-				break;
+				return true;
 		}
 		return super.onOptionsItemSelected(item);
 	}
