@@ -10,6 +10,9 @@ import android.view.View;
 public class AndDaavenBaseView
 {
 	private static final String TAG="AndDaavenView";
+	public static final float FONT_MIN=6;
+	public static final float FONT_MAX=100;
+	
 	protected Activity activity;
 	protected SharedPreferences prefs;
 
@@ -26,6 +29,8 @@ public class AndDaavenBaseView
 		String sizeStr = prefs.getString("FontSize", "20");
 		float size=Float.parseFloat(sizeStr);
 		size *= total;
+		if (size<FONT_MIN) size=FONT_MIN;
+		if (size>FONT_MAX) size=FONT_MAX;
 		prefs.edit().putString("FontSize", Float.toString(size)).commit();
 //		View v = activity.findViewById(R.id.DaavenText);
 //		if (v != null ) {
@@ -56,7 +61,6 @@ public class AndDaavenBaseView
 		// TODO Auto-generated method stub
 		boolean current=prefs.getBoolean("DarkMode", false);
 		prefs.edit().putBoolean("DarkMode", !current).commit();
-//		view.reload();
 	}
 
 	public void setNightModeTheme() {
