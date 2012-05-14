@@ -685,7 +685,7 @@ GestureDetector.OnGestureListener
 
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this); 
 		boolean showNikud = prefs.getBoolean("ShowNikud", true);
-		boolean showMeteg = prefs.getBoolean("test.autoIndex", true);
+		boolean showMeteg = prefs.getBoolean("ShowMeteg", false);
 
 		boolean showSectionNames = PreferenceManager
 				.getDefaultSharedPreferences(this).getBoolean("SectionName",
