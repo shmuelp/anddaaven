@@ -38,6 +38,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.text.Spannable;
+import android.text.SpannableString;
 
 public class AndDaavenTefilla extends Activity implements
 		OnSharedPreferenceChangeListener, TextWatcher,
@@ -707,10 +709,10 @@ GestureDetector.OnGestureListener
 				.getDefaultSharedPreferences(this).getBoolean("SectionName",
 						true);
 		currentOffset = 0;
+		StringBuilder sb = new StringBuilder();
 		try {
 			InputStream is = getAssets().open(filename);
 			BufferedReader br = new BufferedReader(new InputStreamReader(is));
-			ssb.clear();
 			jumpOffsets.clear();
 			ArrayList<String> sectionNamesList = new ArrayList<String>();
 			sectionOffsets.clear();
@@ -718,7 +720,7 @@ GestureDetector.OnGestureListener
 			while (br.ready()) {
 				String s = br.readLine();
 				if (s.length() == 0) {
-					ssb.append("\n");
+					sb.append("\n");
 					++offset;
 				} else if (s.charAt(0) == '\013') {
 					jumpOffsets.add(offset);
@@ -727,8 +729,8 @@ GestureDetector.OnGestureListener
 						sectionNamesList.add(name);
 						sectionOffsets.add(offset);
 						if (showSectionNames) {
-							ssb.append(name);
-							ssb.append("\n");
+							sb.append(name);
+							sb.append("\n");
 							offset += name.length() + 1;
 						}
 					}
@@ -747,24 +749,39 @@ GestureDetector.OnGestureListener
 						// http://en.wikipedia.org/wiki/Unicode_and_HTML_for_the_Hebrew_alphabet
 						s = s.replaceAll("\u05bd", "");
 					}
-					ssb.append(s);
-					ssb.append("\n");
+					sb.append(s);
+					sb.append("\n");
 					offset += s.length() + 1;
 				}
 			}
+			
+			spanText = new SpannableString(sb);
 
 			sectionNames = sectionNamesList.toArray(new String[0]);
 
 			currentFilename = filename;
+			
+			Log.v(TAG, "spanText.length()=" + spanText.length() +
+			         ", sb.length()=" + sb.length() +
+					 ", daavenText.getText().length()=" +
+					daavenText.getText().length() +
+					", showNikud=" + showNikud +
+					", showMeteg=" + showMeteg +
+					", showSectionNames=" + showSectionNames +
+					", currentFilename=" + currentFilename
+					);
 
-			er.addCustomData("ssb.length()", "" + ssb.length());
+			er.addCustomData("spanText.length()", "" + spanText.length());
+			er.addCustomData("sb.length()", "" + sb.length());
 			er.addCustomData("daavenText.getText().length()", ""
 					+ daavenText.getText().length());
 			er.addCustomData("showNikud", "" + showNikud);
+			er.addCustomData("showMeteg", "" + showMeteg);
 			er.addCustomData("showSectionNames", "" + showSectionNames);
 			er.addCustomData("currentFilename", currentFilename);
 
-			daavenText.setText(ssb);
+			Log.v(TAG, "About to set text");
+			daavenText.setText(spanText);
 
 			// // In UI thread:
 			// // Get layout
@@ -818,10 +835,18 @@ GestureDetector.OnGestureListener
 	}
 
 	public void afterTextChanged(android.text.Editable s) {
-		Log.v(TAG, "afterTextChanged() beginning");
+		Log.v(TAG, "afterTextChanged() beginning, s.length()=" + s.length());
+		Layout l=daavenText.getLayout();
+		if (l==null) {
+			Log.v(TAG, "afterTextChanged(), layout is null");
+		} else {
+			Log.v(TAG, "layout.getLineCount()=" + l.getLineCount() + 
+					", layout.getHeight()=" + l.getHeight() + 
+					", layout class name=" + l.getClass().getName());
+		}
 		ErrorReporter er = ErrorReporter.getInstance();
 		er.addCustomData("after:s.length", "" + s.length());
-		if (s.length() != ssb.length()) {
+		if (s.length() != spanText.length()) {
 			er.handleException(null);
 		}
 		Log.v(TAG, "afterTextChanged() ending");
@@ -829,11 +854,11 @@ GestureDetector.OnGestureListener
 
 	public void beforeTextChanged(CharSequence s, int start, int count,
 			int after) {
-		Log.v(TAG, "beforeTextChanged()");
+		Log.v(TAG, "beforeTextChanged(), count=" + count + ", s.length()=" + s.length());
 	}
 
 	public void onTextChanged(CharSequence s, int start, int before, int count) {
-		Log.v(TAG, "onTextChanged()");
+		Log.v(TAG, "onTextChanged(), count=" + count + ", s.length()=" + s.length());
 	}
 
 	// private String getMotionEventString(MotionEvent event) {
@@ -1000,7 +1025,7 @@ GestureDetector.OnGestureListener
 
 	// use a SpannableStringBuilder to allow addition of formatting in
 	// future
-	SpannableStringBuilder ssb = new SpannableStringBuilder();
+	Spannable spanText = new SpannableString("");
 	private int currentOffset = 0;
 	protected AndDaavenTextView daavenText = null;
 	protected ScrollView daavenScroll = null;
