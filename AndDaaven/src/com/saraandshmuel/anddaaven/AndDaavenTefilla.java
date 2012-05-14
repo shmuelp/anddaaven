@@ -214,7 +214,7 @@ GestureDetector.OnGestureListener
 	 */
 	private void findLayoutObjects() {
 		Log.v(TAG, "findLayoutObjects() beginning");
-		daavenText = (TextView) findViewById(R.id.DaavenText);
+		daavenText = (AndDaavenTextView) findViewById(R.id.DaavenText);
 		daavenText.addTextChangedListener(this);
 		daavenScroll = (ScrollView) findViewById(R.id.DaavenScroll);
 		Log.v(TAG, "findLayoutObjects() ending");
@@ -624,6 +624,22 @@ GestureDetector.OnGestureListener
 
 		Log.v(TAG, "About to set title");
 		setTitle(model.getDateString());
+
+		daavenText.requestLayout();
+		daavenText.postDelayed(new Runnable() {
+			public void run() {
+				Layout l=daavenText.getLayout();
+				if (l==null) {
+					Log.v(TAG, "Delayed from showTefilla() - layout is null");
+				} else {
+					Log.v(TAG, "Delayed from showTefilla() - layout.getLineCount()=" + l.getLineCount() + 
+							", layout.getHeight()=" + l.getHeight() + 
+							", layout class name=" + l.getClass().getName());
+				}
+			}
+		}, 2000);
+		
+		
 		Log.v(TAG, "showTefilla() about to return");
 	}
 
@@ -781,11 +797,11 @@ GestureDetector.OnGestureListener
 			setFontSize();
 			daavenText.requestLayout();
 			scrollHeight = 0;
-			daavenText.postDelayed(new Runnable() {
+			daavenText.postAfterDraw(new Runnable() {
 				public void run() {
 					restorePosition();
 				}
-			}, 500);
+			});
 		} else if (key.equals("FullScreen") || 
 		           key.equals("ScreenOn") ) {
 			setWindowFlags();
@@ -986,7 +1002,7 @@ GestureDetector.OnGestureListener
 	// future
 	SpannableStringBuilder ssb = new SpannableStringBuilder();
 	private int currentOffset = 0;
-	protected TextView daavenText = null;
+	protected AndDaavenTextView daavenText = null;
 	protected ScrollView daavenScroll = null;
 	private String currentFilename = "";
 	private int scrollHeight = 0;
