@@ -19,6 +19,7 @@ public class AndDaavenTefillaFroyo extends AndDaavenTefilla implements OnScaleGe
 {
  
     public float thresh=(float)0.0001;
+    private boolean doZoom=true;
 
 	public AndDaavenTefillaFroyo() {
 	}
@@ -28,13 +29,10 @@ public class AndDaavenTefillaFroyo extends AndDaavenTefilla implements OnScaleGe
 		super.onCreate(savedInstanceState);
 		sgd = new ScaleGestureDetector(this, this);
 		originalSpan = 0;
-		SharedPreferences prefs=PreferenceManager.getDefaultSharedPreferences(this);
-		if (prefs.getBoolean("test.zoom", false)) {
-			daavenText.setOnTouchListener(this);
-		}
 	}
 	
 	public boolean onScale(ScaleGestureDetector detector) {
+		if (!doZoom) return true;
 		float total = detector.getCurrentSpan() / originalSpan;
 		if ( total > originalSpan + thresh ||
 			 total < originalSpan - thresh ) {
@@ -47,6 +45,8 @@ public class AndDaavenTefillaFroyo extends AndDaavenTefilla implements OnScaleGe
 
 	public boolean onScaleBegin(ScaleGestureDetector detector) {
 		originalSpan = detector.getCurrentSpan();
+		SharedPreferences prefs=PreferenceManager.getDefaultSharedPreferences(this);
+		doZoom = prefs.getBoolean("PinchZoom", true);
 		return true;
 	}
 	

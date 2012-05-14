@@ -26,6 +26,11 @@
 <string name="ScreenOnSummary">Controls whether or not screen is prevented from shutting off</string>
 <string name="ScreenOnSummaryOn">Screen will be kept on</string>
 <string name="ScreenOnSummaryOff">Screen will dim/sleep as usual</string>
+<string name="PinchZoomKey">PinchZoom</string>
+<string name="PinchZoomTitle">Pinch-to-Zoom</string>
+<string name="PinchZoomSummary">Controls whether or not pinch/spread gestures will zoom the font</string>
+<string name="PinchZoomSummaryOn">Pinch/spread gestures will zoom text</string>
+<string name="PinchZoomSummaryOff">Pinch/spread gestures will not zoom text</string>
 <string name="FullScreenKey">FullScreen</string>
 <string name="FullScreenTitle">Full Screen</string>
 <string name="FullScreenSummary">Controls whether or not tefilla is displayed full screen</string>
