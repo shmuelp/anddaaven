@@ -33,6 +33,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.ScrollView;
@@ -40,6 +41,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.text.Html;
+import android.text.Spanned;
 
 public class AndDaavenTefilla extends Activity implements
 		OnSharedPreferenceChangeListener, TextWatcher,
@@ -607,6 +610,8 @@ GestureDetector.OnGestureListener
 	// it
 	public void showTefilla(Intent intent) {
 		Log.v(TAG, "showTefilla() beginning");
+		requestWindowFeature(Window.FEATURE_PROGRESS);
+		setProgressBarIndeterminate(true);
 		String tefillaPath = intent.getData().getSchemeSpecificPart();
 		int nusach=intent.getIntExtra("nusach", 0);
 		int tefillaId = 0;
@@ -628,7 +633,7 @@ GestureDetector.OnGestureListener
 		setTitle(model.getDateString());
 
 		daavenText.requestLayout();
-		daavenText.postDelayed(new Runnable() {
+		daavenText.postAfterDraw(new Runnable() {
 			public void run() {
 				Layout l=daavenText.getLayout();
 				if (l==null) {
@@ -639,9 +644,9 @@ GestureDetector.OnGestureListener
 							", layout class name=" + l.getClass().getName());
 				}
 			}
-		}, 2000);
+		});
 		
-		
+		setProgress(10000);
 		Log.v(TAG, "showTefilla() about to return");
 	}
 
@@ -720,7 +725,7 @@ GestureDetector.OnGestureListener
 			while (br.ready()) {
 				String s = br.readLine();
 				if (s.length() == 0) {
-					sb.append("\n");
+					sb.append("<p>");
 					++offset;
 				} else if (s.charAt(0) == '\013') {
 					jumpOffsets.add(offset);
@@ -730,7 +735,7 @@ GestureDetector.OnGestureListener
 						sectionOffsets.add(offset);
 						if (showSectionNames) {
 							sb.append(name);
-							sb.append("\n");
+							sb.append("<p>");
 							offset += name.length() + 1;
 						}
 					}
@@ -750,12 +755,12 @@ GestureDetector.OnGestureListener
 						s = s.replaceAll("\u05bd", "");
 					}
 					sb.append(s);
-					sb.append("\n");
+					sb.append("<p>");
 					offset += s.length() + 1;
 				}
 			}
 			
-			spanText = new SpannableString(sb);
+			spanText = Html.fromHtml(sb.toString());
 
 			sectionNames = sectionNamesList.toArray(new String[0]);
 
@@ -1025,7 +1030,7 @@ GestureDetector.OnGestureListener
 
 	// use a SpannableStringBuilder to allow addition of formatting in
 	// future
-	Spannable spanText = new SpannableString("");
+	Spanned spanText = new SpannableString("");
 	private int currentOffset = 0;
 	protected AndDaavenTextView daavenText = null;
 	protected ScrollView daavenScroll = null;
