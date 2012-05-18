@@ -22,6 +22,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.Layout;
 import android.text.SpannableStringBuilder;
+import android.text.Spanned;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
@@ -33,7 +34,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.ScrollView;
@@ -41,8 +41,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.text.Spannable;
 import android.text.SpannableString;
-import android.text.Html;
-import android.text.Spanned;
 
 public class AndDaavenTefilla extends Activity implements
 		OnSharedPreferenceChangeListener, TextWatcher,
@@ -610,8 +608,6 @@ GestureDetector.OnGestureListener
 	// it
 	public void showTefilla(Intent intent) {
 		Log.v(TAG, "showTefilla() beginning");
-		requestWindowFeature(Window.FEATURE_PROGRESS);
-		setProgressBarIndeterminate(true);
 		String tefillaPath = intent.getData().getSchemeSpecificPart();
 		int nusach=intent.getIntExtra("nusach", 0);
 		int tefillaId = 0;
@@ -633,20 +629,20 @@ GestureDetector.OnGestureListener
 		setTitle(model.getDateString());
 
 		daavenText.requestLayout();
-		daavenText.postAfterDraw(new Runnable() {
-			public void run() {
-				Layout l=daavenText.getLayout();
-				if (l==null) {
-					Log.v(TAG, "Delayed from showTefilla() - layout is null");
-				} else {
-					Log.v(TAG, "Delayed from showTefilla() - layout.getLineCount()=" + l.getLineCount() + 
-							", layout.getHeight()=" + l.getHeight() + 
-							", layout class name=" + l.getClass().getName());
-				}
-			}
-		});
+//		daavenText.postAfterDraw(new Runnable() {
+//			public void run() {
+//				Layout l=daavenText.getLayout();
+//				if (l==null) {
+//					Log.v(TAG, "Delayed from showTefilla() - layout is null");
+//				} else {
+//					Log.v(TAG, "Delayed from showTefilla() - layout.getLineCount()=" + l.getLineCount() + 
+//							", layout.getHeight()=" + l.getHeight() + 
+//							", layout class name=" + l.getClass().getName());
+//				}
+//			}
+//		});
 		
-		setProgress(10000);
+		
 		Log.v(TAG, "showTefilla() about to return");
 	}
 
@@ -725,7 +721,7 @@ GestureDetector.OnGestureListener
 			while (br.ready()) {
 				String s = br.readLine();
 				if (s.length() == 0) {
-					sb.append("<p>");
+					sb.append("\n");
 					++offset;
 				} else if (s.charAt(0) == '\013') {
 					jumpOffsets.add(offset);
@@ -735,7 +731,7 @@ GestureDetector.OnGestureListener
 						sectionOffsets.add(offset);
 						if (showSectionNames) {
 							sb.append(name);
-							sb.append("<p>");
+							sb.append("\n");
 							offset += name.length() + 1;
 						}
 					}
@@ -755,12 +751,12 @@ GestureDetector.OnGestureListener
 						s = s.replaceAll("\u05bd", "");
 					}
 					sb.append(s);
-					sb.append("<p>");
+					sb.append("\n");
 					offset += s.length() + 1;
 				}
 			}
 			
-			spanText = Html.fromHtml(sb.toString());
+			spanText = new SpannableString(sb);
 
 			sectionNames = sectionNamesList.toArray(new String[0]);
 
@@ -859,11 +855,11 @@ GestureDetector.OnGestureListener
 
 	public void beforeTextChanged(CharSequence s, int start, int count,
 			int after) {
-		Log.v(TAG, "beforeTextChanged(), count=" + count + ", s.length()=" + s.length());
+//		Log.v(TAG, "beforeTextChanged(), count=" + count + ", s.length()=" + s.length());
 	}
 
 	public void onTextChanged(CharSequence s, int start, int before, int count) {
-		Log.v(TAG, "onTextChanged(), count=" + count + ", s.length()=" + s.length());
+//		Log.v(TAG, "onTextChanged(), count=" + count + ", s.length()=" + s.length());
 	}
 
 	// private String getMotionEventString(MotionEvent event) {
