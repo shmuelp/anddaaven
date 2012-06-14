@@ -63,6 +63,11 @@ public class AndDaavenChangelogController
 			.setTitle(context.getString(R.string.ChangelogTitle));
 		
 		WebView webView = (WebView) changelogDialog.findViewById(R.id.ChangelogHtmlView);
+		
+		// Workaround for NPE on Honeycomb - Android issue 16839:
+		// http://code.google.com/p/android/issues/detail?id=16839
+		webView.clearCache(true);
+		
 		webView.loadUrl("file:///android_asset/changelog.html");
 		
 		changelogDialog.setCancelable(true);
