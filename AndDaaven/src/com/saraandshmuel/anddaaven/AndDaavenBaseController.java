@@ -11,6 +11,7 @@ public class AndDaavenBaseController
 {
 	static final String TAG = "AndDaavenBaseController";
 	protected AndDaavenBaseView view;
+	private AndDaavenBaseModel model;
 	protected Activity activity;
 
 	public AndDaavenBaseController(Activity activity) {
@@ -91,7 +92,15 @@ public class AndDaavenBaseController
 		this.view = view;
 	}
 
-	public AndDaavenBaseView getView() {
-		return view;
+//	public AndDaavenBaseView getView() {
+//		return view;
+//	}
+
+	protected void setModel(AndDaavenBaseModel model) {
+		this.model = model;
 	}
+
+//	protected AndDaavenBaseModel getModel() {
+//		return model;
+//	}
 }

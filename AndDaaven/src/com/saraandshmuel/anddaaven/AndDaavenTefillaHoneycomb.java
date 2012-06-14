@@ -2,6 +2,7 @@ package com.saraandshmuel.anddaaven;
 import android.content.Intent;
 import android.util.Log;
 import android.view.MenuItem;
+import android.os.Bundle;
 
 public class AndDaavenTefillaHoneycomb extends AndDaavenTefillaFroyo
 {
@@ -12,6 +13,13 @@ public class AndDaavenTefillaHoneycomb extends AndDaavenTefillaFroyo
 		System.setProperty("log.tag." + TAG, "VERBOSE");
 	}
 
+	/** Called when the activity is first created. */
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		getActionBar().setSubtitle(model.getDateString());
+	}
+	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		Log.v(TAG , "onOptionsItemSelected() beginning");
