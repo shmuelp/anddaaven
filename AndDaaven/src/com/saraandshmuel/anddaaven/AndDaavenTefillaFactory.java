@@ -32,9 +32,11 @@ public class AndDaavenTefillaFactory
 		}
 
 		public void createMvc() {
-			model = new AndDaavenTefillaModel();
+			model = new AndDaavenTefillaModel(activity);
 			view = new AndDaavenTefillaView(activity);
 			controller = new AndDaavenTefillaController(activity);
 			controller.setView(view);
+			controller.setModel(model);
+			model.setView(view);
 		}
 	}

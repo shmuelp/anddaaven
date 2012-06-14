@@ -1,9 +1,5 @@
 package com.saraandshmuel.anddaaven;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 import org.acra.ErrorReporter;
@@ -15,7 +11,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
-import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.os.Build.VERSION;
 import android.os.Bundle;
@@ -48,7 +43,7 @@ public class AndDaavenTefilla extends Activity implements
 		View.OnTouchListener,
 GestureDetector.OnGestureListener
 {
-	static final String TAG = "AndDaavenTefilla";
+	private static final String TAG = "AndDaavenTefilla";
 
 	protected AndDaavenTefillaFactory factory;
 
@@ -92,7 +87,7 @@ GestureDetector.OnGestureListener
 		daavenScroll.setOnTouchListener(this);
 
 		// find and setup text to display
-		showTefilla(getIntent());
+		controller.showTefilla(getIntent());
 
 	// SDP TODO: if is brachot and autoindex brachot then show index here
 
@@ -114,7 +109,7 @@ GestureDetector.OnGestureListener
 
 		super.onResume();
 
-		if (currentOffset==0 && getIntent().hasExtra("ScrollPosition")) {
+		if (model.getCurrentOffset()==0 && getIntent().hasExtra("ScrollPosition")) {
 			final int pos=getIntent().getIntExtra("ScrollPosition", 0);
 			Log.v(TAG, "will restore pos=" + pos);
 			daavenScroll.post(new Runnable() {
@@ -227,7 +222,7 @@ GestureDetector.OnGestureListener
 	@Override
 	protected void onNewIntent(Intent intent) {
 		Log.v(TAG, "onNewIntent() beginning");
-		showTefilla(intent);
+		controller.showTefilla(intent);
 		super.onNewIntent(intent);
 		Log.v(TAG, "onNewIntent() ending");
 	}
@@ -338,6 +333,7 @@ GestureDetector.OnGestureListener
 	 */
 	private void jumpSection(int count) {
 		Log.v(TAG, "jumpSection(" + count + ") beginning");
+		ArrayList<Integer> jumpOffsets = model.getJumpOffsets();
 		Layout layout = daavenText.getLayout();
 		if (layout == null) {
 			Log.w(TAG, "jumpSection(): cannot jump if layout is null!");
@@ -403,10 +399,9 @@ GestureDetector.OnGestureListener
 		if (layout != null) {
 			int newOffset = locateCurrentOffset(layout);
 			if (layout.getLineForOffset(newOffset) != layout
-					.getLineForOffset(currentOffset)) {
-				currentOffset = newOffset;
-				// setTitle("Saved current offset=" + currentOffset + ",line=" +
-				// line);
+					.getLineForOffset(model.getCurrentOffset())) {
+				model.setCurrentOffset(newOffset);
+				Log.v(TAG, "Saved current offset=" + model.getCurrentOffset());
 			}
 		} else {
 			Log.w(TAG, "savePosition(): cannot save if layout is null!");
@@ -442,11 +437,27 @@ GestureDetector.OnGestureListener
 		runOnUiThread(new Runnable() {
 			public void run() {
 				Layout layout = daavenText.getLayout();
+				
+				
+				for (int offset:model.getJumpOffsets()) {
+					int line=layout.getLineForOffset(offset);
+					int start=layout.getLineStart(line);
+					Log.v(TAG, " jump offset " + offset + " has line start " + start + " on line " + line);
+				}
+				for (int offset:model.getSectionOffsets()) {
+					int line=layout.getLineForOffset(offset);
+					int start=layout.getLineStart(line);
+					Log.v(TAG, " section offset " + offset + " has line start " + start + " on line " + line);
+				}
+				
+				
+				
+				
 				if (layout != null) {
-					int line = layout.getLineForOffset(currentOffset);
+					int line = layout.getLineForOffset(model.getCurrentOffset());
 					int y = layout.getLineTop(line);
 					daavenScroll.scrollTo(0, y);
-					Log.d(TAG, "Restored current offset=" + currentOffset
+					Log.d(TAG, "Restored current offset=" + model.getCurrentOffset()
 							+ ", line=" + line);
 				} else {
 					Log
@@ -482,7 +493,7 @@ GestureDetector.OnGestureListener
 		Log.v(TAG, "onSaveInstanceState() beginning");
 		super.onSaveInstanceState(outState);
 		savePosition();
-		outState.putInt("TefillaPosition", currentOffset);
+		outState.putInt("TefillaPosition", model.getCurrentOffset());
 		Log.v(TAG, "onSaveInstanceState() ending");
 	}
 
@@ -493,8 +504,8 @@ GestureDetector.OnGestureListener
 		final Bundle myState = savedInstanceState;
 		daavenText.post(new Runnable() {
 			public void run() {
-				currentOffset = myState.getInt("TefillaPosition");
-				if (currentOffset == 0) {
+				model.setCurrentOffset(myState.getInt("TefillaPosition"));
+				if (model.getCurrentOffset() == 0) {
 					Log.w(TAG, "Warning: asked to restore position of 0");
 				}
 				restorePosition();
@@ -566,7 +577,7 @@ GestureDetector.OnGestureListener
 			if (hebrewTypeface == null)
 				setHebrewFont();
 			ArrayAdapter<String> aa = new ArrayAdapter<String>(this,
-					R.layout.index_list_item, sectionNames);
+					R.layout.index_list_item, model.getSectionNames());
 			TypefaceAdapter ta = new TypefaceAdapter(aa, hebrewTypeface,
 					view.getFontSize());
 			// builder.setItems(sectionNames, this);
@@ -591,7 +602,7 @@ GestureDetector.OnGestureListener
 		Log.d(TAG, "Jump to index section " + which);
 		Layout layout = daavenText.getLayout();
 		if (layout != null) {
-			int newOffset = sectionOffsets.get(which);
+			int newOffset = model.getSectionOffsets().get(which);
 			int newLine = layout.getLineForOffset(newOffset);
 			int newY = layout.getLineTop(newLine);
 			daavenScroll.scrollTo(0, newY);
@@ -602,204 +613,6 @@ GestureDetector.OnGestureListener
 					Toast.LENGTH_SHORT).show();
 		}
 		Log.v(TAG, "onClick() about to return");
-	}
-
-	// build filename in assets to use to display tefilla, call helper to read
-	// it
-	public void showTefilla(Intent intent) {
-		Log.v(TAG, "showTefilla() beginning");
-		String tefillaPath = intent.getData().getSchemeSpecificPart();
-		int nusach=intent.getIntExtra("nusach", 0);
-		int tefillaId = 0;
-		if (tefillaPath.startsWith("com.saraandshmuel.anddaaven/")) {
-			tefillaId = Integer.parseInt(tefillaPath.substring(28));
-		}
-		String filename = getFileName(tefillaId, nusach);
-		Log.v(TAG, "About to prepare Tefilla");
-		prepareTefilla(filename);
-
-		Log.v(TAG, "About to check for maariv");
-		// Put Hebrew date on the title bar
-		// Advance to next day for ma'ariv
-		if (tefillaId == 3 && model.inAfternoon() ) {
-			model.advanceDay();
-		}
-
-		Log.v(TAG, "About to set title");
-		setTitle(model.getDateString());
-
-		daavenText.requestLayout();
-//		daavenText.postAfterDraw(new Runnable() {
-//			public void run() {
-//				Layout l=daavenText.getLayout();
-//				if (l==null) {
-//					Log.v(TAG, "Delayed from showTefilla() - layout is null");
-//				} else {
-//					Log.v(TAG, "Delayed from showTefilla() - layout.getLineCount()=" + l.getLineCount() + 
-//							", layout.getHeight()=" + l.getHeight() + 
-//							", layout class name=" + l.getClass().getName());
-//				}
-//			}
-//		});
-		
-		
-		Log.v(TAG, "showTefilla() about to return");
-	}
-
-	/**
-	 * Returns the resource filename for a given tefilla 
-	 * @param tefillaId
-	 * @param nusach
-	 * @return
-	 */
-	private String getFileName(int tefillaId, int nusach) {
-		StringBuilder result = new StringBuilder();
-		
-		if (nusach<0) nusach=0;
-		Resources res=getResources();
-		String baseStr=res.getStringArray(R.array.FileName)[tefillaId];
-		String nusachStr=res.getStringArray(R.array.FileNameNusach)[nusach];
-		String extStr=res.getString(R.string.FileNameSuffix);
-
-		result.append(baseStr)
-              .append('-')
-              .append(nusachStr)
-              .append('.')
-              .append(extStr);
-		
-		Log.d(TAG, "asset filename=" + result.toString());
-		
-		try {
-			InputStream is=getAssets().open(result.toString());
-			is.close();
-		} catch (IOException e) {
-			Log.w(TAG, "Unable to open asset " + result.toString()
-					+ ", trying with no nusach");
-			result.setLength(0);
-			result.append(baseStr)
-				  .append('.')
-				  .append(extStr);
-		}
-		
-		return result.toString();
-	}
-
-	/**
-	 * Read text in from file (if not already being displayed) and display it in
-	 * the daavenText TextView
-	 * 
-	 * @param filename
-	 *            The filename to read in
-	 */
-	private void prepareTefilla(final String filename) {
-		Log.v(TAG, "prepareTefilla(" + filename + ") beginning");
-		ErrorReporter er = ErrorReporter.getInstance();
-
-		if (filename == this.currentFilename) {
-			Log.v(TAG, "prepareTefilla() about to return early");
-			return;
-		}
-
-		er.addCustomData("prepareTefilla()", filename);
-
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this); 
-		boolean showNikud = prefs.getBoolean("ShowNikud", true);
-		boolean showMeteg = prefs.getBoolean("ShowMeteg", false);
-
-		boolean showSectionNames = PreferenceManager
-				.getDefaultSharedPreferences(this).getBoolean("SectionName",
-						true);
-		currentOffset = 0;
-		StringBuilder sb = new StringBuilder();
-		try {
-			InputStream is = getAssets().open(filename);
-			BufferedReader br = new BufferedReader(new InputStreamReader(is));
-			jumpOffsets.clear();
-			ArrayList<String> sectionNamesList = new ArrayList<String>();
-			sectionOffsets.clear();
-			int offset = 0;
-			while (br.ready()) {
-				String s = br.readLine();
-				if (s.length() == 0) {
-					sb.append("\n");
-					++offset;
-				} else if (s.charAt(0) == '\013') {
-					jumpOffsets.add(offset);
-					String name = s.substring(1);
-					if (name.length() > 0) {
-						sectionNamesList.add(name);
-						sectionOffsets.add(offset);
-						if (showSectionNames) {
-							sb.append(name);
-							sb.append("\n");
-							offset += name.length() + 1;
-						}
-					}
-				} else {
-					if (!showNikud) {
-						// Remove nikud based on Unicode character ranges
-						// Does not replace combined characters (\ufb20-\ufb4f)
-						// See
-						// http://en.wikipedia.org/wiki/Unicode_and_HTML_for_the_Hebrew_alphabet
-						s = s. replaceAll("[\u05b0-\u05c7]", "");
-					}
-					if (!showMeteg) {
-						// Remove meteg based on Unicode character ranges
-						// Does not replace combined characters (\ufb20-\ufb4f)
-						// See
-						// http://en.wikipedia.org/wiki/Unicode_and_HTML_for_the_Hebrew_alphabet
-						s = s.replaceAll("\u05bd", "");
-					}
-					sb.append(s);
-					sb.append("\n");
-					offset += s.length() + 1;
-				}
-			}
-			
-			spanText = new SpannableString(sb);
-
-			sectionNames = sectionNamesList.toArray(new String[0]);
-
-			currentFilename = filename;
-			
-			Log.v(TAG, "spanText.length()=" + spanText.length() +
-			         ", sb.length()=" + sb.length() +
-					 ", daavenText.getText().length()=" +
-					daavenText.getText().length() +
-					", showNikud=" + showNikud +
-					", showMeteg=" + showMeteg +
-					", showSectionNames=" + showSectionNames +
-					", currentFilename=" + currentFilename
-					);
-
-			er.addCustomData("spanText.length()", "" + spanText.length());
-			er.addCustomData("sb.length()", "" + sb.length());
-			er.addCustomData("daavenText.getText().length()", ""
-					+ daavenText.getText().length());
-			er.addCustomData("showNikud", "" + showNikud);
-			er.addCustomData("showMeteg", "" + showMeteg);
-			er.addCustomData("showSectionNames", "" + showSectionNames);
-			er.addCustomData("currentFilename", currentFilename);
-
-			Log.v(TAG, "About to set text");
-			daavenText.setText(spanText);
-
-			// // In UI thread:
-			// // Get layout
-			// // For each jump offset:
-			// // layout.getLineForOffset
-			// // layout.getLineForVertical
-			// daavenText.post( new Runnable() {
-			// public void run() {
-			// };
-			// });
-		} catch (IOException e) {
-			Toast.makeText(this, "Caught an exception: " + e.getMessage(),
-					Toast.LENGTH_SHORT).show();
-			er.addCustomData("IOException.getMessage", e.getMessage());
-			er.handleException(e);
-		}
-		Log.v(TAG, "prepareTefilla() ending");
 	}
 
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
@@ -847,7 +660,7 @@ GestureDetector.OnGestureListener
 		}
 		ErrorReporter er = ErrorReporter.getInstance();
 		er.addCustomData("after:s.length", "" + s.length());
-		if (s.length() != spanText.length()) {
+		if (s.length() != model.getSpanText().length()) {
 			er.handleException(null);
 		}
 		Log.v(TAG, "afterTextChanged() ending");
@@ -1023,18 +836,11 @@ GestureDetector.OnGestureListener
 		// TODO: Implement this method
 		return false;
 	}
-
-	// use a SpannableStringBuilder to allow addition of formatting in
-	// future
-	Spanned spanText = new SpannableString("");
-	private int currentOffset = 0;
+	
+	
 	protected AndDaavenTextView daavenText = null;
 	protected ScrollView daavenScroll = null;
-	private String currentFilename = "";
 	private int scrollHeight = 0;
-	private ArrayList<Integer> jumpOffsets = new ArrayList<Integer>();
-	private String[] sectionNames = new String[0];
-	private ArrayList<Integer> sectionOffsets = new ArrayList<Integer>();
 	private Typeface hebrewTypeface = null;
 	private boolean tapToScroll = false;
 

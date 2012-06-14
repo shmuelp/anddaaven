@@ -38,6 +38,7 @@ public class AndDaavenBaseFactory
 		view = new AndDaavenBaseView(activity);
 		controller = new AndDaavenBaseController(activity);
 		controller.setView(view);
+		controller.setModel(model);
 	}
 
 	public static Intent getTefillaIntent(Context context) {
