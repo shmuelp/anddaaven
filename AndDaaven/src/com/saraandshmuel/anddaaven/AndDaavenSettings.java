@@ -21,6 +21,11 @@ public class AndDaavenSettings extends PreferenceActivity {
         addPreferencesFromResource(R.xml.settings);
 		
         PreferenceManager man=getPreferenceManager();
+		
+		if (System.getProperty("os.name") == "qnx") {
+			// Running on BlackBerry Playbook
+			man.findPreference("VolumeButton").setEnabled(false);
+		}
         
         SharedPreferences prefs=PreferenceManager.getDefaultSharedPreferences(this);
 		if (prefs.getBoolean("test.autoIndex", false)) {
@@ -37,10 +42,10 @@ public class AndDaavenSettings extends PreferenceActivity {
 			CharSequence[] newValues = new CharSequence[values.length+1];
 			System.arraycopy(entries, 0, newEntries, 1, entries.length);
 			System.arraycopy(values, 0, newValues, 1, values.length);
-			//TODO L10N
 			String curValue = prefs.getString("FontSize", "20");
 			Log.v(TAG, "Adding new pref for value " + curValue);
 			newValues[0] = curValue;
+			//TODO L10N
 			newEntries[0] = "Current ("+curValue+")";
 			Log.v(TAG, "Setting new values");
 			listPref.setEntries(newEntries);
