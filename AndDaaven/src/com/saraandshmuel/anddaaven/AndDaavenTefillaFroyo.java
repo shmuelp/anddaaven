@@ -9,6 +9,7 @@ import android.view.View.OnTouchListener;
 import android.widget.Toast;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 /**
  * Adds pinch-to-zoom behavior to AndDaavenTefilla
@@ -20,6 +21,8 @@ public class AndDaavenTefillaFroyo extends AndDaavenTefilla implements OnScaleGe
  
     public float thresh=(float)0.0001;
     private boolean doZoom=true;
+
+	private final String TAG = "AndDaavenTefillaFroyo";
 
 	public AndDaavenTefillaFroyo() {
 	}
@@ -63,7 +66,11 @@ public class AndDaavenTefillaFroyo extends AndDaavenTefilla implements OnScaleGe
 	@Override
 	public boolean onTouch(View view, MotionEvent ev) {
 		if (view==daavenText || view==daavenScroll) {
-			sgd.onTouchEvent(ev);
+			try {
+				sgd.onTouchEvent(ev);
+			} catch (ArrayIndexOutOfBoundsException e) {
+				Log.w(TAG, "Received ArrayIndexOutOfBoundsException while delegating touch event to ScaleGestureDetector: " + e.toString());
+			}
 		}
 		return super.onTouch(view, ev);
 	}
