@@ -1,6 +1,7 @@
 package com.saraandshmuel.anddaaven;
 import android.os.Bundle;
 import android.util.Log;
+import android.app.ActionBar;
 
 public class AndDaavenTefillaIcs extends AndDaavenTefillaHoneycomb
 {
@@ -15,6 +16,8 @@ public class AndDaavenTefillaIcs extends AndDaavenTefillaHoneycomb
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		getActionBar().setHomeButtonEnabled(true);
+		ActionBar actionBar=getActionBar();
+		actionBar.setHomeButtonEnabled(true);
+		actionBar.setDisplayHomeAsUpEnabled(true);
 	}
 }
