@@ -4,12 +4,11 @@
 
 <PreferenceCategory android:title="Test Settings">
 <CheckBoxPreference android:key="test.extraNusach" android:title="Extra nuschaot" android:defaultValue="false"/>
-<!-- CheckBoxPreference android:key="test.extraActions" android:title="Extra actions" android:defaultValue="false"/ -->
 <CheckBoxPreference android:key="test.autoIndex" android:title="AutoIndex" android:defaultValue="false"/>
-<CheckBoxPreference android:key="test.omer" android:title="Omer" android:defaultValue="false" />
 <!-- CheckBoxPreference android:key="test.playgroundText" android:title="Text playground" android:defaultValue="false" / -->
 <CheckBoxPreference android:key="test.zoom" android:title="Pinch to zoom" android:defaultValue="false" />
 <CheckBoxPreference android:key="test.meteg" android:title="Show meteg" android:defaultValue="false" />
+<CheckBoxPreference android:key="test.html" android:title="New-format tefilla" android:defaultValue="false"/>
 </PreferenceCategory>
 
 </PreferenceScreen>
