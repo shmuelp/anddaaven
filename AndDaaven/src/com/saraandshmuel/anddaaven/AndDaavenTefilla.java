@@ -438,21 +438,6 @@ GestureDetector.OnGestureListener
 			public void run() {
 				Layout layout = daavenText.getLayout();
 				
-				
-				for (int offset:model.getJumpOffsets()) {
-					int line=layout.getLineForOffset(offset);
-					int start=layout.getLineStart(line);
-					Log.v(TAG, " jump offset " + offset + " has line start " + start + " on line " + line);
-				}
-				for (int offset:model.getSectionOffsets()) {
-					int line=layout.getLineForOffset(offset);
-					int start=layout.getLineStart(line);
-					Log.v(TAG, " section offset " + offset + " has line start " + start + " on line " + line);
-				}
-				
-				
-				
-				
 				if (layout != null) {
 					int line = layout.getLineForOffset(model.getCurrentOffset());
 					int y = layout.getLineTop(line);
@@ -460,9 +445,7 @@ GestureDetector.OnGestureListener
 					Log.d(TAG, "Restored current offset=" + model.getCurrentOffset()
 							+ ", line=" + line);
 				} else {
-					Log
-							.e(TAG,
-									"Unable to restore scrolled position because layout was null");
+					Log.e(TAG, "Unable to restore scrolled position because layout was null");
 				}
 			}
 
