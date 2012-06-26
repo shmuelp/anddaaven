@@ -17,6 +17,7 @@ public class AndDaavenTefillaHoneycomb extends AndDaavenTefillaFroyo
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		getActionBar().setTitle(model.getTefillaName());
 		getActionBar().setSubtitle(model.getDateString());
 	}
 	
