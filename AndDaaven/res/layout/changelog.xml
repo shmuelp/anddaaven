@@ -10,8 +10,7 @@
 		android:scrollbars="vertical"
 		android:fillViewport="true">
     	<WebView android:id="@+id/ChangelogHtmlView"
-			android:layout_height="fill_parent" 
-			android:layout_width="fill_parent"
-			android:layout_weight="1.0"/>
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"/>
    	</ScrollView>
 </LinearLayout>

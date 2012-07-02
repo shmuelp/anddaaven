@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ScaleGestureDetector.OnScaleGestureListener;
 import android.view.View.OnTouchListener;
 import android.widget.Toast;
+import android.annotation.TargetApi;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -16,6 +17,7 @@ import android.util.Log;
  * @author shmuelp
  *
  */
+@TargetApi(8)
 public class AndDaavenTefillaFroyo extends AndDaavenTefilla implements OnScaleGestureListener, OnTouchListener
 {
  

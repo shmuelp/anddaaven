@@ -39,7 +39,7 @@
 <string name="FontKey">TextFont</string>
 <string name="FontTitle">Text Font</string>
 <string name="FontSummary">Controls the font used to display Tefilla</string>
-<string name="FontDialogTitle">Select font...</string>
+<string name="FontDialogTitle">Select font…</string>
 <string name="FontDialogMessage">Selects the font used to display Tefilla</string>
 <string-array name="FontNames">
 	<item>FreeMono</item>
@@ -55,7 +55,7 @@
 <string name="FontSizeKey">FontSize</string>
 <string name="FontSizeTitle">Text Size</string>
 <string name="FontSizeSummary">Controls the size of the font used to display Tefilla</string>
-<string name="FontSizeDialogTitle">Select font size...</string>
+<string name="FontSizeDialogTitle">Select font size…</string>
 <string name="FontSizeDialogMessage">Selects the font size used to display Tefilla</string>
 <string-array name="FontSizes">
 	<item>10</item>
@@ -128,7 +128,7 @@
 <string name="VolumeButtonKey">VolumeButton</string>
 <string name="VolumeButtonTitle">Volume button behavior</string>
 <string name="VolumeButtonSummary">Controls the behavior when the volume buttons are pressed</string>
-<string name="VolumeButtonDialogTitle">Select Action...</string>
+<string name="VolumeButtonDialogTitle">Select Action…</string>
 <string-array name="VolumeButtonAction">
 	<item>Do not intercept (default)</item>
 	<item>Page up/down</item>
