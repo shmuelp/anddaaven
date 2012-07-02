@@ -1,9 +1,11 @@
 package com.saraandshmuel.anddaaven;
+import android.annotation.TargetApi;
 import android.content.Intent;
 import android.util.Log;
 import android.view.MenuItem;
 import android.os.Bundle;
 
+@TargetApi(11)
 public class AndDaavenTefillaHoneycomb extends AndDaavenTefillaFroyo
 {
 	private final String TAG = "AndDaavenTefillaHoneycomb";

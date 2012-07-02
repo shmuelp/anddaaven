@@ -28,7 +28,7 @@ public class AndDaavenBaseModel implements TefillaModelInterface
 	        result = pi.versionName;
 		} catch (NameNotFoundException e) {
 			e.printStackTrace();
-			Toast.makeText(context, e.getLocalizedMessage(), Toast.LENGTH_SHORT);
+			Log.e(TAG, "NameNotFoundExceptoin while getting version - this should not happen: " + e);
 		}
 		// TODO: Implement this method
 		return result;

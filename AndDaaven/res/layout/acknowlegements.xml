@@ -17,8 +17,7 @@
     			android:fillViewport="true">
     	<TextView android:id="@+id/TextViewAcknowledgement" 
 	    	  android:text="@string/TextViewAcknowledgement" 
-	    	  android:layout_height="fill_parent" 
-	    	  android:layout_width="fill_parent"
-	    	  android:layout_weight="1.0"/>
+	    	  android:layout_height="wrap_content" 
+	    	  android:layout_width="fill_parent"/>
    	</ScrollView>
 </LinearLayout>

@@ -1,8 +1,10 @@
 package com.saraandshmuel.anddaaven;
 import android.os.Bundle;
 import android.util.Log;
+import android.annotation.TargetApi;
 import android.app.ActionBar;
 
+@TargetApi(14)
 public class AndDaavenTefillaIcs extends AndDaavenTefillaHoneycomb
 {
 	private final String TAG = "AndDaavenTefillaIcs";
