@@ -24,6 +24,7 @@ import android.text.Spanned;
 import android.text.style.UnderlineSpan;
 import android.util.Log;
 import android.widget.Toast;
+import java.util.HashMap;
 
 public class AndDaavenTefillaModel extends AndDaavenBaseModel implements TagHandler
 {
@@ -32,15 +33,29 @@ public class AndDaavenTefillaModel extends AndDaavenBaseModel implements TagHand
 	protected Context context;
 	protected AndDaavenTefillaView view;
 
-	private String currentFilename = "";
+	protected String currentFilename = "";
 	protected int currentOffset=0;
 	protected String currentNusach="";
-	protected int sectionNameStart=-1;
-	protected int nusachStart=-1;
-	private Spanned spanText = new SpannableString("");
-	private ArrayList<String> sectionNames = new ArrayList<String>();
+	
+	protected class TagInfo {
+		public int offset;
+		public boolean delete;
+		
+		public TagInfo(int offset, boolean delete) {
+			this.offset=offset;
+			this.delete=delete;
+		}
+	}
+	protected ArrayList<TagInfo> tagInfo = new ArrayList<TagInfo>();
+//	protected int sectionNameStart=-1;
+//	protected int nusachStart=-1;
+	
+	protected Spanned spanText = new SpannableString("");
+	protected ArrayList<String> sectionNames = new ArrayList<String>();
 	protected ArrayList<Integer> jumpOffsets = new ArrayList<Integer>();
 	protected ArrayList<Integer> sectionOffsets = new ArrayList<Integer>();
+	
+	protected HashMap<String, Boolean> nusachMap = new HashMap<String, Boolean>();
 	
 	private static final int BUF_SIZE=4096;
 	private static final String TAG = "AndDaavenTefillaModel";
@@ -262,6 +277,7 @@ public class AndDaavenTefillaModel extends AndDaavenBaseModel implements TagHand
 		showSectionNames = prefs.getBoolean("SectionName", true);
 
 		String currentFilename=model.getCurrentFilename();
+		currentNusach=nusach;
 
 		if (filename == currentFilename) {
 			Log.v(TAG, "prepareTefilla() about to return early");
@@ -376,18 +392,43 @@ public class AndDaavenTefillaModel extends AndDaavenBaseModel implements TagHand
 	}
 	
 	private boolean inNusachTag(String tag) {
-		boolean result=false;
+		Boolean result=nusachMap.get(tag);
+		
+		if (result == null) {
+			int pos=tag.indexOf(currentNusach);
+			if (pos>0) {
+				if (tag.charAt(pos-1)=='_') {
+					result=true;
+				} else if (tag.charAt(pos-1)=='-') {
+					result=false;
+				}
+			}
+			if (result==null) {
+				pos=tag.indexOf("all");
+				if (pos>0) {
+					result=true;
+				}
+			}
+			
+			if (result==null) {
+				result=false;
+			}
+
+			nusachMap.put(tag, result);
+		}
+		
+		Log.v(TAG, "inNusachStr(" + tag + "), currentNusach=" + currentNusach + ", result=" + result);
 		
 		return result;
 	}
 	
 	private void handleNusach(boolean opening, String tag, Editable output)
 	{
-		// TODO: Implement this method
 		if (opening) {
-			if (!inNusachTag(tag)) {
-				nusachStart = output.length();
-			}
+			boolean delete = !inNusachTag(tag);
+			beginTag(output, delete);
+		} else {
+			endTag(output, false);
 		}
 	}
 
@@ -395,39 +436,85 @@ public class AndDaavenTefillaModel extends AndDaavenBaseModel implements TagHand
 	{
 		if (opening)
 		{
-			sectionNameStart = output.length();
+			beginTag(output, false);
 		} 
 		else
 		{
-			if (sectionNameStart >= 0)
+			TagInfo info = tagInfo.get(tagInfo.size()-1);
+			int begin=info.offset;
+			if (!info.delete && begin >= 0)
 			{
 				int end=output.length();
-				CharSequence sectionName=output.subSequence(sectionNameStart, end);
-				jumpOffsets.add(sectionNameStart);
+				CharSequence sectionName=output.subSequence(begin, end);
+				jumpOffsets.add(begin);
 				if (sectionName.length() > 0)
 				{
-					sectionOffsets.add(sectionNameStart);
+					sectionOffsets.add(begin);
 					sectionNames.add(sectionName.toString());
-					Log.v(TAG, "Adding section name \"" + sectionName.toString() + "\" at offset " + sectionNameStart);
+					Log.v(TAG, "Adding section name \"" + sectionName.toString() + "\" at offset " + begin);
 				}
 				else
 				{
-					Log.v(TAG, "Adding section offset " + sectionNameStart);
+					Log.v(TAG, "Adding section offset " + begin);
 				}
 				if (showSectionNames)
 				{
 					output.append("\n");
 					end = output.length();
-					output.setSpan(new UnderlineSpan(), sectionNameStart, end, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-				}
-				else
-				{
-					//output.delete(sectionNameStart, end);
-					output.setSpan(new NoDisplaySpan(), sectionNameStart, end, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+					output.setSpan(new UnderlineSpan(), begin, end, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
 				}
 			}
-			sectionNameStart = -1;
+			endTag(output, !showSectionNames);
 		}
+	}
+
+	/**
+	 * Handles the housekeeping to end a tag.
+	 * 
+	 * Will ensure non-display of all output when either deleteContents is 
+	 * true or a null output object was passed to the corresponding beginTag 
+	 * call.
+	 *  
+	 * @param output The currently parsed output
+	 * @param deleteContents Whether or not to delete the contents of this tag
+	 */
+	private void endTag(Editable output, boolean deleteContents) {
+		TagInfo info = tagInfo.remove(tagInfo.size()-1);
+		int begin=info.offset;
+		int end = output.length();
+
+		if (deleteContents || info.delete || begin == -1)
+		{
+			// Ensure non-display of output
+			
+			output.delete(begin, end);
+			//output.setSpan(new NoDisplaySpan(), begin, end, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+			
+			// Remove enclosed section names and offsets
+			for (int i=sectionOffsets.size()-1; i>=0 ; --i) {
+				if (sectionOffsets.get(i) > begin) {
+					sectionOffsets.remove(i);
+					sectionNames.remove(i);
+				}
+			}
+			
+			// Remove enclosed jump offsets
+			for (int i=jumpOffsets.size()-1; i>=0 ; --i) {
+				if (jumpOffsets.get(i) > begin) {
+					jumpOffsets.remove(i);
+				}
+			}
+		}
+	}
+
+	/**
+	 * Handles the housekeeping to begin tracking a tag.
+	 * 
+	 * @param output The currently parsed text.  If null, the enclosed text 
+	 * will not be displayed.
+	 */
+	private void beginTag(Editable output, boolean delete) {
+		tagInfo.add(new TagInfo(output.length(), delete));
 	}
 
 }
