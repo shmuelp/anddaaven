@@ -3,6 +3,8 @@ package com.saraandshmuel.anddaaven;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
+import android.os.Build.VERSION_CODES;
 import android.util.Log;
 
 
@@ -46,13 +48,13 @@ public class AndDaavenBaseFactory
 		String pkg = context.getPackageName(); // com.saraandshmuel.anddaaven
 		
 		// Ice Cream Sandwich
-		if (AndDaavenBaseModel.getAndroidSdkVersion() >= 14 ) { 
+		if (AndDaavenBaseModel.getAndroidSdkVersion() >= VERSION_CODES.ICE_CREAM_SANDWICH ) { 
 			result.setClassName(pkg, "com.saraandshmuel.anddaaven.AndDaavenTefillaIcs");
 		// Honeycomb
-		} else if (AndDaavenBaseModel.getAndroidSdkVersion() >= 11 ) {
+		} else if (AndDaavenBaseModel.getAndroidSdkVersion() >= VERSION_CODES.HONEYCOMB ) {
 			result.setClassName(pkg, "com.saraandshmuel.anddaaven.AndDaavenTefillaHoneycomb");
 		// Froyo
-		} else if (AndDaavenBaseModel.getAndroidSdkVersion() >= 8 ) { 
+		} else if (AndDaavenBaseModel.getAndroidSdkVersion() >= VERSION_CODES.FROYO ) { 
 			result.setClassName(pkg, "com.saraandshmuel.anddaaven.AndDaavenTefillaFroyo");
 		// Cupcake
 		} else {
