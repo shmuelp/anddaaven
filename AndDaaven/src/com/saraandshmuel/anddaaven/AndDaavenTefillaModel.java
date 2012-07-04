@@ -490,18 +490,26 @@ public class AndDaavenTefillaModel extends AndDaavenBaseModel implements TagHand
 			output.delete(begin, end);
 			//output.setSpan(new NoDisplaySpan(), begin, end, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
 			
+			Log.v(TAG, "Deleting text from " + begin + " to " + " end");
+			
 			// Remove enclosed section names and offsets
 			for (int i=sectionOffsets.size()-1; i>=0 ; --i) {
-				if (sectionOffsets.get(i) > begin) {
+				if (sectionOffsets.get(i) >= begin) {
+//					Log.v(TAG, "Deleting section \'" + sectionNames.get(i) + "\' at offset " + sectionOffsets.get(i));
 					sectionOffsets.remove(i);
 					sectionNames.remove(i);
+//				} else {
+//					Log.v(TAG, "Leaving section \'" + sectionNames.get(i) + "\' at offset " + sectionOffsets.get(i));
 				}
 			}
 			
 			// Remove enclosed jump offsets
 			for (int i=jumpOffsets.size()-1; i>=0 ; --i) {
-				if (jumpOffsets.get(i) > begin) {
+				if (jumpOffsets.get(i) >= begin) {
+//					Log.v(TAG, "Deleting jump at offset " + jumpOffsets.get(i));
 					jumpOffsets.remove(i);
+//				} else {
+//					Log.v(TAG, "Leaving jump at offset " + jumpOffsets.get(i));
 				}
 			}
 		}
