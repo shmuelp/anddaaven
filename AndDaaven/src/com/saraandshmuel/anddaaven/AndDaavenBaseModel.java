@@ -1,14 +1,11 @@
 package com.saraandshmuel.anddaaven;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Build;
-import android.preference.PreferenceManager;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.text.format.Time;
 import android.util.Log;
-import android.widget.*;
 import java.lang.reflect.*;
 
 public class AndDaavenBaseModel implements TefillaModelInterface

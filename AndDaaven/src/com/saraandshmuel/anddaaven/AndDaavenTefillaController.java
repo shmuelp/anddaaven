@@ -1,7 +1,6 @@
 package com.saraandshmuel.anddaaven;
 import java.io.IOException;
 import java.io.InputStream;
-import java.sql.ResultSet;
 
 import com.saraandshmuel.anddaaven.R.array;
 import com.saraandshmuel.anddaaven.R.string;
