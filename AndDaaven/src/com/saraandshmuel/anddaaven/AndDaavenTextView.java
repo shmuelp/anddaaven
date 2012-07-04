@@ -5,7 +5,6 @@ import android.widget.TextView;
 import java.util.LinkedList;
 import java.util.Queue;
 import android.content.Context;
-import java.util.ArrayDeque;
 import android.graphics.Canvas;
 
 public class AndDaavenTextView extends TextView

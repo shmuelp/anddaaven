@@ -16,8 +16,6 @@ import android.os.Build.VERSION;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.Layout;
-import android.text.SpannableStringBuilder;
-import android.text.Spanned;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
@@ -32,10 +30,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.ScrollView;
-import android.widget.TextView;
 import android.widget.Toast;
-import android.text.Spannable;
-import android.text.SpannableString;
 
 public class AndDaavenTefilla extends Activity implements
 		OnSharedPreferenceChangeListener, TextWatcher,

@@ -3,9 +3,7 @@ package com.saraandshmuel.anddaaven;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Build.VERSION_CODES;
-import android.util.Log;
 
 
 public class AndDaavenBaseFactory

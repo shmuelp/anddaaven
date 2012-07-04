@@ -4,8 +4,6 @@ import android.content.*;
 import android.graphics.Typeface;
 import android.preference.PreferenceManager;
 import android.app.Activity;
-import android.widget.TextView;
-import android.view.View;
 
 public class AndDaavenBaseView
 {

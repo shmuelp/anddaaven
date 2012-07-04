@@ -6,7 +6,6 @@ import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.view.ScaleGestureDetector.OnScaleGestureListener;
 import android.view.View.OnTouchListener;
-import android.widget.Toast;
 import android.annotation.TargetApi;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
