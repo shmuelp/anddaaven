@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
 	      package="com.saraandshmuel.anddaaven"
-	      android:versionCode="66" android:versionName="0.3.9"
+	      android:versionCode="67" android:versionName="0.3.9.1"
 	      android:installLocation="auto">
 	<uses-feature android:name="android.hardware.touchscreen" android:required="false"/>
     <uses-sdk android:minSdkVersion="3" android:targetSdkVersion="14"/>
@@ -19,7 +19,7 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            </intent-filter>6
         </activity>
 
 	    <activity android:name="com.saraandshmuel.anddaaven.AndDaavenTefilla" 
