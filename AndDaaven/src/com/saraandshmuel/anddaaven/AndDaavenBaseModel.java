@@ -65,8 +65,10 @@ public class AndDaavenBaseModel implements TefillaModelInterface
 			 month==7  && day==4  && time.weekDay==0 ||
 			 month==10 && day==10 ||
 			 month==12 && day==13 && !h.HebrewLeapYear() ||
-			 month==13 && day==13 && h.HebrewLeapYear() ) 
-			result=true;
+	 		 month==12 && day==11 && time.weekDay==4 && !h.HebrewLeapYear() ||
+			 month==13 && day==13 && h.HebrewLeapYear() ||
+			 month==13 && day==11 && time.weekDay==4 && h.HebrewLeapYear() ) 
+			 result=true;
 		return result;
 	}
 
