@@ -1,4 +1,7 @@
 <resources>
     <style name="MyLight" parent="@android:style/Theme.Holo.Light"/>
 	<style name="MyDark" parent="@android:style/Theme.Holo"/>
+	<style name="MyBlack" parent="@android:style/Theme.Holo">
+			<item name="android:windowBackground">@android:color/black</item>
+	</style>
 </resources>
