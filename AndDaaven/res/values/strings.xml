@@ -9,6 +9,7 @@
 	<item>Maariv</item>
 	<item>B\'rachot</item>
 	<item>Kiddush Levana</item>
+	<item>Chanukka</item>
 	<item>Esther</item>
 </string-array>
 <string-array name="Nusach">
@@ -32,8 +33,10 @@
 \n\n
 <b>Texts</b>:
 Thanks to Moishe (Richard) Davidovichi for the text of daavening.
-Text of Megillat Esther from <a href="http://he.wikisource.org/wiki/%D7%90%D7%A1%D7%AA%D7%A8_%D7%98%D7%A2%D7%9E%D7%99%D7%9D_%D7%9E%D7%A1%D7%95%D7%9E%D7%9F">Wikisource</a>.  Text is licensed <a href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons BY-SA 3.0</a> 
+Text of Megillat Esther from <a href="http://he.wikisource.org/wiki/אסתר_טעמים_מסומן">Wikisource</a>.  Text is licensed <a href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons BY-SA 3.0</a> 
 Text of fast day additions and kiddush levana from Siddur Bnei Ashkenaz via <a href="http://http://opensiddur.org">OpenSiddur</a>.  Text is licensed <a href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons BY-SA 3.0</a>\n
+Additional text from the <a href="http://he.wikisource.org/wiki/משתמש:Dovi/תורה_על_פי_המסורה/פינחס">מקרא על פי המסורה</a> project.  Text is licensed <a href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons BY-SA 3.0</a>\n
+Some texts provided by Arie Skliarouk.\n
 Text of Zehut Yosef provided by Isaac Azose / Sephardic Traditions Foundation.\n
 Text of Nusach Ari/Chabad provided by Shmuel Gonzales to OpenSiddur. 
 \n\n
