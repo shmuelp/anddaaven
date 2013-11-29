@@ -65,6 +65,7 @@ GestureDetector.OnGestureListener
 		view.setNightModeTheme();
 		super.onCreate(savedInstanceState);
 		setWindowFlags();
+		this.
 
 		setContentView(R.layout.daaven);
 		findLayoutObjects();

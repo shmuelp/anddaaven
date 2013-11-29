@@ -71,6 +71,7 @@ public class AndDaavenSplash extends Activity implements OnClickListener, OnItem
     	maarivButton = (Button) findViewById(R.id.MaarivButton);
     	berachotButton = (Button) findViewById(R.id.BerachotButton);
     	kiddushLevanaButton = (Button) findViewById(R.id.KiddushLevanaButton);
+    	chanukkaButton = (Button) findViewById(R.id.ChanukkaButton);
     	estherButton = (Button) findViewById(R.id.EstherButton);
     	
 		Log.v(TAG, "onCreate() 05");
@@ -90,6 +91,7 @@ public class AndDaavenSplash extends Activity implements OnClickListener, OnItem
     	maarivButton.setOnClickListener(this);
     	berachotButton.setOnClickListener(this);
     	kiddushLevanaButton.setOnClickListener(this);
+    	chanukkaButton.setOnClickListener(this);
     	estherButton.setOnClickListener(this);
     	nusachSpinner.setOnItemSelectedListener(this);
     	
@@ -100,6 +102,7 @@ public class AndDaavenSplash extends Activity implements OnClickListener, OnItem
     	maarivButton.setTypeface(face);
     	berachotButton.setTypeface(face);
     	kiddushLevanaButton.setTypeface(face);
+    	chanukkaButton.setTypeface(face);
     	estherButton.setTypeface(face);
     	
 		Log.v(TAG, "onCreate() 06");
@@ -201,7 +204,8 @@ public class AndDaavenSplash extends Activity implements OnClickListener, OnItem
     	else if ( v==maarivButton ) { index = 3; }
     	else if ( v==berachotButton ) { index = 4; }
     	else if ( v==kiddushLevanaButton ) { index = 5; }
-    	else if ( v==estherButton ) { index = 6; }
+    	else if ( v==chanukkaButton ) { index = 6; }
+    	else if ( v==estherButton ) { index = 7; }
     	
     	// retrieve appropriate filename from resources
     	if ( index != -1 ) {
@@ -227,6 +231,7 @@ public class AndDaavenSplash extends Activity implements OnClickListener, OnItem
     private Button maarivButton;
     private Button berachotButton;
     private Button kiddushLevanaButton;
+    private Button chanukkaButton;
     private Button estherButton;
 	private AndDaavenBaseModel model;
 	AndDaavenBaseView view;
